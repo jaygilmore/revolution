@@ -1,6 +1,6 @@
 <?php
 /**
- * French Upgrades Lexicon Topic for Revolution setup.
+ * English Upgrades Lexicon Topic for Revolution setup.
  *
  * @package setup
  * @subpackage lexicon
@@ -40,3 +40,6 @@ $_lang['systemsetting_xtype_fix'] = 'xtypes pour modSystemSettings corrigés ave
 $_lang['transportpackage_manifest_text'] = 'Colonne `manifest` modifiée en TEXT au lieu de MEDIUMTEXT dans `[[+class]]`.';
 $_lang['update_closure_table'] = 'Mise à jour des données de table de fermeture pour la classe `[[+class]]`.';
 $_lang['update_table_column_data'] = 'Données mises à jour dans la colonne [[+column]] dans la table [[+table]] ( [[+class]] )';
+$_lang['iso_country_code_converted'] = 'La conversion du nom du pays du profil utilisateur au format ISO a bien été effectuée.';
+$_lang['legacy_cleanup_complete'] = 'Nettoyage de fichier hérité terminé.';
+$_lang['legacy_cleanup_count'] = '[[+fichiers]] fichier(s) et [[+ dossiers]] dossier(s) supprimé(s) .';

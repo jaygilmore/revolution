@@ -93,7 +93,7 @@ class modConnectorResponse extends modResponse {
         $target = str_replace('../','', htmlspecialchars($options['action']));
 
         $siteId = $this->modx->user->getUserToken($this->modx->context->get('key'));
-        $isLogin = $target == 'login';
+        $isLogin = $target == 'login' || $target == 'security/login';
 
         /* ensure headers are sent for proper authentication */
         if (!$isLogin && !isset($_SERVER['HTTP_MODAUTH']) && (!isset($_REQUEST['HTTP_MODAUTH']) || empty($_REQUEST['HTTP_MODAUTH']))) {
@@ -121,7 +121,7 @@ class modConnectorResponse extends modResponse {
         } else {
             /* create scriptProperties array from HTTP GPC vars */
             if (!isset($_POST)) $_POST = array();
-            if (!isset($_GET)) $_GET = array();
+            if (!isset($_GET) || $isLogin) $_GET = array();
             $scriptProperties = array_merge($_GET,$_POST);
             if (isset($_FILES) && !empty($_FILES)) {
                 $scriptProperties = array_merge($scriptProperties,$_FILES);
@@ -141,30 +141,36 @@ class modConnectorResponse extends modResponse {
         /* if files sent, this means that the browser needs it in text/plain,
          * so ignore text/json header type
          */
-        if (!isset($_FILES)) {
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
             header("Content-Type: application/json; charset=UTF-8");
             $message = 'OK';
             if (array_key_exists($this->responseCode,$this->_responseCodes)) {
                 $message = $this->_responseCodes[$this->responseCode];
             }
-            header('Status: HTTP/1.1 '.$this->responseCode.' '.$message);
+            header('Status: '.$this->responseCode.' '.$message);
+            header('Version: HTTP/1.1');
         }
         if (is_array($this->header)) {
             foreach ($this->header as $header) header($header);
         }
         if (is_array($this->body)) {
             @session_write_close();
-            die($this->modx->toJSON(array(
+            $json = $this->modx->toJSON(array(
                 'success' => isset($this->body['success']) ? $this->body['success'] : 0,
                 'message' => isset($this->body['message']) ? $this->body['message'] : $this->modx->lexicon('error'),
                 'total' => (isset($this->body['total']) && $this->body['total'] > 0)
-                        ? intval($this->body['total'])
-                        : (isset($this->body['errors'])
-                                ? count($this->body['errors'])
-                                : 1),
+                    ? intval($this->body['total'])
+                    : (isset($this->body['errors'])
+                        ? count($this->body['errors'])
+                        : 1),
                 'data' => isset($this->body['errors']) ? $this->body['errors'] : array(),
                 'object' => isset($this->body['object']) ? $this->body['object'] : array(),
-            )));
+            ));
+
+            if (!empty($_GET['callback'])) {
+                $json = $modx->stripTags($_GET['callback']) . '(' . $json . ')';
+            }
+            die($json);
         } else {
             @session_write_close();
             die($this->body);

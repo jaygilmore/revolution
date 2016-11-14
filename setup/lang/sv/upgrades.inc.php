@@ -1,6 +1,6 @@
 <?php
 /**
- * Swedish Upgrades Lexicon Topic for Revolution setup.
+ * English Upgrades Lexicon Topic for Revolution setup.
  *
  * @package setup
  * @subpackage lexicon
@@ -40,3 +40,6 @@ $_lang['systemsetting_xtype_fix'] = 'Rättade till xtypes för modSystemSettings
 $_lang['transportpackage_manifest_text'] = 'Modifierade kolumnen `manifest` till TEXT från MEDIUMTEXT i `[[+class]]`.';
 $_lang['update_closure_table'] = 'Uppdaterar stängningstabellens data för klassen `[[+class]]`.';
 $_lang['update_table_column_data'] = 'Uppdaterade data i kolumnen [[+column]] i tabellen [[+table]] ( [[+class]] )';
+$_lang['iso_country_code_converted'] = 'Konverterade alla landsnamn i användarprofiler till ISO-koder.';
+$_lang['legacy_cleanup_complete'] = 'Föråldrade filer togs bort.';
+$_lang['legacy_cleanup_count'] = 'Tog bort [[+files]] fil(er) och [[+folders]] mapp(ar).';

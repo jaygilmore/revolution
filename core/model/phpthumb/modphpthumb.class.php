@@ -13,6 +13,9 @@ require_once MODX_CORE_PATH.'model/phpthumb/phpthumb.class.php';
  */
 class modPhpThumb extends phpThumb {
 
+    public $modx;
+    public $config;
+
     function __construct(modX &$modx,array $config = array()) {
         $this->modx =& $modx;
         $this->config = array_merge(array(
@@ -28,6 +31,7 @@ class modPhpThumb extends phpThumb {
         $cachePath = $this->modx->getOption('core_path',null,MODX_CORE_PATH).'cache/phpthumb/';
         if (!is_dir($cachePath)) $this->modx->cacheManager->writeTree($cachePath);
         $this->setParameter('config_cache_directory',$cachePath);
+        $this->setParameter('config_temp_directory',$cachePath);
         $this->setCacheDirectory();
 
         $this->setParameter('config_allow_src_above_docroot',(boolean)$this->modx->getOption('phpthumb_allow_src_above_docroot',$this->config,false));
@@ -54,8 +58,9 @@ class modPhpThumb extends phpThumb {
         $this->setParameter('far',$this->modx->getOption('far',$_REQUEST,$this->modx->getOption('phpthumb_far',$this->config,'C')));
         $this->setParameter('cache_directory_depth',4);
         $this->setParameter('config_ttf_directory',$this->modx->getOption('core_path',$this->config,MODX_CORE_PATH).'model/phpthumb/fonts/');
-        
-        $documentRoot = $this->modx->getOption('phpthumb_document_root',$this->config,'');
+
+        $documentRoot = $this->modx->getOption('phpthumb_document_root',$this->config, '');
+        if ($documentRoot == '') $documentRoot = $this->modx->getOption('base_path', null, '');
         if (!empty($documentRoot)) {
             $this->setParameter('config_document_root',$documentRoot);
         }
@@ -80,7 +85,7 @@ class modPhpThumb extends phpThumb {
      * Check to see if cached file already exists
      */
     public function checkForCachedFile() {
-        $this->setCacheFilename();
+        $this->SetCacheFilename();
         if (file_exists($this->cache_filename) && is_readable($this->cache_filename)) {
             return true;
         }
@@ -125,7 +130,7 @@ class modPhpThumb extends phpThumb {
     public function output() {
         $output = $this->OutputThumbnail();
         if (!$output) {
-            $this->modx->log(modx::LOG_LEVEL_ERROR,'Error outputting thumbnail:'."\n".$this->debugmessages[(count($this->debugmessages) - 1)]);
+            $this->modx->log(modX::LOG_LEVEL_ERROR,'Error outputting thumbnail:'."\n".$this->debugmessages[(count($this->debugmessages) - 1)]);
         }
         return $output;
     }
@@ -151,11 +156,11 @@ class modPhpThumb extends phpThumb {
             $this->DebugTimingMessage('skipped using cached image', __FILE__, __LINE__);
             $this->DebugMessage('Would have used cached file, but skipping due to phpThumbDebug', __FILE__, __LINE__);
             $this->DebugMessage('* Would have sent headers (1): Last-Modified: '.gmdate('D, d M Y H:i:s', $nModified).' GMT', __FILE__, __LINE__);
-            $getimagesize = @GetImageSize($this->cache_filename);
+            $getimagesize = @getimagesize($this->cache_filename);
             if ($getimagesize) {
                 $this->DebugMessage('* Would have sent headers (2): Content-Type: '.phpthumb_functions::ImageTypeToMIMEtype($getimagesize[2]), __FILE__, __LINE__);
             }
-            if (ereg('^'.preg_quote($nice_docroot).'(.*)$', $nice_cachefile, $matches)) {
+            if (preg_match('/^'.preg_quote($nice_docroot, '/').'(.*)$/', $nice_cachefile, $matches)) {
                 $this->DebugMessage('* Would have sent headers (3): Location: '.dirname($matches[1]).'/'.urlencode(basename($matches[1])), __FILE__, __LINE__);
             } else {
                 $this->DebugMessage('* Would have sent data: readfile('.$this->cache_filename.')', __FILE__, __LINE__);
@@ -175,13 +180,13 @@ class modPhpThumb extends phpThumb {
                 exit;
             }
 
-            $getimagesize = @GetImageSize($this->cache_filename);
+            $getimagesize = @getimagesize($this->cache_filename);
             if ($getimagesize) {
                 header('Content-Type: '.phpthumb_functions::ImageTypeToMIMEtype($getimagesize[2]));
-            } elseif (eregi('\.ico$', $this->cache_filename)) {
+            } elseif (preg_match('#\.ico$#i', $this->cache_filename)) {
                 header('Content-Type: image/x-icon');
             }
-            if (!$this->config_cache_force_passthru && ereg('^'.preg_quote($nice_docroot).'(.*)$', $nice_cachefile, $matches)) {
+            if (!$this->config_cache_force_passthru && preg_match('#^'.preg_quote($nice_docroot, '/').'(.*)$#', $nice_cachefile, $matches)) {
                 header('Location: '.dirname($matches[1]).'/'.urlencode(basename($matches[1])));
             } else {
                 @readfile($this->cache_filename);
@@ -203,4 +208,114 @@ class modPhpThumb extends phpThumb {
         }
         return true;
     }
+
+    function ResolveFilenameToAbsolute($filename) {
+        if (empty($filename)) {
+            return false;
+        }
+
+        if (preg_match('#^[a-z0-9]+\:/{1,2}#i', $filename)) {
+            // eg: http://host/path/file.jpg (HTTP URL)
+            // eg: ftp://host/path/file.jpg  (FTP URL)
+            // eg: data1:/path/file.jpg      (Netware path)
+
+            //$AbsoluteFilename = $filename;
+            return $filename;
+
+        } elseif ($this->iswindows && isset($filename{1}) && ($filename{1} == ':')) {
+
+            // absolute pathname (Windows)
+            $AbsoluteFilename = $filename;
+
+        } elseif ($this->iswindows && ((substr($filename, 0, 2) == '//') || (substr($filename, 0, 2) == '\\\\'))) {
+
+            // absolute pathname (Windows)
+            $AbsoluteFilename = $filename;
+
+        } elseif ($filename{0} == '/') {
+
+            if (@is_readable($filename) && !@is_readable($this->config_document_root.$filename)) {
+
+                // absolute filename (*nix)
+                $AbsoluteFilename = $filename;
+
+            } elseif (isset($filename{1}) && ($filename{1} == '~')) {
+
+                // /~user/path
+                if ($ApacheLookupURIarray = phpthumb_functions::ApacheLookupURIarray($filename)) {
+                    $AbsoluteFilename = $ApacheLookupURIarray['filename'];
+                } else {
+                    $AbsoluteFilename = realpath($filename);
+                    if (@is_readable($AbsoluteFilename)) {
+                        $this->DebugMessage('phpthumb_functions::ApacheLookupURIarray() failed for "'.$filename.'", but the correct filename ('.$AbsoluteFilename.') seems to have been resolved with realpath($filename)', __FILE__, __LINE__);
+                    } elseif (is_dir(dirname($AbsoluteFilename))) {
+                        $this->DebugMessage('phpthumb_functions::ApacheLookupURIarray() failed for "'.dirname($filename).'", but the correct directory ('.dirname($AbsoluteFilename).') seems to have been resolved with realpath(.)', __FILE__, __LINE__);
+                    } else {
+                        return $this->ErrorImage('phpthumb_functions::ApacheLookupURIarray() failed for "'.$filename.'". This has been known to fail on Apache2 - try using the absolute filename for the source image (ex: "/home/user/httpdocs/image.jpg" instead of "/~user/image.jpg")');
+                    }
+                }
+
+            } else {
+
+                // relative filename (any OS)
+                if (preg_match('#^'.preg_quote($this->config_document_root).'#', $filename)) {
+                    $AbsoluteFilename = $filename;
+                    $this->DebugMessage('ResolveFilenameToAbsolute() NOT prepending $this->config_document_root ('.$this->config_document_root.') to $filename ('.$filename.') resulting in ($AbsoluteFilename = "'.$AbsoluteFilename.'")', __FILE__, __LINE__);
+                } else {
+                    $AbsoluteFilename = $this->config_document_root.$filename;
+                    $this->DebugMessage('ResolveFilenameToAbsolute() prepending $this->config_document_root ('.$this->config_document_root.') to $filename ('.$filename.') resulting in ($AbsoluteFilename = "'.$AbsoluteFilename.'")', __FILE__, __LINE__);
+                }
+
+            }
+
+        } else {
+
+            // relative to current directory (any OS)
+            $AbsoluteFilename = $this->config_document_root.preg_replace('#[/\\\\]#', DIRECTORY_SEPARATOR, dirname(@$_SERVER['PHP_SELF'])).DIRECTORY_SEPARATOR.preg_replace('#[/\\\\]#', DIRECTORY_SEPARATOR, $filename);
+//			$AbsoluteFilename = dirname(__FILE__).DIRECTORY_SEPARATOR.preg_replace('#[/\\\\]#', DIRECTORY_SEPARATOR, $filename);
+
+            $AbsoluteFilename = preg_replace('~[\/]+~', DIRECTORY_SEPARATOR, $AbsoluteFilename);
+
+            //if (!@file_exists($AbsoluteFilename) && @file_exists(realpath($this->DotPadRelativeDirectoryPath($filename)))) {
+            //	$AbsoluteFilename = realpath($this->DotPadRelativeDirectoryPath($filename));
+            //}
+
+            if (substr(dirname(@$_SERVER['PHP_SELF']), 0, 2) == '/~') {
+                if ($ApacheLookupURIarray = phpthumb_functions::ApacheLookupURIarray(dirname(@$_SERVER['PHP_SELF']))) {
+                    $AbsoluteFilename = $ApacheLookupURIarray['filename'].DIRECTORY_SEPARATOR.$filename;
+                } else {
+                    $AbsoluteFilename = realpath('.').DIRECTORY_SEPARATOR.$filename;
+                    if (@is_readable($AbsoluteFilename)) {
+                        $this->DebugMessage('phpthumb_functions::ApacheLookupURIarray() failed for "'.dirname(@$_SERVER['PHP_SELF']).'", but the correct filename ('.$AbsoluteFilename.') seems to have been resolved with realpath(.)/$filename', __FILE__, __LINE__);
+                    } elseif (is_dir(dirname($AbsoluteFilename))) {
+                        $this->DebugMessage('phpthumb_functions::ApacheLookupURIarray() failed for "'.dirname(@$_SERVER['PHP_SELF']).'", but the correct directory ('.dirname($AbsoluteFilename).') seems to have been resolved with realpath(.)', __FILE__, __LINE__);
+                    } else {
+                        return $this->ErrorImage('phpthumb_functions::ApacheLookupURIarray() failed for "'.dirname(@$_SERVER['PHP_SELF']).'". This has been known to fail on Apache2 - try using the absolute filename for the source image');
+                    }
+                }
+            }
+
+        }
+        if (is_link($AbsoluteFilename)) {
+            $this->DebugMessage('is_link()==true, changing "'.$AbsoluteFilename.'" to "'.readlink($AbsoluteFilename).'"', __FILE__, __LINE__);
+            $AbsoluteFilename = readlink($AbsoluteFilename);
+        }
+        if (realpath($AbsoluteFilename)) {
+            $AbsoluteFilename = realpath($AbsoluteFilename);
+        }
+        if ($this->iswindows) {
+            $AbsoluteFilename = preg_replace('#^'.preg_quote(realpath($this->config_document_root)).'#i', realpath($this->config_document_root), $AbsoluteFilename);
+            $AbsoluteFilename = str_replace(DIRECTORY_SEPARATOR, '/', $AbsoluteFilename);
+        }
+        if (!$this->config_allow_src_above_docroot && !preg_match('#^'.preg_quote(str_replace(DIRECTORY_SEPARATOR, '/', realpath($this->config_document_root))).'#', $AbsoluteFilename)) {
+            $this->DebugMessage('!$this->config_allow_src_above_docroot therefore setting "'.$AbsoluteFilename.'" (outside "'.realpath($this->config_document_root).'") to null', __FILE__, __LINE__);
+            return false;
+        }
+        if (!$this->config_allow_src_above_phpthumb && !preg_match('#^'.preg_quote(str_replace(DIRECTORY_SEPARATOR, '/', dirname(__FILE__))).'#', $AbsoluteFilename)) {
+            $this->DebugMessage('!$this->config_allow_src_above_phpthumb therefore setting "'.$AbsoluteFilename.'" (outside "'.dirname(__FILE__).'") to null', __FILE__, __LINE__);
+            return false;
+        }
+        return $AbsoluteFilename;
+    }
+
 }

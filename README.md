@@ -1,4 +1,7 @@
 # MODX Revolution
+
+[![Build Status](https://travis-ci.org/modxcms/revolution.svg?branch=2.x)](https://travis-ci.org/modxcms/revolution) [![Slack Status](https://modx.org/badge.svg)](https://modx.org)
+
 ## Content Management System and Application Framework
 
 MODX lets you power anything from multi-language, multi-domain corporate sites to personal blogs to mobile APIs. Delivering true creative freedom and removing all restrictions, it lets you control the markup and design without having to code. You can also tailor its modular and extensible core to accommodate virtually any custom requirement or amount of traffic. MODX is the free open source software that meets your needs today—and tomorrow.
@@ -20,7 +23,7 @@ Here's what you need to get started installing or upgrading MODX Revoluton:
 
 ### Other Important Stuff
 
-MODX is only as good as it is because of many individual community members and users that take the time to [report issues and request new features](http://tracker.modx.com/projects/revo/issues "Revolution - Issues - MODX Project Tracker"). Make sure you [read the documentation](http://rtfm.modx.com/revolution/2.x/ "Home - MODx Revolution 2.x - MODx Documentation"), [post feedback and share your successes](http://forums.modx.com/board/?board=264 "MODX :: Revolution 2.2") in the MODX community forums. To join us in the quest for *Creative Freedom*, [become a Contributor](http://rtfm.modx.com/community/). You can [contribute using GitHub](http://rtfm.modx.com/community/contribute/using-git-and-github/ "Contribute to MODX via GitHub")
+MODX is only as good as it is because of many individual community members and users that take the time to [report issues and request new features](https://github.com/modxcms/revolution/issues "MODX Github Issues"). Make sure you [read the documentation](http://rtfm.modx.com/revolution/2.x/ "Home - MODx Revolution 2.x - MODx Documentation"), [post feedback and share your successes](http://forums.modx.com/board/?board=264 "MODX :: Revolution 2.2") in the MODX community forums. To join us in the quest for *Creative Freedom*, [become a Contributor](http://rtfm.modx.com/community/). You can [contribute using GitHub](http://rtfm.modx.com/community/contribute/using-git-and-github/ "Contribute to MODX via GitHub")
 
 On behalf of the entire MODX Team,
 
@@ -28,7 +31,7 @@ Thank you for using MODX!
 
 ### Copyright
 
-MODX Revolution is copyright 2006-2013 by MODX, LLC.
+MODX Revolution is copyright 2006-2016 by MODX, LLC.
 
 All rights reserved.
 

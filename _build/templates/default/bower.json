@@ -1,6 +1,6 @@
 {
   "name": "modx-revolution-theme",
-  "version": "0.0.1",
+  "private": true,
   "author": {
     "name": "JP DeVries",
     "url": "http://devries.jp/"
@@ -13,17 +13,21 @@
   "bugs": {
     "url": "http://bugs.modx.com/projects/revo"
   },
-  "dependencies": {
-    "bourbon": "*",
-    "font-awesome": "~3.2.1"
+  "devDependencies": {
+    "bourbon": "^4.2.4",
+    "neat":"^1.7.2",
+    "font-awesome": "^4.6.0"
   },
   "exportsOverride": {
     "bourbon": {
       "": "app/assets/stylesheets/"
     },
+    "neat": {
+      "": "app/assets/stylesheets/"
+    },
     "font-awesome": {
       "scss": ["scss"],
-      "font": ["font"]
+      "fonts": ["fonts"]
     }
   }
 }

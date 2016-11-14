@@ -1,23 +1,11 @@
 <?php
 /*
- * MODX Revolution
+ * This file is part of MODX Revolution.
  *
- * Copyright 2006-2013 by MODX, LLC.
- * All rights reserved.
+ * Copyright (c) MODX, LLC. All Rights Reserved.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 /**
@@ -126,6 +114,12 @@ class modOutputFilter {
                         case 'islowerthan':
                             $condition[]= intval(($output < $m_val));
                             break;
+                        case 'contains':
+                            $condition[]= intval(stripos($output, $m_val) !== false);
+                            break;
+                        case 'containsnot':
+                            $condition[]= intval(stripos($output, $m_val) === false);;
+                            break;
                         case 'ismember':
                         case 'memberof':
                         case 'mo': /* Is Member Of  (same as inrole but this one can be stringed as a conditional) */
@@ -136,9 +130,9 @@ class modOutputFilter {
                             /** @var $user modUser */
                             $user = $this->modx->getObject('modUser',$output);
                             if ($user && is_object($user) && $user instanceof modUser) {
-                                $condition[]= $user->isMember($grps);
+                                $condition[]= (int) $user->isMember($grps);
                             } else {
-                                $condition[] = false;
+                                $condition[] = 0;
                             }
                             break;
                         case 'or':
@@ -150,7 +144,7 @@ class modOutputFilter {
                         case 'hide':
                             $conditional = join(' ', $condition);
                             try {
-                                $m_con = @eval("return (" . $conditional . ");");
+                                $m_con = ($conditional !== '') ? @eval("return (" . $conditional . ");") : false;
                                 $m_con = intval($m_con);
                                 if ($m_con) {
                                     $output= null;
@@ -160,7 +154,7 @@ class modOutputFilter {
                         case 'show':
                             $conditional = join(' ', $condition);
                             try {
-                                $m_con = @eval("return (" . $conditional . ");");
+                                $m_con = ($conditional !== '') ? @eval("return (" . $conditional . ");") : false;
                                 $m_con = intval($m_con);
                                 if (!$m_con) {
                                     $output= null;
@@ -171,7 +165,7 @@ class modOutputFilter {
                             $output = null;
                             $conditional = join(' ', $condition);
                             try {
-                                $m_con = @eval("return (" . $conditional . ");");
+                                $m_con = ($conditional !== '') ? @eval("return (" . $conditional . ");") : false;
                                 $m_con = intval($m_con);
                                 if ($m_con) {
                                     $output= $m_val;
@@ -181,7 +175,7 @@ class modOutputFilter {
                         case 'else':
                             $conditional = join(' ', $condition);
                             try {
-                                $m_con = @eval("return (" . $conditional . ");");
+                                $m_con = ($conditional !== '') ? @eval("return (" . $conditional . ");") : false;
                                 $m_con = intval($m_con);
                                 if (!$m_con) {
                                     $output= $m_val;
@@ -195,7 +189,7 @@ class modOutputFilter {
                                 $mi= explode("=", $raw[$m]);
                                 $map[$mi[0]]= $mi[1];
                             }
-                            $output= $map[$output];
+                            $output = (isset($map[$output])) ? $map[$output] : '';
                             break;
                             /* #####  End of Conditional Modifiers */
 
@@ -233,6 +227,11 @@ class modOutputFilter {
                             /* See PHP's htmlentities - http://www.php.net/manual/en/function.htmlentities.php */
                             $output = htmlentities($output,ENT_QUOTES,$encoding);
                             break;
+                        case 'htmlspecialchars':
+                        case 'htmlspecial':
+                            /* See PHP's htmlspecialchars - http://www.php.net/manual/en/function.htmlspecialchars.php */
+                            $output = htmlspecialchars($output,ENT_QUOTES,$encoding);
+                            break;
                         case 'esc':
                         case 'escape':
                             $output = preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", htmlspecialchars($output));
@@ -263,6 +262,9 @@ class modOutputFilter {
                             } else {
                                 $output= strip_tags($output);
                             }
+                            break;
+                        case 'stripmodxtags':
+                            $output = preg_replace("/\\[\\[([^\\[\\]]++|(?R))*?\\]\\]/s", '', $output);
                             break;
                         case 'length':
                         case 'len':
@@ -332,7 +334,7 @@ class modOutputFilter {
                                 foreach ($matches[1] as $tag) {
                                     if (preg_match("/^[a-z]+$/i", $tag, $regs)) {
                                         $strLower = $usemb ? mb_strtolower($regs[0],$encoding) : strtolower($regs[0]);
-                                        if ($strLower != 'br' || $strLower != 'hr') {
+                                        if ($strLower != 'br' && $strLower != 'hr') {
                                             $opened[] = $regs[0];
                                         }
                                     } elseif (preg_match("/^\/([a-z]+)$/i", $tag, $regs)) {
@@ -433,6 +435,7 @@ class modOutputFilter {
                             $output= nl2br($output);
                             break;
 
+                        case 'strftime':
                         case 'date':
                             /* See PHP's strftime - http://www.php.net/manual/en/function.strftime.php */
                             if (empty($m_val))
@@ -532,7 +535,7 @@ class modOutputFilter {
                               $ago[] = $this->modx->lexicon(($agoTS['hours'] > 1 ? 'ago_hours' : 'ago_hour'),array('time' => $agoTS['hours']));
                             }
                             if (!empty($agoTS['minutes']) && empty($agoTS['days']) && empty($agoTS['weeks']) && empty($agoTS['months']) && empty($agoTS['years'])) {
-                              $ago[] = $this->modx->lexicon('ago_minutes',array('time' => $agoTS['minutes']));
+                                $ago[] = $this->modx->lexicon($agoTS['minutes'] == 1 ? 'ago_minute' : 'ago_minutes' ,array('time' => $agoTS['minutes']));
                             }
                             if (empty($ago)) { /* handle <1 min */
                               $ago[] = $this->modx->lexicon('ago_seconds',array('time' => !empty($agoTS['seconds']) ? $agoTS['seconds'] : 0));
@@ -581,14 +584,16 @@ class modOutputFilter {
                             break;
 
                         case 'isloggedin':
-                            /* returns true if user is logged in */
-                            $output= $this->modx->user->isAuthenticated($this->modx->context->get('key'));
+                            /* returns true if user is logged in to the specified context or by default the current context */
+                            $ctxkey = (!empty($m_val)) ? $m_val : $this->modx->context->get('key');
+                            $output= $this->modx->user->isAuthenticated($ctxkey);
                             $output= $output ? true : false;
                             break;
 
                         case 'isnotloggedin':
-                            /* returns true if user is not logged in */
-                            $output= $this->modx->user->isAuthenticated($this->modx->context->get('key'));
+                            /* returns true if user is not logged in to the specified context or by default the current context */
+                            $ctxkey = (!empty($m_val)) ? $m_val : $this->modx->context->get('key');
+                            $output= $this->modx->user->isAuthenticated($ctxkey);
                             $output= $output ? false : true;
                             break;
 
@@ -601,25 +606,67 @@ class modOutputFilter {
 
                         case 'toPlaceholder':
                             $this->modx->toPlaceholder($m_val,$output);
+                            $output = '';
                             break;
                         case 'cssToHead':
                             $this->modx->regClientCSS($output);
+                            $output = '';
                             break;
                         case 'htmlToHead':
                             $this->modx->regClientStartupHTMLBlock($output);
+                            $output = '';
                             break;
                         case 'htmlToBottom':
                             $this->modx->regClientHTMLBlock($output);
+                            $output = '';
                             break;
                         case 'jsToHead':
                             if (empty($m_val)) $m_val = false;
                             $this->modx->regClientStartupScript($output,$m_val);
+                            $output = '';
                             break;
                         case 'jsToBottom':
                             if (empty($m_val)) $m_val = false;
                             $this->modx->regClientScript($output,$m_val);
+                            $output = '';
                             break;
-
+                        case 'in':
+                        case 'IN':
+                        case 'inarray':
+                        case 'inArray':
+                            if (empty($m_val)) $m_val = false;
+                            $haystack = explode(',', $m_val);
+                            $condition[]= intval(in_array($output, $haystack));
+                            break;
+                        case 'tvLabel':
+                            $name = $element->get('name');
+                            if (!empty($m_val) && strpos($name, $m_val) === 0) {
+                                $name = substr($name, strlen($m_val));
+                            }
+                            $tv = $this->modx->getObject('modTemplateVar', array('name' => $name));
+                            if (!$tv) {
+                                break;
+                            }
+                            $o_prop = $tv->get('output_properties');
+                            $options = explode('||', $tv->get('elements'));
+                            $lookup = array();
+                            foreach ($options as $o) {
+                                list($name, $value) = explode('==', $o);
+                                $lookup[$value] = $name;
+                            }
+                            if (isset($o_prop['delimiter'])) {
+                                $delimiter = $o_prop['delimiter'];
+                                $values = explode($delimiter, $output);
+                            } else {
+                                $delimiter = '';
+                                $values = array($output);
+                            }
+                            $return_values = array();
+                            foreach ($values as $v) {
+                                $return_values[] = $lookup[$v];
+                            }
+                            $output = implode($delimiter, $return_values);
+                            break;
 
                         /* Default, custom modifier (run snippet with modifier name) */
                         default:

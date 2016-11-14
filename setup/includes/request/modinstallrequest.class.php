@@ -1,23 +1,11 @@
 <?php
 /*
- * MODX Revolution
+ * This file is part of MODX Revolution.
  *
- * Copyright 2006-2013 by MODX, LLC.
- * All rights reserved.
+ * Copyright (c) MODX, LLC. All Rights Reserved.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 /**
@@ -30,6 +18,10 @@
  *
  * @package setup
  */
+
+error_reporting(E_ALL & ~E_NOTICE);
+@ ini_set('display_errors', 1);
+
 class modInstallRequest {
     /**
      * @var modInstall $install A reference to the modInstall object.
@@ -125,7 +117,7 @@ class modInstallRequest {
      * @return array
      */
     public function setDefaultPaths(array $config = array()) {
-        $webUrl= substr($_SERVER['PHP_SELF'], 0, strpos($_SERVER['PHP_SELF'], 'setup/'));
+        $webUrl= substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'], 'setup/'));
         $webUrl= rtrim($webUrl,'/').'/';
         $defaults = array();
         $defaults['context_web_path'] = rtrim(MODX_INSTALL_PATH,'/').'/';

@@ -1,25 +1,11 @@
 <?php
-/**
- * MODX Revolution
+/*
+ * This file is part of MODX Revolution.
  *
- * Copyright 2006-2013 by MODX, LLC.
- * All rights reserved.
+ * Copyright (c) MODX, LLC. All Rights Reserved.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
- *
- * @package modx
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 /**
  * Encapsulates the interaction of MODX with an HTTP request.
@@ -73,6 +59,12 @@ class modRequest {
     public function handleRequest() {
         $this->loadErrorHandler();
 
+        // If enabled, send the X-Powered-By header to identify this site as running MODX, per discussion in #12882
+        if ($this->modx->getOption('send_poweredby_header', null, true)) {
+            $version = $this->modx->getVersionData();
+            header("X-Powered-By: MODX {$version['code_name']}");
+        }
+
         $this->sanitizeRequest();
         $this->modx->invokeEvent('OnHandleRequest');
         if (!$this->modx->checkSiteStatus()) {
@@ -89,7 +81,7 @@ class modRequest {
             $this->checkPublishStatus();
             $this->modx->resourceMethod = $this->getResourceMethod();
             $this->modx->resourceIdentifier = $this->getResourceIdentifier($this->modx->resourceMethod);
-            if ($this->modx->resourceMethod == 'id' && $this->modx->getOption('friendly_urls', null, false) && !$this->modx->getOption('request_method_strict', null, false)) {
+            if ($this->modx->resourceMethod == 'id' && $this->modx->getOption('friendly_urls', null, false) && $this->modx->getOption('request_method_strict', null, false)) {
                 $uri = $this->modx->context->getResourceURI($this->modx->resourceIdentifier);
                 if (!empty($uri)) {
                     if ((integer) $this->modx->resourceIdentifier === (integer) $this->modx->getOption('site_start', null, 1)) {
@@ -313,13 +305,13 @@ class modRequest {
      */
     public function _cleanResourceIdentifier($identifier) {
         if (empty ($identifier)) {
-            if ($this->modx->getOption('base_url', null, MODX_BASE_URL) !== $_SERVER['REQUEST_URI']) {
+            if ($this->modx->getOption('base_url', null, MODX_BASE_URL) !== strtok($_SERVER["REQUEST_URI"],'?')) {
                 $this->modx->sendRedirect($this->modx->getOption('site_url', null, MODX_SITE_URL), array('responseCode' => 'HTTP/1.1 301 Moved Permanently'));
             }
             $identifier = $this->modx->getOption('site_start', null, 1);
             $this->modx->resourceMethod = 'id';
         }
-        elseif ($this->modx->getOption('friendly_urls', null, false) && $this->modx->resourceMethod = 'alias') {
+        elseif ($this->modx->getOption('friendly_urls', null, false) && $this->modx->resourceMethod == 'alias') {
             $containerSuffix = trim($this->modx->getOption('container_suffix', null, ''));
             $found = $this->modx->findResource($identifier);
             if ($found === false && !empty ($containerSuffix)) {
@@ -510,6 +502,37 @@ class modRequest {
             $key = ($action->get('namespace') == 'core' ? '' : $action->get('namespace').':').$action->get('controller');
             $actionList[$key] = $action->get('id');
         }
+
+        // Also add old core actions for backwards compatibility
+        $oldActions = array('browser', 'context',
+            'context/create', 'context/update', 'context/view',
+            'element', 'element/chunk', 'element/chunk/create', 'element/chunk/update',
+            'element/plugin', 'element/plugin/create', 'element/plugin/update:',
+            'element/propertyset/index', 'element/snippet', 'element/snippet/create',
+            'element/snippet/update', 'element/template', 'element/template/create',
+            'element/template/tvsort', 'element/template/update', 'element/tv',
+            'element/tv/create', 'element/tv/update', 'element/view', 'help',
+            'resource', 'resource/create', 'resource/data', 'resource/empty_recycle_bin',
+            'resource/site_schedule', 'resource/tvs', 'resource/update', 'search', 'security',
+            'security/access/policy/template/update', 'security/access/policy/update',
+            'security/forms', 'security/forms/profile/update', 'security/forms/set/update',
+            'security/login', 'security/message', 'security/permission', 'security/profile',
+            'security/resourcegroup/index', 'security/role', 'security/user', 'security/user/create',
+            'security/user/update', 'security/usergroup/create', 'security/usergroup/update',
+            'source/create', 'source/index', 'source/update', 'system', 'system/action',
+            'system/contenttype', 'system/dashboards', 'system/dashboards/create',
+            'system/dashboards/update', 'system/dashboards/widget/create',
+            'system/dashboards/widget/update', 'system/event', 'system/file', 'system/file/create',
+            'system/file/edit', 'system/import', 'system/import/html', 'system/info',
+            'system/logs/index', 'system/phpinfo', 'system/refresh_site', 'system/settings',
+            'welcome', 'workspaces', 'workspaces/lexicon',
+            'workspaces/namespace', 'workspaces/package/view');
+        if (empty($namespace) || $namespace ==  'core') {
+            foreach ($oldActions as $a) {
+                $actionList[$a] = $a;
+            }
+        }
+
         return $actionList;
     }
 

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010-2013 by MODX, LLC.
+ * Copyright 2010-2015 by MODX, LLC.
  *
  * This file is part of xPDO.
  *
@@ -129,7 +129,7 @@ class xPDOCacheManager {
      */
     public function getFilePermissions() {
         $perms = 0666;
-        $perms = $perms & (0666 - $this->_umask);
+        $perms = $perms & (0777 - $this->_umask);
         return $perms;
     }
 

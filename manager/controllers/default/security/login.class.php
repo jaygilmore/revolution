@@ -102,8 +102,8 @@ class SecurityLoginManagerController extends modManagerController {
      * @return void
      */
     public function handleForgotLoginHash() {
-        if (isset($this->scriptProperties['modahsh'])) {
-            $this->scriptProperties['modahsh'] = $this->modx->sanitizeString($this->scriptProperties['modahsh']);
+        if (isset($_GET['modahsh'])) {
+            $this->scriptProperties['modahsh'] = $this->modx->sanitizeString($_GET['modahsh']);
             $this->setPlaceholder('modahsh',$this->scriptProperties['modahsh']);
         }
     }
@@ -236,11 +236,13 @@ class SecurityLoginManagerController extends modManagerController {
             $placeholders['manager_url'] = $this->modx->getOption('manager_url');
             $placeholders['hash'] = $activationHash;
             $placeholders['password'] = $newPassword;
-            foreach ($placeholders as $k => $v) {
-                if (is_string($v)) {
-                    $message = str_replace('[[+'.$k.']]',$v,$message);
-                }
-            }
+            // Store previous placeholders
+            $ph = $this->modx->placeholders;
+            // now set those useful for modParser
+            $this->modx->setPlaceholders($placeholders);
+            $this->modx->getParser()->processElementTags('', $message, false, false);
+            // Then restore previous placeholders to prevent any breakage
+            $this->modx->placeholders = $ph;
 
             $this->modx->getService('mail', 'mail.modPHPMailer');
             $this->modx->mail->set(modMail::MAIL_BODY, $message);

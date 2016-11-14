@@ -1,25 +1,11 @@
 <?php
-/**
- * MODX Revolution
+/*
+ * This file is part of MODX Revolution.
  *
- * Copyright 2006-2013 by MODX, LLC.
- * All rights reserved.
+ * Copyright (c) MODX, LLC. All Rights Reserved.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
- *
- * @package modx
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 /**
  * Encapsulates a MODX response to a web request.
@@ -104,12 +90,12 @@ class modResponse {
                 $this->modx->invokeEvent('OnWebPagePrerender');
             }
 
-            $totalTime= ($this->modx->getMicroTime() - $this->modx->startTime);
+            $totalTime= (microtime(true) - $this->modx->startTime);
             $queryTime= $this->modx->queryTime;
-            $queryTime= sprintf("%2.4f s", $queryTime);
             $queries= isset ($this->modx->executedQueries) ? $this->modx->executedQueries : 0;
-            $totalTime= sprintf("%2.4f s", $totalTime);
             $phpTime= $totalTime - $queryTime;
+            $queryTime= sprintf("%2.4f s", $queryTime);
+            $totalTime= sprintf("%2.4f s", $totalTime);
             $phpTime= sprintf("%2.4f s", $phpTime);
             $source= $this->modx->resourceGenerated ? "database" : "cache";
             $this->modx->resource->_output= str_replace("[^q^]", $queries, $this->modx->resource->_output);
@@ -149,17 +135,17 @@ class modResponse {
                     } elseif ($this->modx->resource->get('alias')) {
                         $name= $this->modx->resource->get('alias');
                         if ($ext= $this->contentType->getExtension()) {
-                            $name .= ".{$ext}";
+                            $name .= "{$ext}";
                         }
                     } elseif ($name= $this->modx->resource->get('pagetitle')) {
                         $name= $this->modx->resource->cleanAlias($name);
                         if ($ext= $this->contentType->getExtension()) {
-                            $name .= ".{$ext}";
+                            $name .= "{$ext}";
                         }
                     } else {
                         $name= 'download';
                         if ($ext= $this->contentType->getExtension()) {
-                            $name .= ".{$ext}";
+                            $name .= "{$ext}";
                         }
                     }
                     $header= 'Cache-Control: public';

@@ -1,15 +1,10 @@
 <?php
 /**
- * Access Japanese lexicon topic
+ * Access English lexicon topic
  *
- * @language ja
+ * @language en
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-12-04
- * @author enogu http://www.kuroienogu.net/
- * @author Nick http://smallworld.west-tokyo.com
- * @author shimojo http://www.priqia.com/
- * @author yamamoto http://kyms.jp
  */
 $_lang['access_category_management_msg'] = 'エレメントへのユーザーグループメンバーのアクセスを管理します。カテゴリーを介する管理、または任意のアクセスポリシーを適用できます。';
 $_lang['access_category_err_ae'] = '指定されたカテゴリーのアクセス制御リストは既に存在します。';
@@ -64,6 +59,7 @@ $_lang['access_rgroup_err_ns'] = 'リソースグループのアクセス制御�
 $_lang['access_rgroup_err_remove'] = 'リソースグループのアクセス制御リストの削除中にエラーが発生しました。';
 $_lang['access_rgroup_remove'] = 'リソースグループアクセス権の削除';
 $_lang['access_rgroup_update'] = 'リソースグループアクセス権の編集';
+$_lang['access_source_err_ae'] = 'An ACL for that Media Source already exists.';
 $_lang['access_source_remove'] = 'メディアソースアクセス権の削除';
 $_lang['access_source_update'] = 'メディアソースアクセス権の編集';
 $_lang['access_to_contexts'] = 'コンテキストへアクセス';
@@ -112,6 +108,10 @@ $_lang['resource_group_access_ugs'] = '他ユーザーグループアクセス�
 $_lang['resource_group_access_ugs_desc'] = 'ユーザーグループ名をカンマ区切りのリストで指定します。指定した場合、上記コンテキストでこのリソースグループに対し、指定したグループへ表示アクセス権が付与されます。';
 $_lang['roles_msg'] = 'A role is, by definition, a position or status one holds within a certain situation. They can be used to group Users into a position or status within a User Group. Roles in MODX also have what is called "Authority". This is a number value that can be any valid integer. Authority levels are "inheritable downward", in the sense that a Role with Authority 1 will inherit any and all Group Policies assigned to itself, and to any Roles with higher Authority level than 1.';
 $_lang['source_add'] = 'メディアソースの追加';
+$_lang['namespace_add'] = 'Add Namespace';
+$_lang['access_namespace_update'] = 'Update Namespace Access';
+$_lang['access_namespace_remove'] = 'Remove Namespace Access';
+$_lang['filter_by_namespace'] = 'Filter by Namespace...';
 
 $_lang['user_group_aw'] = 'アクセスウィザード';
 $_lang['user_group_aw_desc'] = '注：いずれかのオプションをチェックしてユーザーグループを追加した場合、追加後にセッションをクリアする必要があります。';
@@ -159,3 +159,5 @@ $_lang['user_group_source_policy_desc'] = 'The Policy to apply to this Media Sou
 $_lang['user_group_source_remove_confirm'] = 'このユーザーグループから、このメディアソースを削除してもよろしいですか？';
 $_lang['user_group_source_source_desc'] = 'メディアソースへのアクセス許可を付与します。';
 $_lang['user_group_user_access_msg'] = 'このユーザーグループへ加えるユーザーを選択してください。';
+$_lang['user_group_namespace_access'] = 'Namespace access';
+$_lang['user_group_namespace_access_desc'] = 'Here you can set which Namespaces this User Group can access.';

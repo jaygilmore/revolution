@@ -1,5 +1,38 @@
 This file shows the changes in this release of xPDO.
 
+xPDO 2.5.0-pl (February 3, 2016)
+====================================
+- Optimize and improve logging
+- Fix undefined index notice for model indexes
+- Allow definition of primary key fields without legacy index="pk"
+- Add ARRAY_EXTENDED logTarget that stores an array of data for each log entry
+
+xPDO 2.4.1-pl (September 22, 2015)
+====================================
+- Optimize xPDO::getOption() for significant performance increase
+
+xPDO 2.4.0-pl (June 26, 2015)
+====================================
+- Add ability to override mysql table engine via options
+- Allow custom attributes in schema object elements
+- Allow silent failure of xPDOVehicle validators
+- Only show parseBindings results if debug set
+- Accept benign values that contain the word union
+- Allow xPDOObject::remove() to remove dependents with composite relationships
+- Respect engine specified in mysql schema
+
+xPDO 2.3.0-pl (July 15, 2014)
+====================================
+- Allow recursive xPDOObject::remove() beyond one level
+- Allow schema to define callbacks for field
+- Remove deprecated xPDO::getMicroTime() method
+- Reject xPDOQuery conditions with SQL injection attempts
+- Resolve xPDO::parseBindings() error from /e modifier fix
+- Fix xPDO::getCount() to work with queries containing group by
+- Replace reflection of PHP_SELF with SCRIPT_NAME in xPDO::log()
+- Replace use of deprecated /e preg_replace modifier
+- Add dependency metadata/API to xPDOTransport
+
 xPDO 2.2.9-pl (September 12, 2013)
 ====================================
 - Improve accuracy of query statistics

@@ -1,8 +1,8 @@
 <?php
 /**
- * Access Swedish lexicon topic
+ * Access English lexicon topic
  *
- * @language sv
+ * @language en
  * @package modx
  * @subpackage lexicon
  */
@@ -26,7 +26,7 @@ $_lang['access_err_create_md'] = 'Kan inte skapa ACL - data saknas!';
 $_lang['access_err_nf'] = 'Kan inte hitta angiven ACL!';
 $_lang['access_err_remove'] = 'Ett fel inträffade när ACL:en skulle tas bort!';
 $_lang['access_err_save'] = 'Ett fel inträffade när ACL:en skulle sparas!';
-$_lang['access_grid_empty'] = 'Det finns inga ACL:er att visa'; // ACL = Access Control List = åtkomstkontrollista/behörighetslista(?)
+$_lang['access_grid_empty'] = 'Det finns inga ACL:er att visa';
 $_lang['access_grid_paginate'] = 'Visar ACL:erna {0} - {1} av {2}';
 $_lang['access_permissions'] = 'Åtkomstinställningar';
 $_lang['access_permissions_add_document_group'] = 'Skapa en ny dokumentgrupp';
@@ -59,6 +59,7 @@ $_lang['access_rgroup_err_ns'] = 'Ingen ACL för resursgruppen angiven.';
 $_lang['access_rgroup_err_remove'] = 'Ett fel inträffade när resursgruppens ACL skulle tas bort.';
 $_lang['access_rgroup_remove'] = 'Ta bort tillgång till resursgrupp';
 $_lang['access_rgroup_update'] = 'Uppdatera tillgång till resursgrupp';
+$_lang['access_source_err_ae'] = 'Det finns redan en ACL för den mediakällan.';
 $_lang['access_source_remove'] = 'Ta bort tillgång till mediakälla';
 $_lang['access_source_update'] = 'Uppdatera tillgång till mediakälla';
 $_lang['access_to_contexts'] = 'Tillgång till kontexter';
@@ -107,6 +108,10 @@ $_lang['resource_group_access_ugs'] = 'Ge andra användargrupper åtkomst automa
 $_lang['resource_group_access_ugs_desc'] = 'En kommaseparerad lista med namn på användargrupper. De användargrupper som anges här kommer att få läsbehörighet till denna resursgrupp för ovanstående kontexter.';
 $_lang['roles_msg'] = 'En roll är, per definition, den position eller status man har i en viss situation. Den kan användas för att gruppera användare till en position eller status inom en användargrupp. Roller i MODX har också vad som kallas "Befogenhet". Detta är ett nummer som kan vara vilket giltigt heltal som helst. Befogenhetsnivåer "ärvs neråt" i den mening att en roll med befogenhetsnivå 1 ärver alla gruppolicyer tilldelade till sig själv och till alla roller med högre befogenhetsnivå än 1.';
 $_lang['source_add'] = 'Lägg till mediakälla';
+$_lang['namespace_add'] = 'Lägg till namnrymd';
+$_lang['access_namespace_update'] = 'Uppdatera tillgång till namnrymd';
+$_lang['access_namespace_remove'] = 'Ta bort tillgång till namnrymd';
+$_lang['filter_by_namespace'] = 'Filtrera efter namnrymd...';
 
 $_lang['user_group_aw'] = 'Åtkomstguide';
 $_lang['user_group_aw_desc'] = 'Notera: Du kan behöva avsluta alla sessioner efter att du lagt till användargruppen om du markerar något av valen nedan.';
@@ -154,3 +159,5 @@ $_lang['user_group_source_policy_desc'] = 'Den policy som ska gälla denna media
 $_lang['user_group_source_remove_confirm'] = 'Är du säker på att du vill ta bort denna mediakälla från denna användargrupp?';
 $_lang['user_group_source_source_desc'] = 'Den mediakälla som det ska ges tillgång till.';
 $_lang['user_group_user_access_msg'] = 'Välj vilka användare du vill ha i denna användargrupp.';
+$_lang['user_group_namespace_access'] = 'Namnrymdstillgång';
+$_lang['user_group_namespace_access_desc'] = 'Här kan du ange vilka namnrymder som denna användargrupp ska ha tillgång till.';

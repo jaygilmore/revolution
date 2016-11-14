@@ -111,7 +111,7 @@ class modFileHandler {
      * @return string The sanitized path
      */
     public function sanitizePath($path) {
-        return preg_replace(array('/\.*[\/|\\\]/i', '/[\/|\\\]+/i'), array('/', '/'), $path);
+        return preg_replace(array("/\.*[\/|\\\]/i", "/[\/|\\\]+/i"), array('/', '/'), $path);
     }
 
     /**
@@ -312,6 +312,16 @@ abstract class modFileSystemResource {
     }
 
     /**
+     * Alias for rename
+     *
+     * @param string $newPath The new path to move fs resource
+     * @return boolean True if successful
+     */
+    public function move($newPath) {
+        return $this->rename($newPath);
+    }
+
+    /**
      * Parses a string mode into octal format
      *
      * @param string $mode The octal to parse
@@ -382,7 +392,7 @@ class modFile extends modFileSystemResource {
     }
 
     /**
-     * Temporarly set (but not save) the content of the file
+     * Temporarily set (but not save) the content of the file
      * @param string $content The content
      */
     public function setContent($content) {
@@ -395,7 +405,13 @@ class modFile extends modFileSystemResource {
      * @return string The contents of the file
      */
     public function getContents() {
-        return @file_get_contents($this->path);
+        $content = @file_get_contents($this->path);
+
+        if ($content === false) {
+            $content = $this->content;
+        }
+
+        return $content;
     }
 
     /**
@@ -432,12 +448,43 @@ class modFile extends modFileSystemResource {
     }
 
     /**
+     * Unpack a zip archive to a specified location.
+     *
+     * @uses compression.xPDOZip OR compression.PclZip
+     *
+     * @param string $this->getPath() An absolute file system location to a valid zip archive.
+     * @param string $to A file system location to extract the contents of the archive to.
+     * @param array $options an array of optional options, primarily for the xPDOZip class
+     * @return array|string|boolean An array of unpacked files, a string in case of cli functions or false on failure.
+     */
+    public function unpack($to = '', $options = array()) {
+
+        $results = false;
+
+        if ($this->fileHandler->modx->getService('archive', 'compression.xPDOZip', XPDO_CORE_PATH, $this->path)) {
+            $results = $this->fileHandler->modx->archive->unpack($to);
+        }
+
+        return $results;
+    }
+
+    /**
      * Gets the size of the file
      *
      * @return int The size of the file, in bytes
      */
     public function getSize() {
-        return filesize($this->path);
+        $size = @filesize($this->path);
+
+        if ($size === false) {
+            if ( function_exists('mb_strlen') ) {
+                $size = mb_strlen($this->content, '8bit');
+            } else {
+                $size = strlen($this->content);
+            }
+        }
+
+        return $size;
     }
 
     /**
@@ -476,6 +523,29 @@ class modFile extends modFileSystemResource {
      */
     public function getBaseName() {
         return ltrim(strrchr($this->path, '/'), '/');
+    }
+
+    /**
+     * Sends the file as a download
+     * 
+     * @param array $options Optional configuration options like mimetype and filename
+     * 
+     * @return downloadable file
+     */
+    public function download($options = array()) {
+        $options = array_merge(array(
+            'mimetype' => 'application/octet-stream',
+            'filename' => $this->getBasename(),
+        ), $options);
+
+        $output = $this->getContents();
+
+        header('Content-type: ' . $options['mimetype']);
+        header('Content-Disposition: attachment; filename=' . $options['filename']);
+        header('Content-Length: ' . $this->getSize());
+        
+        echo $output;
+        die();
     }
 
     /**

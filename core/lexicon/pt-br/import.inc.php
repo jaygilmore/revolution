@@ -1,8 +1,8 @@
 <?php
 /**
- * Import Brazilian Portuguese lexicon entries
+ * Import English lexicon entries
  *
- * @language pt-br
+ * @language en
  * @package modx
  * @subpackage lexicon
  */
@@ -10,6 +10,7 @@ $_lang['import_allowed_extensions'] = 'Especificar uma lista delimitada por vír
 $_lang['import_base_path'] = 'Digite o caminho do arquivo base que contém os arquivos para importação.<br /><small><em>Deixe em branco para usar o caminho do arquivo de configuração estática do contexto alvo.</em></small>';
 $_lang['import_duplicate_alias_found'] = 'Recurso [[+id]] já está usando o alias de [[+alias.]] Por favor insira um alias exclusivo.';
 $_lang['import_element'] = 'Digite o elemento raiz HTML para importar:';
+$_lang['import_element_help'] = 'Fornecer o JSON com associações "campo": "valor". Se valor começa com $ é seletor estilo jQuery. O campo pode ser um campo de Recurso ou o nome de VT.';
 $_lang['import_enter_root_element'] = 'Digite o elemento raiz de importação:';
 $_lang['import_files_found'] = '<strong>Foram encontrados %s documentos para importação...</strong><p/>';
 $_lang['import_parent_document'] = 'Documento pai:';
@@ -27,4 +28,4 @@ $_lang['import_site_skip'] = '<span style="color:#990000">Pulado!</span>';
 $_lang['import_site_start'] = 'Iniciar importação';
 $_lang['import_site_success'] = '<span style="color:#009900">Sucesso!</span>';
 $_lang['import_site_time'] = 'Importação terminada. Importação tomou %s segundos para completar.';
-$_lang['import_use_doc_tree'] = 'Use a árvore de documentos apresentados a seguir para seleccionar a localização dos pais para importar seus arquivos em.';
+$_lang['import_use_doc_tree'] = 'Use a árvore de documentos apresentada a seguir para selecionar a localização dos pais para importar seus arquivos em.';

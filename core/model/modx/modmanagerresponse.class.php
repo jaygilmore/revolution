@@ -187,8 +187,8 @@ class modManagerResponse extends modResponse {
                 $getInstanceMethod = 'getInstance';
             }
             /* this line allows controller derivatives to decide what instance they want to return (say, for derivative class_key types) */
-            $this->modx->controller = call_user_func_array(array($c,$getInstanceMethod),array($this->modx,$className,$this->action));
-            $this->modx->controller->setProperties(array_merge($_GET,$_POST));
+            $this->modx->controller = call_user_func_array(array($c,$getInstanceMethod),array(&$this->modx,$className,$this->action));
+            $this->modx->controller->setProperties($c instanceof SecurityLoginManagerController ? $_POST : array_merge($_GET,$_POST));
             $this->modx->controller->initialize();
         } catch (Exception $e) {
             die($e->getMessage());
@@ -204,16 +204,17 @@ class modManagerResponse extends modResponse {
     public function checkForMenuPermissions($action) {
         $canAccess = true;
         /** @var modMenu $menu */
-        $menu = $this->modx->getObject('modMenu',array(
+        $menu = $this->modx->getObject('modMenu', array(
             'action' => $action,
+            'namespace' => $this->namespace,
         ));
         if ($menu) {
             $permissions = $menu->get('permissions');
             if (!empty($permissions)) {
-                $permissions = explode(',',$permissions);
+                $permissions = explode(',', $permissions);
                 foreach ($permissions as $permission) {
                     if (!$this->modx->hasPermission($permission)) {
-                        $canAccess = false;
+                        return false;
                     }
                 }
             }
@@ -223,7 +224,7 @@ class modManagerResponse extends modResponse {
 
     /**
      * Gets the controller class name from the active modAction object
-     * 
+     *
      * @return string
      */
     public function getControllerClassName() {
@@ -269,7 +270,7 @@ class modManagerResponse extends modResponse {
         return $paths;
 
     }
-    
+
     /**
      * Adds a lexicon topic to this page's language topics to load. Will load
      * the topic as well.

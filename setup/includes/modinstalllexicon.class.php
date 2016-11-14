@@ -1,23 +1,11 @@
 <?php
 /*
- * MODX Revolution
+ * This file is part of MODX Revolution.
  *
- * Copyright 2006-2013 by MODX, LLC.
- * All rights reserved.
+ * Copyright (c) MODX, LLC. All Rights Reserved.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 /**
  * modLexicon
@@ -128,16 +116,66 @@ class modInstallLexicon {
         $language = 'en';
         if (isset ($_COOKIE['modx_setup_language'])) {
             $language= $_COOKIE['modx_setup_language'];
+        } else {
+            $availableLangs = $this->getLanguageList();
+            if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+                // break up string into pieces (languages and q factors)
+                preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang_parse);
+
+                if (count($lang_parse[1])) {
+                    // create a list like "en" => 0.8
+                    $acceptLangs = array_combine($lang_parse[1], $lang_parse[4]);
+                    // set default to 1 for any without q factor
+                    foreach ($acceptLangs as $lang => $q) {
+                        if ($q === '') $acceptLangs[$lang] = 1;
+                    }
+
+                    // sort list based on value
+                    arsort($acceptLangs, SORT_NUMERIC);
+                    foreach ($acceptLangs as $lang => $q) {
+                        $primary = explode('-', $lang);
+                        $primary = array_shift($primary);
+                        if (in_array($lang, $availableLangs)) {
+                            $language = $lang;
+                            break;
+                        } else if (in_array($primary, $availableLangs)) {
+                            $language = $primary;
+                            break;
+                        }
+                    }
+                }
+            }
         }
         if (!empty($this->install) && !empty($this->install->settings) && is_object($this->install->settings)) {
-            $language = $this->install->settings->get('language');
+            $language = $this->install->settings->get('language', $language);
         }
         return $language;
     }
 
     /**
+     * Get a list of available languages.
+     *
+     * @return array An array of available languages
+     */
+    public function getLanguageList() {
+        $path = dirname(dirname(__FILE__)).'/lang/';
+        $languages = array();
+        /** @var DirectoryIterator $file */
+        foreach (new DirectoryIterator($path) as $file) {
+            $basename = $file->getFilename();
+            if (!in_array($basename, array('.', '..','.htaccess','.svn','.git')) && $file->isDir()) {
+                if (file_exists($file->getPathname().'/default.inc.php')) {
+                    $languages[] = $basename;
+                }
+            }
+        }
+        sort($languages);
+        return $languages;
+    }
+
+    /**
      * Loads a lexicon topic.
-     * 
+     *
      * @param string/array $topics A string name of a topic (or an array of topic names)
      * @return boolean True if successful.
      */

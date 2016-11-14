@@ -1,24 +1,11 @@
 <?php
-/**
- * MODX Revolution
- * Copyright 2006-2013 by MODX, LLC.
- * All rights reserved.
+/*
+ * This file is part of MODX Revolution.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * Copyright (c) MODX, LLC. All Rights Reserved.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
- *
- * @package modx
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 /**
  * Default database session handler class for MODX.
@@ -168,12 +155,12 @@ class modSessionHandler {
      * could not be retrieved and/or created.
      */
     protected function _getSession($id, $autoCreate= false) {
-        $this->session= $this->modx->getObject('modSession', $id, $this->cacheLifetime);
+        $this->session= $this->modx->getObject('modSession', array('id' => $id), $this->cacheLifetime);
         if ($autoCreate && !is_object($this->session)) {
             $this->session= $this->modx->newObject('modSession');
             $this->session->set('id', $id);
         }
-        if (!($this->session instanceof modSession) || $id != $this->session->get('id')) {
+        if (!($this->session instanceof modSession) || $id != $this->session->get('id') || !$this->session->validate()) {
             $this->modx->log(modX::LOG_LEVEL_INFO, 'There was an error retrieving or creating session id: ' . $id);
         }
         return $this->session;

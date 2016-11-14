@@ -3,6 +3,7 @@
  * Specific upgrades for Revolution 2.3.0-pl
  *
  * @var modX $modx
+ * @var modInstallVersion $this
  * @package setup
  * @subpackage upgrades
  */
@@ -97,3 +98,27 @@ $description = $this->install->lexicon('modify_column',array('column' => 'versio
 $this->processResults($class, $description, array($modx->manager, 'alterField'), array($class, 'version_patch'));
 $description = $this->install->lexicon('modify_column',array('column' => 'release_index', 'old' => 'tinyint', 'new' => 'smallint', 'table' => $table));
 $this->processResults($class, $description, array($modx->manager, 'alterField'), array($class, 'release_index'));
+
+/* modify index on modCategory */
+$class = 'modCategory';
+$table = $modx->getTableName($class);
+$description = $this->install->lexicon('remove_index',array('index' => 'category', 'table' => $table));
+$this->processResults($class, $description, array($modx->manager, 'removeIndex'), array($class, 'category'));
+$description = $this->install->lexicon('add_index',array('index' => 'category', 'table' => $table));
+$this->processResults($class, $description, array($modx->manager, 'addIndex'), array($class, 'category'));
+
+/* add modTransportProvider.active field and index */
+$class = 'transport.modTransportProvider';
+$table = $modx->getTableName($class);
+$description = $this->install->lexicon('add_column', array('column' => 'active', 'table' => $table));
+$this->processResults($class, $description, array($modx->manager, 'addField'), array($class, 'active'));
+$description = $this->install->lexicon('add_index', array('index' => 'active', 'table' => $table));
+$this->processResults($class, $description, array($modx->manager, 'addIndex'), array($class, 'active'));
+/* add modTransportProvider.priority field and index */
+$description = $this->install->lexicon('add_column', array('column' => 'priority', 'table' => $table));
+$this->processResults($class, $description, array($modx->manager, 'addField'), array($class, 'priority'));
+$description = $this->install->lexicon('add_index', array('index' => 'priority', 'table' => $table));
+$this->processResults($class, $description, array($modx->manager, 'addIndex'), array($class, 'priority'));
+/* add modTransportProvider.properties field */
+$description = $this->install->lexicon('add_column', array('column' => 'properties', 'table' => $table));
+$this->processResults($class, $description, array($modx->manager, 'addField'), array($class, 'properties'));

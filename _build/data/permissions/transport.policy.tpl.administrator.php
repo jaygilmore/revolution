@@ -291,6 +291,11 @@ $permissions[] = $xpdo->newObject('modAccessPermission',array(
     'value' => true,
 ));
 $permissions[] = $xpdo->newObject('modAccessPermission',array(
+    'name' => 'file_unpack',
+    'description' => 'perm.file_unpack_desc',
+    'value' => true,
+));
+$permissions[] = $xpdo->newObject('modAccessPermission',array(
     'name' => 'file_view',
     'description' => 'perm.file_view_desc',
     'value' => true,
@@ -683,6 +688,11 @@ $permissions[] = $xpdo->newObject('modAccessPermission',array(
 $permissions[] = $xpdo->newObject('modAccessPermission',array(
     'name' => 'settings',
     'description' => 'perm.settings_desc',
+    'value' => true,
+));
+$permissions[] = $xpdo->newObject('modAccessPermission',array(
+    'name' => 'events',
+    'description' => 'perm.events_desc',
     'value' => true,
 ));
 $permissions[] = $xpdo->newObject('modAccessPermission',array(

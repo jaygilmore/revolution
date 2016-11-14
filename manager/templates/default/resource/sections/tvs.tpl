@@ -9,18 +9,17 @@
     {foreach from=$category.tvs item=tv name='tv'}
 {if $tv->type NEQ "hidden"}
     <div class="x-form-item x-tab-item {cycle values=",alt"} modx-tv{if $smarty.foreach.tv.first} tv-first{/if}{if $smarty.foreach.tv.last} tv-last{/if}" id="tv{$tv->id}-tr">
-        <label for="tv{$tv->id}" class="x-form-item-label modx-tv-label" style="width: auto;">
+        <label for="tv{$tv->id}" class="x-form-item-label modx-tv-label">
             <div class="modx-tv-label-title">
-                {if $showCheckbox}<input type="checkbox" name="tv{$tv->id}-checkbox" class="modx-tv-checkbox" value="1" />{/if}
+                {if $showCheckbox|default}<input type="checkbox" name="tv{$tv->id}-checkbox" class="modx-tv-checkbox" value="1" />{/if}
                 <span class="modx-tv-caption" id="tv{$tv->id}-caption">{if $tv->caption}{$tv->caption}{else}{$tv->name}{/if}</span>
             </div>
-            <a class="modx-tv-reset" id="modx-tv-reset-{$tv->id}" title="{$_lang.set_to_default}" style="float: left;"></a>
+            <a class="modx-tv-reset" id="modx-tv-reset-{$tv->id}" title="{$_lang.set_to_default}"></a>
             {if $tv->description}
             <span class="modx-tv-label-description">{$tv->description}</span>
             {/if}
         </label>
         {if $tv->inherited}<span class="modx-tv-inherited">{$_lang.tv_value_inherited}</span>{/if}
-        <div class="x-form-clear-left"></div>
         <div class="x-form-element modx-tv-form-element">
             <input type="hidden" id="tvdef{$tv->id}" value="{$tv->default_text|escape}" />
             {$tv->get('formElement')}
@@ -42,11 +41,11 @@
 {literal}
 <script type="text/javascript">
 // <![CDATA[
-Ext.onReady(function() {    
+Ext.onReady(function() {
     MODx.resetTV = function(id) {
         var i = Ext.get('tv'+id);
         var d = Ext.get('tvdef'+id);
-        
+
         if (i) {
             i.dom.value = d.dom.value;
             i.dom.checked = d.dom.value ? true : false;
@@ -59,7 +58,7 @@ Ext.onReady(function() {
                     if (c.items.items[i]) {
                         c.items.items[i].setValue(cbs.indexOf(c.items.items[i].id) != -1);
                     }
-                } 
+                }
             } else {
                 c.setValue(d.dom.value);
             }
@@ -101,7 +100,7 @@ Ext.onReady(function() {
     MODx.tvCounts = {$tvCounts};
     MODx.tvMap = {$tvMap};
     {literal}
-});    
+});
 // ]]>
 </script>
 {/literal}

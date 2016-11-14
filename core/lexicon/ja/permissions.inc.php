@@ -1,11 +1,10 @@
 <?php
 /**
- * Permissions Japanese lexicon topic
+ * Permissions English lexicon topic
  *
- * @language ja
+ * @language en
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-12-04
  */
 $_lang['perm.about_desc'] = '情報のページ';
 $_lang['perm.access_permissions_desc'] = 'アクセス権限関係のページとアクション';
@@ -67,6 +66,7 @@ $_lang['perm.file_remove_desc'] = '物理ファイルを削除';
 $_lang['perm.file_tree_desc'] = '左のナビゲーションにファイルのツリーを表示';
 $_lang['perm.file_update_desc'] = '物理ファイルのコンテンツを更新';
 $_lang['perm.file_upload_desc'] = 'フォルダへファイルをアップロード';
+$_lang['perm.file_unpack_desc'] = 'To extract zip archives.';
 $_lang['perm.file_view_desc'] = 'ファイルのコンテンツを表示';
 $_lang['perm.flush_sessions_desc'] = 'サイトのセッションを削除することが可能';
 $_lang['perm.frames_desc'] = '全てにおいてMODX管理画面UIを使用';
@@ -148,6 +148,7 @@ $_lang['perm.save_tv_desc'] = 'テンプレート変数を保存';
 $_lang['perm.save_user_desc'] = 'ユーザーを保存';
 $_lang['perm.search_desc'] = '検索ページを使用';
 $_lang['perm.settings_desc'] = 'システム設定の表示と編集を行う';
+$_lang['perm.events_desc'] = 'To view any System Events.';
 $_lang['perm.source_delete_desc'] = 'メディアソースを削除';
 $_lang['perm.source_edit_desc'] = 'メディアソースを編集';
 $_lang['perm.source_save_desc'] = 'メディアソースを作成・保存';

@@ -1,12 +1,12 @@
 <?php
 /**
- * Permissions Russian lexicon topic
+ * Permissions English lexicon topic
  *
- * @language ru
+ * @language en
  * @package modx
  * @subpackage lexicon
  */
-$_lang['perm.about_desc'] = 'Страница «О пректе».';
+$_lang['perm.about_desc'] = 'Страница «О проекте».';
 $_lang['perm.access_permissions_desc'] = 'Страницы и действия, связанные с правами доступа.';
 $_lang['perm.actions_desc'] = 'Страница «Действия».';
 $_lang['perm.add_children_desc'] = 'Добавлять любые ресурсы как дочерние указанного ресурса или добавлять элементы в категории.';
@@ -66,6 +66,7 @@ $_lang['perm.file_remove_desc'] = 'Удалять файлы.';
 $_lang['perm.file_tree_desc'] = 'Видеть дерево файлов в левой навигационной панели.';
 $_lang['perm.file_update_desc'] = 'Изменять файлы.';
 $_lang['perm.file_upload_desc'] = 'Загружать файлы в папку.';
+$_lang['perm.file_unpack_desc'] = 'Распаковать zip архивы.';
 $_lang['perm.file_view_desc'] = 'Просматривать содержимое файла.';
 $_lang['perm.flush_sessions_desc'] = 'Сбрасывать все сессии сайта.';
 $_lang['perm.frames_desc'] = 'Использовать бэкэнд MODX.';
@@ -147,6 +148,7 @@ $_lang['perm.save_tv_desc'] = 'Сохранять TV.';
 $_lang['perm.save_user_desc'] = 'Сохранять пользователей.';
 $_lang['perm.search_desc'] = 'Использовать страницу «Поиск».';
 $_lang['perm.settings_desc'] = 'Смотреть и редактировать системные настройки.';
+$_lang['perm.events_desc'] = 'Просмотреть все <i>системные события</i>.';
 $_lang['perm.source_delete_desc'] = 'Удалять источник файлов.';
 $_lang['perm.source_edit_desc'] = 'Редактировать источник файлов.';
 $_lang['perm.source_save_desc'] = 'Создавать и сохранять источник файлов.';

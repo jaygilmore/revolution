@@ -1,11 +1,9 @@
 <?php
 /**
- * Thai Upgrades Lexicon Topic for Revolution setup.
+ * English Upgrades Lexicon Topic for Revolution setup.
  *
  * @package setup
  * @subpackage lexicon
- * by Mr.Kittipong Intaboot COE#18,KKU (@kittipongint)
- * updated 30/01/2012
  */
 $_lang['add_column'] = 'เพิ่มใหม่ `[[+column]]` คอลัมน์เป็น `[[+table]]`';
 $_lang['add_index'] = 'เพิ่มดัชนีใหม่ใน `[[+index]]` สำหรับตาราง `[[+table]]`';
@@ -42,3 +40,6 @@ $_lang['systemsetting_xtype_fix'] = 'แก้ไข xtypes ใน modSystemSett
 $_lang['transportpackage_manifest_text'] = 'ดัดแปลงคอลัมน์ `manifest` เป็น TEXT จากเดิม MEDIUMTEXT ใน `[[+class]]`';
 $_lang['update_closure_table'] = 'อัปเดตข้อมูลการปิดท้ายตารางสำหรับคลาส `[[+class]]`';
 $_lang['update_table_column_data'] = 'อัปเดตข้อมูลในคอลัมน์ [[+column]] ของตาราง [[+table]] ( [[+class]] )';
+$_lang['iso_country_code_converted'] = 'Successfully converted user profile country names to ISO codes.';
+$_lang['legacy_cleanup_complete'] = 'Legacy file clean up complete.';
+$_lang['legacy_cleanup_count'] = 'Removed [[+files]] file(s) and [[+folders]] folder(s).';

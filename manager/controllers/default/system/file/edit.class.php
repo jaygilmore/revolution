@@ -47,11 +47,12 @@ class SystemFileEditManagerController extends modManagerController {
         $this->modx->lexicon->load('file');
 
         if (empty($_GET['file'])) return $this->failure($this->modx->lexicon('file_err_nf'));
-        $this->loadWorkingContext();
 
+        $this->loadWorkingContext();
         /* format filename */
         $this->filename = preg_replace('#([\\\\]+|/{2,})#', '/',$scriptProperties['file']);
-
+        $this->filename = htmlspecialchars(strip_tags($this->filename));
+        
         $source = $this->getSource();
         $this->fileRecord = $source->getObjectContents($this->filename);
         $this->fileRecord['source'] = $source->get('id');
@@ -68,6 +69,10 @@ class SystemFileEditManagerController extends modManagerController {
 
         $placeholders['fa'] = $this->fileRecord;
         $placeholders['OnFileEditFormPrerender'] = $this->fireEvents();
+
+        $this->fileRecord['basename'] = htmlspecialchars($this->fileRecord['basename']);
+        $this->fileRecord['name'] = htmlspecialchars($this->fileRecord['name']);
+        $this->fileRecord['path'] = htmlspecialchars($this->fileRecord['path']);
 
         return $placeholders;
     }
@@ -122,7 +127,7 @@ class SystemFileEditManagerController extends modManagerController {
      * @return string
      */
     public function getTemplateFile() {
-        return 'system/file/edit.tpl';
+        return '';
     }
 
     /**

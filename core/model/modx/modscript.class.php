@@ -26,6 +26,10 @@ class modScript extends modElement {
      * @var string $_scriptCacheKey
      */
     public $_scriptCacheKey= null;
+    /**
+     * @var string The filename of the script to include.
+     */
+    protected $_scriptFilename;
 
     /**
      * Override set to properly strip invalid tags from script code
@@ -54,17 +58,22 @@ class modScript extends modElement {
     public function process($properties= null, $content= null) {
         parent :: process($properties, $content);
         if (!$this->_processed) {
-            $scriptName= $this->getScriptName();
-            $this->_result= function_exists($scriptName);
-            if (!$this->_result) {
-                $this->_result= $this->loadScript();
-            }
+            $this->_scriptFilename = $this->loadScript();
+            $this->_result= $this->_scriptFilename !== false && is_readable($this->_scriptFilename);
             if ($this->_result) {
                 if (empty($this->xpdo->event)) $this->xpdo->event = new stdClass();
-                $this->xpdo->event->params= $this->_properties; /* store params inside event object */
+                $modx =& $this->xpdo;
+                $scriptProperties = $this->xpdo->event->params= $this->_properties; /* store params inside event object */
                 ob_start();
-                $this->_output= $scriptName($this->_properties);
-                $this->_output= ob_get_contents() . $this->_output;
+                unset($properties, $content);
+                extract($scriptProperties, EXTR_SKIP);
+                $includeResult= include $this->_scriptFilename;
+                $includeResult= ($includeResult === null ? '' : $includeResult);
+                if (ob_get_length()) {
+                    $this->_output = ob_get_contents() . $includeResult;
+                } else {
+                    $this->_output= $includeResult;
+                }
                 ob_end_clean();
                 if ($this->_output && is_string($this->_output)) {
                     /* collect element tags in the evaluated content and process them */
@@ -118,9 +127,9 @@ class modScript extends modElement {
     }
 
     /**
-     * Loads and evaluates the script, returning the result.
+     * Get the include filename for the script, generating it if it does not exist.
      *
-     * @return boolean True if the result of the script is not false.
+     * @return string|bool The include filename of the script or false.
      */
     public function loadScript() {
         $includeFilename = $this->xpdo->getCachePath() . 'includes/' . $this->getScriptCacheKey() . '.include.cache.php';
@@ -148,13 +157,10 @@ class modScript extends modElement {
                 $result = $this->xpdo->cacheManager->writeFile($includeFilename, "<?php\n" . $script);
             }
         }
-        if ($result) {
-            $result = include($includeFilename);
-            if ($result) {
-                $result = function_exists($this->getScriptName());
-            }
+        if ($result !== false) {
+            $result = $includeFilename;
         }
-        return ($result !== false);
+        return $result;
     }
 
     public function getFileContent(array $options = array()) {

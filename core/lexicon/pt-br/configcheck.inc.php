@@ -1,8 +1,8 @@
 <?php
 /**
- * Config Brazilian Portuguese lexicon topic
+ * Config Check English lexicon topic
  *
- * @language pt-br
+ * @language en
  * @package modx
  * @subpackage lexicon
  */
@@ -20,6 +20,8 @@ $_lang['configcheck_errorpage_unavailable'] = 'A pagina de erro do seu site não
 $_lang['configcheck_errorpage_unavailable_msg'] = 'Isto significa que sua página de Erro não está acessível para navegantes normais ou não existe. Isto pode levar para um looping recursivo e vários erros nos relatórios do seu site. Tenha certeza que não há grupos de usuários associados a esta página.';
 $_lang['configcheck_errorpage_unpublished'] = 'A página de erro do seu website não está publicada ou não existe.';
 $_lang['configcheck_errorpage_unpublished_msg'] = 'Isto siginifica que a sua página de Erro não está acessível ao público geral. Publique a sua página ou tenha certeza que está associado a um documento existente em sua árvore do site no menu Sistema &gt; Opções de Sistema.';
+$_lang['configcheck_htaccess'] = 'Pasta \'core\' é acessível pela web';
+$_lang['configcheck_htaccess_msg'] = 'MODX detectou que sua pasta do núcleo (core) é (parcialmente) acessível ao público. <strong>Isso não é recomendado e é um risco de segurança.</strong> Se sua instalação de MODX está sendo executado em um servidor Web Apache você deve configurar pelo menos o arquivo .htaccess dentro o pasta núcleo <em>[[+fileLocation]]</em>. Isto pode ser feito facilmente, renomeando o arquivo de exemplo ht.access para .htaccess.<p>Existem outros métodos e servidores Web, caso utilize, por favor leia o <a href="https://rtfm.modx.com/revolution/2.x/administering-your-site/security/hardening-modx-revolution">Guia MODX de solidez</a> para mais informações sobre como proteger seu site.</p>Se você configurar tudo corretamente, por exemplo, navegando para o <a href="[[+checkUrl]]" target="_blank">Changelog</a> deve dar-lhe um 403 (permissão negada) ou melhor um 404 (não encontrado). Se você pode ver o changelog lá no navegador, algo está errado e você precisa reconfigurar ou chamar um especialista para resolver isso.';
 $_lang['configcheck_images'] = 'Diretório de imagens não tem permissão de escrita';
 $_lang['configcheck_images_msg'] = 'O diretório de imagens não tem permissões para escrita, ou não existe. Isto siginifica que as funções do Gerenciador de Imagens não funcionaram no editor!';
 $_lang['configcheck_installer'] = 'Instalador ainda presente.';
@@ -28,6 +30,8 @@ $_lang['configcheck_lang_difference'] = 'Número de entradas incorreto no arquiv
 $_lang['configcheck_lang_difference_msg'] = 'A língua selecionada tem um número diferente de entradas que a língua padrão. Isto não é necessáriamente um problem, mas pode significar que o arquivo de linguagem deve ser atualizado.';
 $_lang['configcheck_notok'] = 'Um ou mais detalhes de configuração não estão de acordo:';
 $_lang['configcheck_ok'] = 'A configuração está OK - sem avisos para reportar.';
+$_lang['configcheck_phpversion'] = 'Versão do PHP está desatualizada';
+$_lang['configcheck_phpversion_msg'] = 'Sua versão PHP [[+phpversion]] já não é mantida pelos desenvolvedores PHP, o que significa que não há atualizações de segurança estão disponíveis. Também é provável que MODX ou um pacote extra, agora ou num futuro próximo já não suporta esta versão. Por favor, atualize seu ambiente pelo menos para PHP [[+phprequired]] assim que possível para proteger seu site.';
 $_lang['configcheck_register_globals'] = 'register_globals está ligado no seu arquivo de configuração php.ini';
 $_lang['configcheck_register_globals_msg'] = 'Esta configuração faz seus site mais sucetível a ataques de Cross Site Scripting (XSS). Você deveria falar com seu provedor de hospedagem para saber se é possível desabilitar esta configuração.';
 $_lang['configcheck_title'] = 'Checkagem de configuração';

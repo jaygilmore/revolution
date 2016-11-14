@@ -8,10 +8,6 @@ web.config
 # ignore all config.core.php
 config.core.php
 
-# ignore all compressed js and css
-*-min.css
-*-min.js
-
 # ignore concatenated js
 modext.js
 
@@ -44,3 +40,11 @@ bower_components
 node_modules
 .sass-cache
 _build/templates/default/sass/bourbon
+_build/templates/default/sass/neat
+_build/templates/default/sass/font-awesome
+*.css.map
+*.js.map
+
+#ignore composer files
+composer.json
+composer.lock

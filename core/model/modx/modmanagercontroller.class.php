@@ -5,7 +5,7 @@
 /**
  * Abstract class for manager controllers. Not to be initialized directly; must be extended by the implementing
  * controller.
- * 
+ *
  * @package modx
  */
 abstract class modManagerController {
@@ -67,7 +67,7 @@ abstract class modManagerController {
     /**
      * Return the proper instance of the derived class. This can be used to override how the manager loads a controller
      * class; for example, when handling derivative classes with class_key settings.
-     * 
+     *
      * @static
      * @param modX $modx A reference to the modX object.
      * @param string $className The name of the class that is being requested.
@@ -105,14 +105,16 @@ abstract class modManagerController {
     public function prepareLanguage() {
         $this->modx->lexicon->load('action');
         $languageTopics = $this->getLanguageTopics();
-        foreach ($languageTopics as $topic) { $this->modx->lexicon->load($topic); }
+        foreach ($languageTopics as $topic) {
+            $this->modx->lexicon->load($topic);
+        }
         $this->setPlaceholder('_lang_topics',implode(',',$languageTopics));
-        $this->setPlaceholder('_lang',$this->modx->lexicon->fetch());
+        $this->setPlaceholder('_lang', $this->modx->lexicon->fetch());
     }
 
     /**
      * Render the controller.
-     * 
+     *
      * @return string
      */
     public function render() {
@@ -124,7 +126,7 @@ abstract class modManagerController {
             'action' => $this->config,
         ));
 
-        $this->theme = $this->modx->getOption('manager_theme',null,'default');
+        $this->theme = $this->modx->getOption('manager_theme',null,'default',true);
 
         $this->prepareLanguage();
         $this->setPlaceholder('_ctx',$this->modx->context->get('key'));
@@ -137,11 +139,9 @@ abstract class modManagerController {
         $this->checkFormCustomizationRules();
 
         $this->setPlaceholder('_config',$this->modx->config);
+        $this->setCssURLPlaceholders();
         /* help url */
         $helpUrl = $this->getHelpUrl();
-        if (substr($helpUrl,0,4) != 'http') {
-            $helpUrl = $this->modx->getOption('base_help_url',null,'http://rtfm.modx.com/display/revolution20/').$helpUrl;
-        }
         $this->addHtml('<script type="text/javascript">MODx.helpUrl = "'.($helpUrl).'"</script>');
 
         $this->modx->invokeEvent('OnManagerPageBeforeRender',array('controller' => &$this));
@@ -290,7 +290,7 @@ abstract class modManagerController {
 
     /**
      * Set a failure on this controller. This will return the error message.
-     * 
+     *
      * @param string $message
      * @return void
      */
@@ -302,7 +302,7 @@ abstract class modManagerController {
     /**
      * Load the path to this controller's template's directory. Only override this if you want to override default
      * behavior; otherwise, overriding getTemplatesPath is preferred.
-     * 
+     *
      * @return string
      */
     public function loadTemplatesPath() {
@@ -318,7 +318,7 @@ abstract class modManagerController {
 
     /**
      * Set the possible template paths for this controller
-     * 
+     *
      * @param array $paths
      * @return void
      */
@@ -329,7 +329,7 @@ abstract class modManagerController {
     /**
      * Load an array of possible paths to this controller's directory. Only override this if you want to override
      * default behavior; otherwise, overriding getControllersPath is preferred.
-     * 
+     *
      * @return array
      */
     public function loadControllersPath() {
@@ -365,11 +365,11 @@ abstract class modManagerController {
         }
         return $paths;
     }
-    
+
     /**
      * Get an array of possible paths to this controller's template's directory.
      * Override this to point to a custom directory.
-     * 
+     *
      * @param bool $coreOnly Ensure that it grabs the path from the core namespace only.
      * @return array|string
      */
@@ -409,7 +409,7 @@ abstract class modManagerController {
 
     /**
      * Do permission checking in this method. Returning false will present a "permission denied" message.
-     * 
+     *
      * @abstract
      * @return boolean
      */
@@ -426,7 +426,7 @@ abstract class modManagerController {
 
     /**
      * Return a string to set as the controller's page title.
-     * 
+     *
      * @abstract
      * @return string
      */
@@ -448,7 +448,7 @@ abstract class modManagerController {
 
     /**
      * Specify an array of language topics to load for this controller
-     * 
+     *
      * @return array
      */
     public function getLanguageTopics() {
@@ -460,7 +460,7 @@ abstract class modManagerController {
      * @return void
      */
     public function firePostRenderEvents() {}
-    
+
     /**
      * Fire any pre-render events for the controller
      * @return void
@@ -469,7 +469,7 @@ abstract class modManagerController {
 
     /**
      * Get the page header for the controller.
-     * 
+     *
      * @return string
      */
     public function getHeader() {
@@ -497,80 +497,63 @@ abstract class modManagerController {
         $externals = array();
 
         if ($this->loadBaseJavascript) {
-            $externals[] = $managerUrl.'assets/modext/core/modx.localization.js';
-            $externals[] = $managerUrl.'assets/modext/util/utilities.js';
-            $externals[] = $managerUrl.'assets/modext/util/uploaddialog.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/core/modx.button.js';
-
-
-
-            $externals[] = $managerUrl.'assets/modext/core/modx.component.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/core/modx.panel.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/core/modx.tabs.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/core/modx.window.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/core/modx.combo.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/core/modx.grid.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/core/modx.console.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/core/modx.portal.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/windows.js';
-
-
-            $externals[] = $managerUrl.'assets/modext/widgets/core/tree/modx.tree.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/core/tree/modx.tree.treeloader.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/modx.treedrop.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/core/modx.tree.asynctreenode.js';
-
-            $externals[] = $managerUrl.'assets/modext/widgets/resource/modx.tree.resource.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/element/modx.tree.element.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/system/modx.tree.directory.js';
-            $externals[] = $managerUrl.'assets/modext/widgets/system/modx.panel.filetree.js';
-            $externals[] = $managerUrl.'assets/modext/core/modx.view.js';
-            
-            $siteId = $this->modx->user->getUserToken('mgr');
-
-            $externals[] = $managerUrl.'assets/modext/core/modx.layout.js';
-
-            $urls = $this->getTemplatesUrls(true);
-
-            foreach($urls as $url) {
-                $externals[] = $url . 'js/layout.js';
-            }
-
-            $o = '';
             $compressJs = (boolean)$this->modx->getOption('compress_js',null,true);
-            $compressJsInGroups = (boolean)$this->modx->getOption('compress_js_groups',null,false);
             $this->modx->setOption('compress_js',$compressJs);
-            $this->modx->setOption('compress_js_groups',$compressJsInGroups);
-            
-            if (!empty($compressJs) && empty($compressJsInGroups)) {
-                if (!empty($externals)) {
-                    $minDir = $this->modx->getOption('manager_url',null,MODX_MANAGER_URL).'min/';
-
-                    /* combine into max script sources */
-                    $maxFilesPerMin = $this->modx->getOption('compress_js_max_files',null,10);
-                    $sources = array();
-                    $i = 0;
-                    $idx = 0;
-                    foreach ($externals as $script) {
-                        if (empty($sources[$idx])) $sources[$idx] = array();
-                        $sources[$idx][] = $script;
-                        if ($i >= $maxFilesPerMin) { $idx++; $i = 0; }
-                        $i++;
-                    }
-                    foreach ($sources as $scripts) {
-                        $o .= '<script type="text/javascript" src="'.$minDir.'index.php?f='.implode(',',$scripts).'"></script>';
-                    }
-                }
-            } else if (empty($compressJs)) {
-                foreach ($externals as $js) {
-                    $o .= '<script type="text/javascript" src="'.$js.'"></script>'."\n";
-                }
+            if ($compressJs) {
+                $externals[] = $managerUrl . 'assets/modext/modx.jsgrps-min.js';
             }
+            else {
+                $externals[] = $managerUrl . 'assets/modext/core/modx.localization.js';
+                $externals[] = $managerUrl . 'assets/modext/util/utilities.js';
+                $externals[] = $managerUrl . 'assets/modext/util/datetime.js';
+                $externals[] = $managerUrl . 'assets/modext/util/uploaddialog.js';
+                $externals[] = $managerUrl . 'assets/modext/util/fileupload.js';
+                $externals[] = $managerUrl . 'assets/modext/util/superboxselect.js';
+
+                $externals[] = $managerUrl . 'assets/modext/core/modx.component.js';
+                $externals[] = $managerUrl . 'assets/modext/core/modx.view.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/modx.button.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/modx.searchbar.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/modx.panel.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/modx.tabs.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/modx.window.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/modx.combo.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/modx.grid.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/modx.console.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/modx.portal.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/windows.js';
+
+                $externals[] = $managerUrl . 'assets/fileapi/FileAPI.js';
+                $externals[] = $managerUrl . 'assets/modext/util/multiuploaddialog.js';
+
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/tree/modx.tree.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/tree/modx.tree.treeloader.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/modx.treedrop.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/core/modx.tree.asynctreenode.js';
+
+                $externals[] = $managerUrl . 'assets/modext/widgets/resource/modx.tree.resource.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/element/modx.tree.element.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/system/modx.tree.directory.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/system/modx.panel.filetree.js';
+                $externals[] = $managerUrl . 'assets/modext/widgets/media/modx.browser.js';
+                $externals[] = $managerUrl.'assets/modext/core/modx.layout.js';
+            }
+
+            $this->loadLayout($externals);
+
             if ($this->modx->getOption('compress_css',null,true)) {
                 $this->modx->setOption('compress_css',true);
             }
 
+            $o = '';
+            // Add script tags for the required javascript
+            foreach ($externals as $js) {
+                $o .= '<script type="text/javascript" src="'.$js.'"></script>'."\n";
+            }
+
+            // Get the state and user token for adding to the init script
             $state = $this->getDefaultState();
+            $siteId = $this->modx->user->getUserToken('mgr');
             if (!empty($state)) {
                 $state = 'MODx.defaultState = '.$this->modx->toJSON($state).';';
             } else { $state = ''; }
@@ -579,6 +562,27 @@ abstract class modManagerController {
     MODx.load({xtype: "modx-layout",accordionPanels: MODx.accordionPanels || [],auth: "'.$siteId.'"});
 });</script>';
             $this->modx->smarty->assign('maincssjs',$o);
+        }
+    }
+
+    /**
+     * Load theme specific layout.js if found, fallback to default layout
+     *
+     * @param array $externals An array of assets to load
+     *
+     * @return void
+     */
+    public function loadLayout(array &$externals) {
+        $templatesUrl = $this->modx->getOption('manager_url', null, MODX_MANAGER_URL) . 'templates/';
+        $themePath = MODX_MANAGER_PATH . "templates/{$this->theme}";
+        $layoutFile = '/js/layout.js';
+
+        if (file_exists($themePath . $layoutFile)) {
+            // Apply to both custom themes and "default" theme
+            $externals[] = $templatesUrl . $this->theme . $layoutFile;
+        } elseif ($this->theme !== 'default') {
+            // Load default layout for custom themes without a custom layout.js
+            $externals[] = $templatesUrl . 'default' . $layoutFile;
         }
     }
 
@@ -606,7 +610,7 @@ abstract class modManagerController {
         }
         return $obj;
     }
-    
+
     /**
      * Grabs a stripped version of modx to prevent caching of JS after upgrades
      *
@@ -651,27 +655,8 @@ abstract class modManagerController {
         }
         $cssjs = array();
         if (!empty($jsToCompress)) {
-            if ($this->modx->getOption('compress_js',null,true)) {
-                $minDir = $this->modx->getOption('manager_url',null,MODX_MANAGER_URL).'min/';
-                $maxFilesPerMin = $this->modx->getOption('compress_js_max_files',null,10);
-
-                /* combine into max 5 script sources */
-                $sources = array();
-                $i = 0;
-                $idx = 0;
-                foreach ($jsToCompress as $script) {
-                    if (empty($sources[$idx])) $sources[$idx] = array();
-                    $sources[$idx][] = $script;
-                    if ($i >= $maxFilesPerMin) { $idx++; $i = 0; }
-                    $i++;
-                }
-                foreach ($sources as $scripts) {
-                    $cssjs[] = '<script type="text/javascript" src="'.$minDir.'index.php?f='.implode(',',$scripts).'"></script>';
-                }
-            } else {
-                foreach ($jsToCompress as $scr) {
-                    $cssjs[] = '<script src="'.$scr.'" type="text/javascript"></script>';
-                }
+            foreach ($jsToCompress as $scr) {
+                $cssjs[] = '<script src="'.$scr.'" type="text/javascript"></script>';
             }
         }
 
@@ -680,12 +665,8 @@ abstract class modManagerController {
             $cssToCompress[] = $css;
         }
         if (!empty($cssToCompress)) {
-            if ($this->modx->getOption('compress_css',null,true)) {
-                $cssjs[] = '<link href="'.$this->modx->getOption('manager_url',null,MODX_MANAGER_URL).'min/index.php?f='.implode(',',$cssToCompress).'" rel="stylesheet" type="text/css" />';
-            } else {
-                foreach ($cssToCompress as $scr) {
-                    $cssjs[] = '<link href="'.$scr.'" rel="stylesheet" type="text/css" />';
-                }
+            foreach ($cssToCompress as $scr) {
+                $cssjs[] = '<link href="'.$scr.'" rel="stylesheet" type="text/css" />';
             }
         }
 
@@ -704,16 +685,12 @@ abstract class modManagerController {
             $lastjs[] = $js;
         }
         if (!empty($lastjs)) {
-            if ($this->modx->getOption('compress_js',null,true)) {
-                $cssjs[] = '<script type="text/javascript" src="'.$this->modx->getOption('manager_url',null,MODX_MANAGER_URL).'min/index.php?f='.implode(',',$lastjs).'"></script>';
-            } else {
-                foreach ($lastjs as $scr) {
-                    $cssjs[] = '<script src="'.$scr.'" type="text/javascript"></script>';
-                }
+            foreach ($lastjs as $scr) {
+                $cssjs[] = '<script src="'.$scr.'" type="text/javascript"></script>';
             }
         }
 
-        
+
         $this->modx->smarty->assign('cssjs',$cssjs);
     }
 
@@ -772,7 +749,7 @@ abstract class modManagerController {
      *
      * @param xPDOObject $obj If passed, will validate against for rules with constraints.
      * @param bool $forParent
-     * @return bool
+     * @return array
      */
     public function checkFormCustomizationRules(&$obj = null,$forParent = false) {
         $overridden = array();
@@ -829,7 +806,9 @@ abstract class modManagerController {
                 if (empty($obj) || !($obj instanceof $constraintClass)) continue;
                 $constraintField = $rule->get('constraint_field');
                 $constraint = $rule->get('constraint');
-                if ($obj->get($constraintField) != $constraint) {
+                $constraintList = explode(',', $constraint);
+                $constraintList = array_map('trim', $constraintList);
+                if (($obj->get($constraintField) != $constraint) && (!in_array($obj->get($constraintField), $constraintList))) {
                     continue;
                 }
             }
@@ -853,7 +832,7 @@ abstract class modManagerController {
 
     /**
      * Load the working context for this controller.
-     * 
+     *
      * @return modContext|string
      */
     public function loadWorkingContext() {
@@ -882,6 +861,38 @@ abstract class modManagerController {
         $langTopics = implode(',',$langTopics);
         $this->setPlaceholder('_lang_topics',$langTopics);
         return $langTopics;
+    }
+
+    public function setCssURLPlaceholders()
+    {
+        $managerUrl = $this->modx->getOption('manager_url', null, MODX_MANAGER_URL);
+        $managerPath = $this->modx->getOption('manager_path',null,MODX_MANAGER_PATH);
+
+        $index = false;
+        $login = false;
+
+        if ($this->theme != 'default') {
+            if (file_exists($managerPath . 'templates/' . $this->theme . '/css/index.css')) {
+                $this->setPlaceholder('indexCss', $managerUrl . 'templates/' . $this->theme . '/css/index.css');
+                $index = true;
+            }
+
+            if (file_exists($managerPath . 'templates/' . $this->theme . '/css/login.css')) {
+                $this->setPlaceholder('loginCss', $managerUrl . 'templates/' . $this->theme . '/css/login.css');
+                $login = true;
+            }
+        }
+
+        $versionToken = hash('adler32', $this->modx->getOption('settings_version') . $this->modx->uuid );
+        $this->setPlaceholder('versionToken', $versionToken);
+
+        if (!$index) {
+            $this->setPlaceholder('indexCss', $managerUrl . 'templates/default/css/index.css');
+        }
+
+        if (!$login) {
+            $this->setPlaceholder('loginCss', $managerUrl . 'templates/default/css/login.css');
+        }
     }
 }
 
@@ -950,7 +961,7 @@ abstract class modExtraManagerController extends modManagerController {
      * @return string The string title of the page
      */
     public function getPageTitle() { return ''; }
-    
+
     /**
      * Loads any page-specific CSS/JS for the controller
      * @return void
@@ -968,4 +979,54 @@ abstract class modExtraManagerController extends modManagerController {
      * @return bool True if the user passes permission checks
      */
     public function checkPermissions() { return true;}
+}
+
+/**
+ * A base manager controller to implement, which makes use of the regular parser
+ */
+abstract class modParsedManagerController extends modExtraManagerController {
+    /**
+     * The request HTTP method
+     *
+     * @var string
+     */
+    protected $method = 'GET';
+
+    public function initialize() {
+        parent::initialize();
+        // Let's check the HTTP method to display a different content based on it (ie. when we submit a form)
+        $this->method = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
+        // Some hack to put the HTML content in its right place so ExtJS can resize the main content "area" properly
+        $this->addHtml(<<<HTML
+<script>
+Ext.onReady(function() {
+    var node = document.getElementById('modx-panel-holder').nextElementSibling
+        ,content = node.innerHTML;
+    node.parentNode.removeChild(node);
+    MODx.add({
+        xtype: 'box'
+        ,html: content
+        ,cls: node.className || ''
+        ,id: node.id || Ext.id()
+    });
+});
+</script>
+HTML
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function render() {
+        $html = parent::render();
+        // Make controller placeholders available as modx placeholders
+        $this->modx->setPlaceholders($this->placeholders, 'ph.');
+        // Make script properties available as placeholders too
+        $this->modx->setPlaceholders($this->scriptProperties, 'prop.');
+        // Make modx parses tags
+        $this->modx->getParser()->processElementTags('', $html, true, true);
+
+        return $html;
+    }
 }

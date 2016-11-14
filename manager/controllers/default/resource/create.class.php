@@ -22,7 +22,6 @@ class ResourceCreateManagerController extends ResourceManagerController {
      */
     public function loadCustomCssJs() {
         $mgrUrl = $this->modx->getOption('manager_url',null,MODX_MANAGER_URL);
-        $this->addJavascript($mgrUrl.'assets/modext/util/datetime.js');
         $this->addJavascript($mgrUrl.'assets/modext/widgets/element/modx.panel.tv.renders.js');
         $this->addJavascript($mgrUrl.'assets/modext/widgets/resource/modx.grid.resource.security.local.js');
         $this->addJavascript($mgrUrl.'assets/modext/widgets/resource/modx.panel.resource.tv.js');
@@ -79,7 +78,7 @@ class ResourceCreateManagerController extends ResourceManagerController {
         $this->resource->set('context_key',$this->context->get('key'));
         $placeholders['resource'] = $this->resource;
         $this->resourceArray = array();
-        
+
         $placeholders['parentname'] = $this->setParent();
         $this->fireOnRenderEvent();
 
@@ -88,7 +87,7 @@ class ResourceCreateManagerController extends ResourceManagerController {
 
         /* initialize FC rules */
         $overridden = array();
-        
+
         /* set default template */
         if (empty($reloadData)) {
             $defaultTemplate = $this->getDefaultTemplate();
@@ -103,20 +102,36 @@ class ResourceCreateManagerController extends ResourceManagerController {
                 'published' => $this->context->getOption('publish_default', 0, $this->modx->_userConfig),
                 'searchable' => $this->context->getOption('search_default', 1, $this->modx->_userConfig),
                 'cacheable' => $this->context->getOption('cache_default', 1, $this->modx->_userConfig),
-                'syncsite' => true,
+                'syncsite' => $this->context->getOption('syncsite_default', 1, $this->modx->_userConfig),
             ));
+
+            // Allow certain fields to be prefilled from the OnDocFormRender plugin event
+            $newValuesArr = array();
+            $allowedFields = array('pagetitle','longtitle','description','introtext','content','link_attributes','alias','menutitle');
+            foreach ($allowedFields as $field) {
+                $value = $this->resource->get($field);
+                if (!empty($value)) {
+                    $newValuesArr[$field] = $value;
+                }
+            }
+            $this->resourceArray = array_merge($this->resourceArray, $newValuesArr);
+
             $this->parent->fromArray($this->resourceArray);
             $this->parent->set('template',$defaultTemplate);
             $this->resource->set('template',$defaultTemplate);
             $this->getResourceGroups();
-            
+
             /* check FC rules */
             $overridden = $this->checkFormCustomizationRules($this->parent,true);
         } else {
             $this->resourceArray = array_merge($this->resourceArray, $reloadData);
             $this->resourceArray['resourceGroups'] = array();
             $this->resourceArray['syncsite'] = true;
-            $this->resourceArray['resource_groups'] = is_array($this->resourceArray['resource_groups']) ? $this->resourceArray['resource_groups'] : $this->modx->fromJSON($this->resourceArray['resource_groups']);
+            $this->resourceArray['resource_groups'] = $this->modx->getOption('resource_groups',
+                $this->resourceArray, array());
+            $this->resourceArray['resource_groups'] = is_array($this->resourceArray['resource_groups']) ?
+                $this->resourceArray['resource_groups'] :
+                $this->modx->fromJSON($this->resourceArray['resource_groups']);
             if (is_array($this->resourceArray['resource_groups'])) {
                 foreach ($this->resourceArray['resource_groups'] as $resourceGroup) {
                     $this->resourceArray['resourceGroups'][] = array(
@@ -128,7 +143,7 @@ class ResourceCreateManagerController extends ResourceManagerController {
             }
             unset($this->resourceArray['resource_groups']);
             $this->resource->fromArray($reloadData); // We should have in Reload Data everything needed to do form customization checkings
-            
+
             /* check FC rules */
             $overridden = $this->checkFormCustomizationRules($this->resource,true); // This "forParent" doesn't seems logical for me, but it seems that all "resource/create" rules require this (see /core/model/modx/processors/security/forms/set/import.php for example)
         }
@@ -148,12 +163,12 @@ class ResourceCreateManagerController extends ResourceManagerController {
         $this->resourceArray['syncsite'] = isset($this->resourceArray['syncsite']) && intval($this->resourceArray['syncsite']) == 1 ? true : false;
         if (!empty($this->resourceArray['parent'])) {
             if ($this->parent->get('id') == $this->resourceArray['parent']) {
-                $this->resourceArray['parent_pagetitle'] = $this->parent->get('pagetitle');
+                $this->resourceArray['parent_pagetitle'] = $this->modx->stripTags($this->parent->get('pagetitle'));
             } else {
                 /** @var modResource $overriddenParent */
                 $overriddenParent = $this->modx->getObject('modResource',$this->resourceArray['parent']);
                 if ($overriddenParent) {
-                    $this->resourceArray['parent_pagetitle'] = $overriddenParent->get('pagetitle');
+                    $this->resourceArray['parent_pagetitle'] = $this->modx->stripTags($overriddenParent->get('pagetitle'));
                 }
             }
         }
@@ -199,7 +214,7 @@ class ResourceCreateManagerController extends ResourceManagerController {
             ),
             'OR:ProfileUserGroup.usergroup:=' => null,
         ),xPDOQuery::SQL_AND,null,2);
-        /** @var modActionDom $fcDt see http://tracker.modx.com/issues/9592 */        
+        /** @var modActionDom $fcDt see http://tracker.modx.com/issues/9592 */
         $fcDtColl = $this->modx->getCollection('modActionDom',$c);
         if ($fcDtColl) {
             if ($this->parent) { /* ensure get all parents */
@@ -222,7 +237,7 @@ class ResourceCreateManagerController extends ResourceManagerController {
                 }
             }
         }
-        
+
         return $defaultTemplate;
     }
 

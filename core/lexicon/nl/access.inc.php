@@ -1,12 +1,10 @@
 <?php
 /**
- * Access Dutch lexicon topic
+ * Access English lexicon topic
  *
- * @language nl
+ * @language en
  * @package modx
  * @subpackage lexicon
- *
- * @author Bert Oost at OostDesign.nl <bert@oostdesign.nl>
  */
 $_lang['access_category_management_msg'] = 'Beheer gebruikersgroep leden toegang voor element via categorie�n en optioneel toegansbeleid toevoegen.';
 $_lang['access_category_err_ae'] = 'Een ACL voor deze categorie bestaat reeds!';
@@ -61,6 +59,7 @@ $_lang['access_rgroup_err_ns'] = 'Documentgroep ACL niet gedefinieerd.';
 $_lang['access_rgroup_err_remove'] = 'Er is een fout opgetreden tijdens het proberen te verwijderen van een documentgroep ACL.';
 $_lang['access_rgroup_remove'] = 'Verwijder documentgroep toegang';
 $_lang['access_rgroup_update'] = 'Documentgroep toegang aanpassen';
+$_lang['access_source_err_ae'] = 'Er bestaat al een ACL voor die media source.';
 $_lang['access_source_remove'] = 'Verwijder Media Source Toegang';
 $_lang['access_source_update'] = 'Media Source Toegang Aanpassen';
 $_lang['access_to_contexts'] = 'Toegang tot Contexten';
@@ -109,6 +108,10 @@ $_lang['resource_group_access_ugs'] = 'Geeft andere gebruikersgroepen automatisc
 $_lang['resource_group_access_ugs_desc'] = 'Een komma gescheiden lijst van gebruikersgroep namen. Indien niet leeg, krijgen deze gebruikersgroepen bekijk toegang tot deze Resource groep voor de bovenstaande contexten.';
 $_lang['roles_msg'] = 'Een rol is, per definitie, een positie of status houdt men binnen een bepaalde situatie. Ze kunnen worden gebruikt om gebruikers te groeperen in een positie of status binnen een gebruikersgroep. Rollen in MODX hebben ook wat we noemen "Autoriteit". Dit is een nummerieke waarde van elk geldig getal. Autoriteitlevels zijn erfelijk, in die zin dat een rol met Autoriteit 1 zal erven alle groepsbeleid toegewezen aan zichzelf, en alle rollen met een hogere autoriteit niveau dan 1.';
 $_lang['source_add'] = 'Media Source Toevoegen';
+$_lang['namespace_add'] = 'Namespace toevoegen';
+$_lang['access_namespace_update'] = 'Namespace toegang bewerken';
+$_lang['access_namespace_remove'] = 'Namespace toegang verwijderen';
+$_lang['filter_by_namespace'] = 'Filter op namespace...';
 
 $_lang['user_group_aw'] = 'Toegangswizard';
 $_lang['user_group_aw_desc'] = 'Let op: je zult wellicht de sessies moeten flushen nadat je de Resource Groep hebt toegevoegd en je gebruik maakt van de onderstaande opties.';
@@ -130,7 +133,6 @@ $_lang['user_group_category_access_msg'] = 'Hier kun je instellen welke elemente
 $_lang['user_group_category_authority_desc'] = 'De minimum Rol welke toegang zal hebben tot de toegangsrechten in het geselecteerde beleid. Rollen met een hogere autoriteit (lagere nummers) zullen deze toegangsrechten ook krijgen. In de meeste situaties kan dit blijven als "Member".';
 $_lang['user_group_category_category_desc'] = 'De Categorie waartoe je toegang wilt geven.';
 $_lang['user_group_category_context_desc'] = 'De Context waarvoor dit toegangsbeleid geld voor elementen in de bovenstaande categorie.';
-$_lang['user_group_category_policy_desc'] = 'Het Beleid om toe te passen in deze Context met Elementen in de Categorie voor deze Gebruikersgroep. Dit geeft elke Gebruiker in deze Gebruikersgroep met de geselecteerde minimale rol toegang tot de rechten in het Beleid.';
 $_lang['user_group_category_err_ae'] = 'Gebruikersgroep heeft reeds toegang tot die categorie.';
 $_lang['user_group_category_policy_desc'] = 'Het Beleid om toe te passen in deze Context met Elementen in de Categorie voor deze Gebruikersgroep. Dit geeft elke Gebruiker in deze Gebruikersgroep met de geselecteerde minimale rol toegang tot de rechten in het Beleid.';
 $_lang['user_group_category_remove_confirm'] = 'Weet je heel zeker dat je deze categorie uit deze gebruikersgroep wilt verwijderen?';
@@ -157,3 +159,5 @@ $_lang['user_group_source_policy_desc'] = 'Het Beleid om toe te passen voor deze
 $_lang['user_group_source_remove_confirm'] = 'Weet je zeker dat je deze Media Source van deze Gebruikersgroep wilt verwijderen?';
 $_lang['user_group_source_source_desc'] = 'De Media Source om toegang tot te verlenen.';
 $_lang['user_group_user_access_msg'] = 'Selecteer de gebruikers die jij in deze gebruikersgroep wilt.';
+$_lang['user_group_namespace_access'] = 'Namespace toegang';
+$_lang['user_group_namespace_access_desc'] = 'Hier kan je instellen welke namespaces deze gebruikersgroep toegang voor heeft.';

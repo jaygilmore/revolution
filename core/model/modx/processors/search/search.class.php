@@ -60,28 +60,28 @@ class modSearchProcessor extends modProcessor
         $this->actions = array(
             array(
                 'name' => 'Welcome',
-                'action' => 'welcome',
+                '_action' => 'welcome',
                 'description' => 'Go back home',
                 'type' => $type,
                 'perms' => array(),
             ),
             array(
                 'name' => 'Error log',
-                'action' => 'system/event',
+                '_action' => 'system/event',
                 'description' => 'View error log',
                 'type' => $type,
                 'perms' => array(),
             ),
             array(
                 'name' => 'Clear cache',
-                'action' => 'system/refresh_site',
+                '_action' => 'system/refresh_site',
                 'description' => 'Refresh the cache',
                 'type' => $type,
                 'perms' => array(),
             ),
             array(
                 'name' => 'Edit chunk',
-                'action' => 'element/chunk/update',
+                '_action' => 'element/chunk/update',
                 'description' => 'Edit the given chunk',
                 'type' => $type,
                 'perms' => array(),
@@ -146,13 +146,25 @@ class modSearchProcessor extends modProcessor
         $type = 'resources';
         $typeLabel = $this->modx->lexicon('search_resulttype_' . $type);
 
+        $contextKeys = array();
+        $contexts = $this->modx->getCollection('modContext', array('key:!=' => 'mgr'));
+        foreach ($contexts as $context) {
+            $contextKeys[] = $context->get('key');
+        }
+
         $c = $this->modx->newQuery('modResource');
         $c->where(array(
-            'pagetitle:LIKE' => '%' . $this->query .'%',
-            'OR:longtitle:LIKE' => '%' . $this->query .'%',
-            'OR:alias:LIKE' => '%' . $this->query .'%',
-            'OR:description:LIKE' => '%' . $this->query .'%',
-            'OR:introtext:LIKE' => '%' . $this->query .'%',
+            array(
+                'pagetitle:LIKE' => '%' . $this->query .'%',
+                'OR:longtitle:LIKE' => '%' . $this->query .'%',
+                'OR:alias:LIKE' => '%' . $this->query .'%',
+                'OR:description:LIKE' => '%' . $this->query .'%',
+                'OR:introtext:LIKE' => '%' . $this->query .'%',
+                'OR:id:=' => $this->query,
+            ),
+            array(
+                'context_key:IN' => $contextKeys,
+            )
         ));
         $c->sortby('createdon', 'DESC');
 
@@ -162,8 +174,8 @@ class modSearchProcessor extends modProcessor
         /** @var modResource $record */
         foreach ($collection as $record) {
             $this->results[] = array(
-                'name' => $record->get('pagetitle'),
-                'action' => 'resource/update&id=' . $record->get('id'),
+                'name' => $this->modx->hasPermission('tree_show_resource_ids') ? $record->get('pagetitle') . ' (' . $record->get('id') . ')' : $record->get('pagetitle'),
+                '_action' => 'resource/update&id=' . $record->get('id'),
                 'description' => $record->get('description'),
                 'type' => $type,
                 'type_label' => $typeLabel,
@@ -188,7 +200,7 @@ class modSearchProcessor extends modProcessor
         foreach ($collection as $record) {
             $this->results[] = array(
                 'name' => $record->get('name'),
-                'action' => 'element/snippet/update&id=' . $record->get('id'),
+                '_action' => 'element/snippet/update&id=' . $record->get('id'),
                 'description' => $record->get('description'),
                 'type' => $type,
             );
@@ -213,7 +225,7 @@ class modSearchProcessor extends modProcessor
         foreach ($collection as $record) {
             $this->results[] = array(
                 'name' => $record->get('name'),
-                'action' => 'element/chunk/update&id=' . $record->get('id'),
+                '_action' => 'element/chunk/update&id=' . $record->get('id'),
                 'description' => $record->get('description'),
                 'type' => $type,
             );
@@ -238,7 +250,7 @@ class modSearchProcessor extends modProcessor
         foreach ($collection as $record) {
             $this->results[] = array(
                 'name' => $record->get('templatename'),
-                'action' => 'element/template/update&id=' . $record->get('id'),
+                '_action' => 'element/template/update&id=' . $record->get('id'),
                 'description' => $record->get('description'),
                 'type' => $type,
             );
@@ -263,7 +275,7 @@ class modSearchProcessor extends modProcessor
         foreach ($collection as $record) {
             $this->results[] = array(
                 'name' => $record->get('name'),
-                'action' => 'element/plugin/update&id=' . $record->get('id'),
+                '_action' => 'element/plugin/update&id=' . $record->get('id'),
                 'description' => $record->get('description'),
                 'type' => $type,
             );
@@ -288,7 +300,7 @@ class modSearchProcessor extends modProcessor
         foreach ($collection as $record) {
             $this->results[] = array(
                 'name' => $record->get('name'),
-                'action' => 'element/tv/update&id=' . $record->get('id'),
+                '_action' => 'element/tv/update&id=' . $record->get('id'),
                 'description' => $record->get('caption'),
                 'type' => $type,
             );
@@ -314,12 +326,13 @@ class modSearchProcessor extends modProcessor
 
         $c->limit($this->maxResults);
 
+        /** @var modUserProfile[] $collection */
         $collection = $this->modx->getCollection($class, $c);
-        /** @var modUserProfile $record */
+        
         foreach ($collection as $record) {
             $this->results[] = array(
                 'name' => $record->get('username'),
-                'action' => 'security/user/update&id=' . $record->get('id'),
+                '_action' => 'security/user/update&id=' . $record->get('internalKey'),
                 'description' => $record->get('fullname') .' / '. $record->get('email'),
                 'type' => $type,
             );

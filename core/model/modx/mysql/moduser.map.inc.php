@@ -22,6 +22,7 @@ $xpdo_meta_map['modUser']= array (
     'primary_group' => 0,
     'session_stale' => NULL,
     'sudo' => 0,
+    'createdon' => 0,
   ),
   'fieldMeta' => 
   array (
@@ -123,6 +124,14 @@ $xpdo_meta_map['modUser']= array (
       'null' => false,
       'default' => 0,
     ),
+    'createdon' => 
+    array (
+      'dbtype' => 'int',
+      'precision' => '20',
+      'phptype' => 'timestamp',
+      'null' => false,
+      'default' => 0,
+    ),
   ),
   'indexes' => 
   array (
@@ -214,6 +223,14 @@ $xpdo_meta_map['modUser']= array (
       'class' => 'modUserGroupMember',
       'local' => 'id',
       'foreign' => 'member',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+    'ActiveUsers' => 
+    array (
+      'class' => 'modActiveUser',
+      'local' => 'id',
+      'foreign' => 'internalKey',
       'cardinality' => 'many',
       'owner' => 'local',
     ),

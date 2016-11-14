@@ -2,7 +2,7 @@ MODx.panel.Users = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         id: 'modx-panel-users'
-		,cls: 'container'
+        ,cls: 'container'
         ,bodyStyle: ''
         ,defaults: { collapsible: false ,autoHeight: true }
         ,items: [{
@@ -14,11 +14,11 @@ MODx.panel.Users = function(config) {
             layout: 'form'
             ,items: [{
                 html: '<p>'+_('user_management_msg')+'</p>'
-				,bodyCssClass: 'panel-desc'
+                ,bodyCssClass: 'panel-desc'
                 ,border: false
             },{
                 xtype: 'modx-grid-user'
-				,cls:'main-wrapper'
+                ,cls:'main-wrapper'
                 ,preventRender: true
             }]
         }]
@@ -41,6 +41,8 @@ MODx.grid.User = function(config) {
         ,fields: ['id','username','fullname','email','gender','blocked','role','active','cls']
         ,paging: true
         ,autosave: true
+        ,save_action: 'security/user/updatefromgrid'
+        ,autosaveErrorMsg: _('user_err_save')
         ,remoteSort: true
         ,viewConfig: {
             forceFit:true
@@ -63,7 +65,9 @@ MODx.grid.User = function(config) {
             ,dataIndex: 'username'
             ,width: 150
             ,sortable: true
-            ,renderer: Ext.util.Format.htmlEncode
+            ,renderer: function(value, p, record){
+                return String.format('<a href="?a=security/user/update&id={0}" title="{1}" class="x-grid-link">{2}</a>', record.id, _('user_update'), Ext.util.Format.htmlEncode( value ) );
+            }
         },{
             header: _('user_full_name')
             ,dataIndex: 'fullname'
@@ -94,7 +98,8 @@ MODx.grid.User = function(config) {
             text: _('user_new')
             ,handler: this.createUser
             ,scope: this
-        },'-',{
+            ,cls:'primary-button'
+        },{
             text: _('bulk_actions')
             ,menu: [{
                 text: _('selected_activate')
@@ -104,7 +109,7 @@ MODx.grid.User = function(config) {
                 text: _('selected_deactivate')
                 ,handler: this.deactivateSelected
                 ,scope: this
-            },'-',{
+            },{
                 text: _('selected_remove')
                 ,handler: this.removeSelected
                 ,scope: this
@@ -124,10 +129,11 @@ MODx.grid.User = function(config) {
             ,listeners: {
                 'select': {fn:this.filterUsergroup,scope:this}
             }
-        },'-',{
+        },{
             xtype: 'textfield'
             ,name: 'search'
             ,id: 'modx-user-search'
+            ,cls: 'x-form-filter'
             ,emptyText: _('search_ellipsis')
             ,listeners: {
                 'change': {fn: this.search, scope: this}
@@ -142,6 +148,7 @@ MODx.grid.User = function(config) {
         },{
             xtype: 'button'
             ,id: 'modx-filter-clear'
+            ,cls: 'x-form-filter-clear'
             ,text: _('filter_clear')
             ,listeners: {
                 'click': {fn: this.clearFilter, scope: this}
@@ -274,7 +281,7 @@ Ext.extend(MODx.grid.User,MODx.grid.Grid,{
                 ,id: this.menu.record.id
             }
             ,listeners: {
-            	'success': {fn:this.refresh,scope:this}
+                'success': {fn:this.refresh,scope:this}
             }
         });
     }
@@ -287,7 +294,7 @@ Ext.extend(MODx.grid.User,MODx.grid.Grid,{
                 ,id: this.menu.record.id
             }
             ,listeners: {
-            	'success': {fn:this.refresh,scope:this}
+                'success': {fn:this.refresh,scope:this}
             }
         });
     }
@@ -310,7 +317,7 @@ Ext.extend(MODx.grid.User,MODx.grid.Grid,{
     ,filterUsergroup: function(cb,nv,ov) {
         this.getStore().baseParams.usergroup = Ext.isEmpty(nv) || Ext.isObject(nv) ? cb.getValue() : nv;
         this.getBottomToolbar().changePage(1);
-        this.refresh();
+        //this.refresh();
         return true;
     }
     ,search: function(tf,newValue,oldValue) {
@@ -320,13 +327,13 @@ Ext.extend(MODx.grid.User,MODx.grid.Grid,{
         return true;
     }
     ,clearFilter: function() {
-    	this.getStore().baseParams = {
+        this.getStore().baseParams = {
             action: 'security/user/getList'
-    	};
+        };
         Ext.getCmp('modx-user-search').reset();
         Ext.getCmp('modx-user-filter-usergroup').reset();
-    	this.getBottomToolbar().changePage(1);
-        this.refresh();
+        this.getBottomToolbar().changePage(1);
+        //this.refresh();
     }
 });
 Ext.reg('modx-grid-user',MODx.grid.User);

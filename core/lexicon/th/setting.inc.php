@@ -1,12 +1,10 @@
-﻿<?php
+<?php
 /**
- * Setting Thai lexicon topic
+ * Setting English lexicon topic
  *
- * @language th
+ * @language en
  * @package modx
  * @subpackage lexicon
- * by Mr.Kittipong Intaboot COE#18,KKU (@kittipongint)
- * updated 28/01/2012
  */
 $_lang['area'] = 'พื้นที่';
 $_lang['area_authentication'] = 'การรับรองและความปลอดภัย';
@@ -56,7 +54,7 @@ $_lang['settings_misc'] = 'เบ็ตเตล็ด';
 $_lang['settings_site'] = 'ไซต์';
 $_lang['settings_ui'] = 'อินเทอร์เฟส &amp; ความสามารถ';
 $_lang['settings_users'] = 'ผู้ใช้';
-$_lang['system_settings'] = 'การตั้งค่าระบบ';
+$_lang['system_settings'] = 'ตั้งค่าระบบ';
 $_lang['usergroup'] = 'กลุ่มผู้ใช้';
 
 // user settings
@@ -97,6 +95,9 @@ $_lang['setting_allow_manager_login_forgot_password_desc'] = 'การตั้
 $_lang['setting_allow_tags_in_post'] = 'อนุญาตให้ใช้ HTML แท็กในโพสต์ได้';
 $_lang['setting_allow_tags_in_post_desc'] = 'ถ้าไม่อนุญาต โพสต์ทั้งหมดภายในเมเนเจอร์จะตัดทุกแท็กออก  MODX แนะนำว่าให้ปล่อยการตั้งค่านี้ให้เป็นอนุญาต';
 
+$_lang['setting_anonymous_sessions'] = 'Anonymous Sessions';
+$_lang['setting_anonymous_sessions'] = 'Anonymous Sessions';
+
 $_lang['setting_archive_with'] = 'บังคับใช้ การบับอัดแบบ PCLZip';
 $_lang['setting_archive_with_desc'] = 'ถ้าเลือก จะใช้งาน PCLZip แทนที่ ZipArchive ในนามสกุลของการบีบอัด  เปิดการใช้งานถ้าคุณเกิดข้อผิดพลาดในการขยายไฟล์หรือมีปัญหากับการขยายไฟล์ในตัวจัดการแพ็กเกจ';
 
@@ -123,6 +124,9 @@ $_lang['setting_blocked_minutes_desc'] = 'คุณสามารถใส่�
 
 $_lang['setting_cache_action_map'] = 'เปิดการใช้งานแอ็กชันแม็ปแคช';
 $_lang['setting_cache_action_map_desc'] = 'เมื่อถูกเปิดการใช้งาน แอ็กชัน (หรือแผนที่ตัวควบคุม) จะเก็บแคชเพื่อลดระยะเวลาในการโหลดหน้าเว็บไซต์ของเมเนเจอร์';
+
+$_lang['setting_cache_alias_map'] = 'Enable Context Alias Map Cache';
+$_lang['setting_cache_alias_map_desc'] = 'When enabled, all Resource URIs are cached into the Context. Enable on smaller sites and disable on larger sites for better performance.';
 
 $_lang['setting_cache_context_settings'] = 'เปิดการใช้งานแคชการตั้งค่าบริบท';
 $_lang['setting_cache_context_settings_desc'] = 'เมื่อถูกเปิดการใช้งาน การตั้งค่าบริบทจะเก็บแคชเพื่อลดระยะเวลาในการโหลด';
@@ -195,6 +199,9 @@ $_lang['setting_compress_js_max_files_desc'] = 'ตัวเลขสูงส�
 $_lang['setting_concat_js'] = 'ใช้การเชื่อมจาวาสคริปต์ไลบรารี';
 $_lang['setting_concat_js_desc'] = 'เมื่อเปิดการใช้งาน MODX จะใช้จาวาสคริปต์ไลบรารีเวอร์ชันที่เชื่อมต่อกันในส่วนติดต่อผู้ใช้ของเมเนเจอร์ นี่จะเป็นการลดเวลาการโหลดได้เป็นอย่างมาก ปิดการใช้งานถ้าคุณกำลังดัดแปลงเอเลเมนต์ของคอร์';
 
+$_lang['setting_confirm_navigation'] = 'Confirm Navigation with unsaved changes';
+$_lang['setting_confirm_navigation_desc'] = 'When this is enabled, the user will be prompted to confirm their intention if there are unsaved changes.';
+
 $_lang['setting_container_suffix'] = 'คำเติมท้ายตัวบรรจุ';
 $_lang['setting_container_suffix_desc'] = 'คำเติมท้ายที่จะเพิ่มใส่รีซอร์สที่ตั้งเป็นตัวบรรจุเมื่อใช้ FURLs';
 
@@ -250,10 +257,16 @@ $_lang['setting_error_page'] = 'หน้าข้อผิดพลาด';
 $_lang['setting_error_page_desc'] = 'ป้อนไอดีของเอกสารที่คุณต้องการส่งผู้ใช้ไป ถ้าหากเอกสารที่พวกเขาร้องขอเข้าชมไม่มีอยู่ <strong>หมายเหตุ: ตรวจให้แน่ใจว่าไอดีที่คุณป้อนนี้เป็นของเอกสารที่มีอยู่จริง และมันถูกเผยแพร่!</strong>';
 $_lang['setting_error_page_err'] = 'กรุณาระบุไอดีของเอกสารที่เป็นของหน้าข้อผิดพลาด';
 
+$_lang['setting_ext_debug'] = 'ExtJS debug';
+$_lang['setting_ext_debug_desc'] = 'Whether or not to load ext-all-debug.js to help debug your ExtJS code.';
+
 $_lang['setting_extension_packages'] = 'แพ็กเกจส่วนขยาย';
 $_lang['setting_extension_packages_desc'] = 'เครื่องหมายจุลภาคจะเป็นตัวแบ่งรายการของแพ็กเกจที่จะโหลดขึ้นมาทำงาน โดยมีรูปแบบเป็น packagename:pathtomodel';
 
-$_lang['setting_failed_login_attempts'] = 'พยายามเข้าสู่ระบบล้มเหลว';
+$_lang['setting_enable_gravatar'] = 'Enable Gravatar';
+$_lang['setting_enable_gravatar_desc'] = 'If enabled, Gravatar will be used as a profile image (if user do not have profile photo uploaded).';
+
+$_lang['setting_failed_login_attempts'] = 'ความพยายามในการเข้าสู่ระบบล้มเหลว';
 $_lang['setting_failed_login_attempts_desc'] = 'จำนวนของการพยายามเข้าสู่ระบบล้มเหลวของผู้ใช้ที่ยอมให้ก่อนที่จะ \'ถูกบล็อก\'';
 
 $_lang['setting_fe_editor_lang'] = 'ภาษาของอิดิเตอร์ส่วนหน้า';
@@ -286,6 +299,9 @@ $_lang['setting_filemanager_url_relative_desc'] = 'เลิกใช้แล�
 $_lang['setting_forgot_login_email'] = 'ลืมอีเมล์การลงชื่อเข้าใช้';
 $_lang['setting_forgot_login_email_desc'] = 'แม่แบบสำหรับอีเมล์ที่จะถูกส่งเมื่อผู้ใช้งานลืมชื่อผู้ใช้และ/หรือรหัสผ่านของเขาเอง';
 
+$_lang['setting_form_customization_use_all_groups'] = 'Use All User Group Memberships for Form Customization';
+$_lang['setting_form_customization_use_all_groups_desc'] = 'If set to true, FC will use *all* Sets for *all* User Groups a member is in when applying Form Customization Sets. Otherwise, it will only use the Set belonging to the User\'s Primary Group. Note: setting this to Yes might cause bugs with conflicting FC Sets.';
+
 $_lang['setting_forward_merge_excludes'] = 'sendForward Exclude Fields on Merge';
 $_lang['setting_forward_merge_excludes_desc'] = 'Symlink ผสานค่าฟิลด์ที่ไม่ว่างผ่านค่าในรีซอร์สเป้าหมาย; ใช้รายการคั่นด้วยจุลภาคนี้ในการป้องกันการรวมฟิลด์ที่ระบุจากการถูกแทนที่โดย Symlink';
 
@@ -294,6 +310,9 @@ $_lang['setting_friendly_alias_lowercase_only_desc'] = 'กำหนดว่า
 
 $_lang['setting_friendly_alias_max_length'] = 'กำหนดขนาดสูงสุดของ alias';
 $_lang['setting_friendly_alias_max_length_desc'] = 'ถ้าค่ามากกว่าศูนย์จะเป็นขนาดสูงสุดของอักขระที่อนุญาตในการตั้ง alias ของแหล่งข้อมูล ถ้าใส่ศูนย์จะเป็นการตั้งว่าไม่จำกัด';
+
+$_lang['setting_friendly_alias_realtime'] = 'FURL Alias Real-Time';
+$_lang['setting_friendly_alias_realtime_desc'] = 'Determines whether a resource alias should be created on the fly when typing the pagetitle or if this should happen when the resource is saved (automatic_alias needs to be enabled for this to have an effect).';
 
 $_lang['setting_friendly_alias_restrict_chars'] = 'กำหนดขั้นตอนการจำกัดลักษณะของ alias';
 $_lang['setting_friendly_alias_restrict_chars_desc'] = 'ขั้นตอนนี้ใช้ในการจำกัดอักขระที่ใช้ใน alias ของแหล่งข้อมูล "pattern" อนุญาตให้ RegEx pattern ถูกใช้บริการ, "legal" อนุญาตให้อักขระ URL ที่ถูกต้องใดๆก็ได้ "alpha" อนุญาตเฉพาะตัวอักษรที่เป็นพยัญชนะและ "alphanumeric" อนุญาตเฉพาะตัวอักษรที่เป็นตัวเลข';
@@ -326,6 +345,9 @@ $_lang['setting_friendly_urls'] = 'ใช้ Friendly URL';
 $_lang['setting_friendly_urls_desc'] = 'นี่อนุญาตให้คุณใช้ search engine friendly URLs กับ MODX โปรดทราบว่านี่จะทำงานเมื่อการติดตั้ง MODX บน Apache เท่านั้น และคุณจำเป็นต้องเขียนไฟล์ .htaccess เพื่อให้มันทำงาน ดูไฟล์ .htaccess ที่รวมมาให้ในการแจกจ่ายจากโฮสต์เพื่อดูข้อมูลเพิ่มเติม';
 $_lang['setting_friendly_urls_err'] = 'กรุณากำหนดว่าคุณต้องการใช้ friendly URL หรือไม่';
 
+$_lang['setting_friendly_urls_strict'] = 'Use Strict Friendly URLs';
+$_lang['setting_friendly_urls_strict_desc'] = 'When friendly URLs are enabled, this option forces non-canonical requests that match a Resource to 301 redirect to the canonical URI for that Resource. WARNING: Do not enable if you use custom rewrite rules which do not match at least the beginning of the canonical URI. For example, a canonical URI of foo/ with custom rewrites for foo/bar.html would work, but attempts to rewrite bar/foo.html as foo/ would force a redirect to foo/ with this option enabled.';
+
 $_lang['setting_global_duplicate_uri_check'] = 'ตรวจสอบว่าการทำสำเนา URI ข้ามบริบททั้งหมด';
 $_lang['setting_global_duplicate_uri_check_desc'] = 'เลือก \'ใช่\' เพื่อให้การตรวจสอบการทำสำเนา URI รวมเอาบริบททั้งหมดมาทำการค้นหา มิฉะนั้น เฉพาะบริบทที่รีซอร์สกำลังถูกบันทึกอยู่เท่านั้นที่จะถูกตรวจสอบ';
 
@@ -340,6 +362,9 @@ $_lang['setting_link_tag_scheme_desc'] = 'โครงร่างการส�
 
 $_lang['setting_locale'] = 'ท้องถิ่น';
 $_lang['setting_locale_desc'] = 'ตั้งท้องถิ่นสำหรับระบบ ปล่อยว่างไว้เพื่อใช้ค่าปริยาย ดูที่ <a href="http://php.net/setlocale" target="_blank">เอกสารประกอบ PHP</a> สำหรับข้อมูลเพิ่มเติม';
+
+$_lang['setting_lock_ttl'] = 'Lock Time-to-Live';
+$_lang['setting_lock_ttl_desc'] = 'The number of seconds a lock on a Resource will remain for if the user is inactive.';
 
 $_lang['setting_log_level'] = 'ระดับการเก็บบันทึก';
 $_lang['setting_log_level_desc'] = 'ระดับการเก็บบันทึกปริยาย; ระดับต่ำสุด ข้อความจำนวนน้อยจะถูกเก็บบันทึก ตัวเลือกที่ใช้งานได้: 0 (ร้ายแรง), 1 (เกิดข้อผิดพลาด), 2 (แจ้งเตือน), 3 (ข้อมูล) และ 4 (ดีบั๊ก)';
@@ -386,6 +411,9 @@ $_lang['setting_mail_smtp_timeout_desc'] = 'ตั้ง timeout ของ SMTP 
 $_lang['setting_mail_smtp_user'] = 'ผู้ใช้ของ SMTP';
 $_lang['setting_mail_smtp_user_desc'] = 'ผู้ใช้ที่รับรองโดย SMTP against';
 
+$_lang['setting_main_nav_parent'] = 'Main menu parent';
+$_lang['setting_main_nav_parent_desc'] = 'The container used to pull all records for the main menu.';
+
 $_lang['setting_manager_direction'] = 'ทิศทางข้อความของเมเนเจอร์';
 $_lang['setting_manager_direction_desc'] = 'เลือกทิศทางที่ข้อความจะถูกแสดงผลในเมเนเจอร์ ซ้ายไปขวาหรือขวาไปซ้าย';
 
@@ -428,8 +456,29 @@ $_lang['setting_manager_time_format_desc'] = 'สตริงรูปแบบ�
 $_lang['setting_manager_use_tabs'] = 'ใช้แท็บในโครงของเมเนเจอร์';
 $_lang['setting_manager_use_tabs_desc'] = 'ถ้าเป็นจริง เมเนเจอร์จะใช้แท็บสำหรับแสดงผลหน้าต่างเนื้อหา ไม่เช่นนั้นจะใช้พอร์ทัล';
 
+$_lang['setting_manager_week_start'] = 'Week start';
+$_lang['setting_manager_week_start_desc'] = 'Define the day starting the week. Use 0 (or leave empty) for sunday, 1 for monday and so on...';
+
+$_lang['setting_mgr_tree_icon_context'] = 'Context tree icon';
+$_lang['setting_mgr_tree_icon_context_desc'] = 'Define a CSS class here to be used to display the context icon in the tree. You can use this setting on each context to customize the icon per context.';
+
+$_lang['setting_mgr_source_icon'] = 'Media Source icon';
+$_lang['setting_mgr_source_icon_desc'] = 'Indicate a CSS class to be used to display the Media Sources icons in the files tree. Defaults to "icon-folder-open-o"';
+
 $_lang['setting_modRequest.class'] = 'คลาสตัวควบคุมการร้องขอ';
 $_lang['setting_modRequest.class_desc'] = '';
+
+$_lang['setting_modx_browser_tree_hide_files'] = 'Media Browser Tree Hide Files';
+$_lang['setting_modx_browser_tree_hide_files_desc'] = 'If true the files inside folders are not displayed in the Media Browser source tree. Defaults to false.';
+
+$_lang['setting_modx_browser_tree_hide_tooltips'] = 'Media Browser Tree Hide Tooltips';
+$_lang['setting_modx_browser_tree_hide_tooltips_desc'] = 'If true, no image preview tooltips are shown when hovering over a file in the Media Browser tree. Defaults to true.';
+
+$_lang['setting_modx_browser_default_sort'] = 'Media Browser Default Sort';
+$_lang['setting_modx_browser_default_sort_desc'] = 'The default sort method when using the Media Browser in the manager. Available values are: name, size, lastmod (last modified).';
+
+$_lang['setting_modx_browser_default_viewmode'] = 'Media Browser Default View Mode';
+$_lang['setting_modx_browser_default_viewmode_desc'] = 'The default view mode when using the Media Browser in the manager. Available values are: grid, list.';
 
 $_lang['setting_modx_charset'] = 'การเข้ารหัสตัวอักษร';
 $_lang['setting_modx_charset_desc'] = 'กรุณาเลือกการเข้ารหัวตัวอักษรที่คุณต้องการใช้ในเมเนเจอร์ โปรดทราบว่า MODX ถูกทดสอบกับการเข้ารหัสเหล่านี้มาแล้วจำนวนหนึ่ง แต่ไม่ใช่ทั้งหมด ภาษาส่วนมากใช้ UTF-8';
@@ -440,11 +489,17 @@ $_lang['setting_new_file_permissions_desc'] = 'เมื่อทำการอ
 $_lang['setting_new_folder_permissions'] = 'สิทธิ์การใช้งานโฟลเดอร์ใหม่';
 $_lang['setting_new_folder_permissions_desc'] = 'เมื่อทำการอัปโหลดโฟลเดอร์ใหม่ในตัวจัดการไฟล์ซึ่งจะพยายามเปลี่ยนสิทธิ์การใช้งานโฟลเดอร์เหล่านั้นเป็นตามที่คุณป้อนในนี้ อาจจะไม่ทำงานบนบางการติดตั้ง เช่น IIS ซึ่งในกรณีนี้คุณจำเป็นต้องทำการกำหนดสิทธิ์เอง';
 
+$_lang['setting_parser_recurse_uncacheable'] = 'Delay Uncacheable Parsing';
+$_lang['setting_parser_recurse_uncacheable_desc'] = 'If disabled, uncacheable elements may have their output cached inside cacheable element content. Disable this ONLY if you are having problems with complex nested parsing which stopped working as expected.';
+
 $_lang['setting_password_generated_length'] = 'ความยาวรหัสผ่านที่สร้างเองอัตโนมัติ';
 $_lang['setting_password_generated_length_desc'] = 'ความยาวของรหัสผ่านที่สร้างเองอัตโนมัติสำหรับผู้ใช้';
 
 $_lang['setting_password_min_length'] = 'ความยาวรหัสผ่านขั้นต่ำ';
 $_lang['setting_password_min_length_desc'] = 'ความยาวขั้นต่ำของรหัสผ่านสำหรับผู้ใช้';
+
+$_lang['setting_preserve_menuindex'] = 'Preserve Menu Index When Duplicating Resources';
+$_lang['setting_preserve_menuindex_desc'] = 'When duplicating Resources, the menu index order will also be preserved.';
 
 $_lang['setting_principal_targets'] = 'เป้าหมายของ ACL เพื่อจะเรียกใช้งาน';
 $_lang['setting_principal_targets_desc'] = 'กำหนดเป้าหมายของ ACL ที่จะเรียกใช้งานสำหรับผู้ใช้ของ MODX';
@@ -463,6 +518,9 @@ $_lang['setting_proxy_port_desc'] = 'พอร์ตสำหรับพร็�
 
 $_lang['setting_proxy_username'] = 'ชื่อผู้ใช้ของพร็อกซี';
 $_lang['setting_proxy_username_desc'] = 'ชื่อผู้ใช้เพื่อตรวจสอบพร็อกซีเซิร์ฟเวอร์ของคุณ';
+
+$_lang['setting_photo_profile_source'] = 'User photo Media Source';
+$_lang['setting_photo_profile_source_desc'] = 'The Media Source used to store users profiles photos. Defaults to default Media Source.';
 
 $_lang['setting_phpthumb_allow_src_above_docroot'] = 'อนุญาตให้แหล่งข้อมูล phpThumb อยู่เหนือรูทเอกสาร';
 $_lang['setting_phpthumb_allow_src_above_docroot_desc'] = 'บ่งชี้ว่าเส้นทางแหล่งข้อมูลถูกอนุญาตให้อยู่นอกรูทเอกสารหรือไม่ นี่จะมีประโยชน์สำหรับการใช้งานแบบหลายบริบทกับโฮสต์เสมือนหลายๆอัน';
@@ -561,6 +619,9 @@ $_lang['setting_resolve_hostnames_desc'] = 'คุณต้องการให
 $_lang['setting_resource_tree_node_name'] = 'ฟิลด์โหนดของแผนผังรีซอร์ส';
 $_lang['setting_resource_tree_node_name_desc'] = 'ระบุฟิลด์รีซอร์สเพื่อใช้เมื่อแสดงโหนดในแผนผังรีซอร์ส  ค่าปริยายคือชื่อหน้าเว็บเพจ อย่างไรก็ตาม ฟิลด์รีซอร์สใดๆก็สามารถใช้งานได้ เช่น ชื่อเมนู, alias, ชื่อเรื่องแบบยาว เป็นต้น';
 
+$_lang['setting_resource_tree_node_name_fallback'] = 'Resource Tree Node Fallback Field';
+$_lang['setting_resource_tree_node_name_fallback_desc'] = 'Specify the Resource field to use as fallback when rendering the nodes in the Resource Tree. This will be used if the resource has an empty value for the configured Resource Tree Node Field.';
+
 $_lang['setting_resource_tree_node_tooltip'] = 'ฟิลด์ทูลทิปของแผนผังรีซอร์ส';
 $_lang['setting_resource_tree_node_tooltip_desc'] = 'ระบุฟิลด์รีซอร์สเพื่อใช้เมื่อแสดงโหนดในแผนผังรีซอร์ส ฟิลด์รีซอร์สใดๆก็สามารถใช้งานได้ เช่น ชื่อเมนู, alias, ชื่อเรื่องแบบยาว เป็นต้น ถ้าหากว่าง จะเป็นการใช้ชื่อเรื่องแบบยาวพร้อมด้วยคำอธิบายที่อยู่ด้านล่าง';
 
@@ -592,6 +653,9 @@ $_lang['setting_session_cookie_path_desc'] = 'ใช้การตั้งค�
 $_lang['setting_session_cookie_secure'] = 'การรักษาความปลอดภัย Session Cookie';
 $_lang['setting_session_cookie_secure_desc'] = 'เปิดการใช้งานการตั้งค่านี้เพื่อใช้การรักษาความปลอดภัย session cookies';
 
+$_lang['setting_session_cookie_httponly'] = 'Session Cookie HttpOnly';
+$_lang['setting_session_cookie_httponly_desc'] = 'Use this setting to set the HttpOnly flag on session cookies.';
+
 $_lang['setting_session_gc_maxlifetime'] = 'Session Garbage Collector Max Lifetime';
 $_lang['setting_session_gc_maxlifetime_desc'] = 'อนุญาตการปรับแต่งของ session.gc_maxlifetime ของการตั้งค่า PHP ini เมื่อใช้ \'modSessionHandler\'';
 
@@ -609,6 +673,9 @@ $_lang['setting_settings_distro_desc'] = 'การแจกจ่ายที�
 
 $_lang['setting_set_header'] = 'ตั้ง HTTP Headers';
 $_lang['setting_set_header_desc'] = 'เมื่อเปิดการใช้งาน MODX จะพยายามตั้ง HTTP headers สำหรับรีซอร์ส';
+
+$_lang['setting_send_poweredby_header'] = 'Send X-Powered-By Header';
+$_lang['setting_send_poweredby_header_desc'] = 'When enabled, MODX will send the "X-Powered-By" header to identify this site as built on MODX. This helps tracking global MODX usage through third party trackers inspecting your site. Because this makes it easier to identify what your site is built with, it might pose a slightly increased security risk if a vulnerability is found in MODX.';
 
 $_lang['setting_show_tv_categories_header'] = 'แสดงส่วนหัวของแท็บ "หมวดหมู่" กับตัวแปรแม่แบบ';
 $_lang['setting_show_tv_categories_header_desc'] = 'ถ้า "ใช่" MODX จะแสดงส่วนหัวของ "หมวดหมู่" ด้านบนแท็บหมวดหมู่แรก เมื่อทำการแก้ไขตัวแปรแม่แบบในรีซอร์ส';
@@ -641,6 +708,10 @@ $_lang['setting_strip_image_paths_desc'] = 'ถ้าตั้งเป็น \'
 
 $_lang['setting_symlink_merge_fields'] = 'ผสานฟิลด์รีซอร์สใน Symlinks';
 $_lang['setting_symlink_merge_fields_desc'] = 'ถ้าตั้งค่าเป็นใช่ จะผสานฟิลด์ที่ไม่ว่างกับรีซอร์สเป้าหมายให้โดยอัตโนมัติเมื่อการส่งต่อข้อความใช้ Symlinks';
+
+$_lang['setting_syncsite_default'] = 'Empty Cache default';
+$_lang['setting_syncsite_default_desc'] = 'Select \'Yes\' to empty the cache after you save a resource by default.';
+$_lang['setting_syncsite_default_err'] = 'Please state whether or not you want to empty the cache after saving a resource by default.';
 
 $_lang['setting_topmenu_show_descriptions'] = 'แสดงคำอธิยบายในท็อปเมนู';
 $_lang['setting_topmenu_show_descriptions_desc'] = 'ถ้าตั้งเป็น \'ไม่\' MODX จะซ่อนคำอธิบายของไอเท็มของท็อปเมนูในส่วนของเมเนเจอร์';
@@ -690,11 +761,17 @@ $_lang['setting_use_editor'] = 'เปิดการใช้งาน Rich Tex
 $_lang['setting_use_editor_desc'] = 'คุณต้องการเปิดการใช้งาน rich text อิดิเตอร์หรือไม่? ถ้าคุณมีความสุขและพอใจในการเขียน HTML ธรรมดาอยู่แล้ว คุณก็สามารถปิดการตั้งค่านี้  โปรดทราบว่าการตั้งค่านี้จะประยุกต์ใช้กับเอกสารและผู้ใช้ทั้งหมด!';
 $_lang['setting_use_editor_err'] = 'กรุณากำหนดว่าคุณต้องการใช้ Rich Text อิดิเตอร์';
 
+$_lang['setting_use_frozen_parent_uris'] = 'Use Frozen Parent URIs';
+$_lang['setting_use_frozen_parent_uris_desc'] = 'When enabled, the URI for children resources will be relative to the frozen URI of one of its parents, ignoring the aliases of resources high in the tree.';
+
 $_lang['setting_use_multibyte'] = 'ใช้ Multibyte Extension';
 $_lang['setting_use_multibyte_desc'] = 'ตั้งให้เป็นจริงถ้าคุณต้องการใช้ mbstring extension สำหรับ multibyte characters ในการติดตั้ง MODX ของคุณ ตั้งให้เป็นจริงเท่านั้นถ้าคุณมีการติดตั้ง mbstring PHP extension';
 
 $_lang['setting_use_weblink_target'] = 'ใช้เป้าหมายของ WebLink';
 $_lang['setting_use_weblink_target_desc'] = 'ตั้งให้เป็นจริงถ้าคุณต้องการให้มีแท็กลิงก์ของ MODX และ makeUrl() สร้างลิงก์เป็น URL เป้าหมายสำหรับ WebLinks มิฉะนั้น URL ภายในของ MODX จะถูกสร้างโดยแท็กลิงก์และวิธีการ makeUrl()';
+
+$_lang['setting_user_nav_parent'] = 'User menu parent';
+$_lang['setting_user_nav_parent_desc'] = 'The container used to pull all records for the user menu.';
 
 $_lang['setting_webpwdreminder_message'] = 'อีเมล์แจ้งเตือนผ่านเว็บไซต์';
 $_lang['setting_webpwdreminder_message_desc'] = 'ป้อนข้อความที่จะส่งให้กับเหล่าผู้ใช้เว็บไซต์ของคุณเมื่อใดก็ตามที่พวกเขาร้องขอรหัสผ่านใหม่ผ่านทางอีเมล์ ตัวจัดการเนื้อหาจะส่งอีเมล์ที่บรรจุรหัสผ่านใหม่ของพวกเขาและข้อมูลการเปิดใช้อีเมล์ <br /><strong>หมายเหตุ:</strong> placeholder ดังต่อไปนี้จะถูกแทนที่โดยตัวจัดการเนื้อหาเมื่อข้อความถูกส่ง: <br /><br />[[+sname]] - ชื่อเว็บไซต์ของคุณ <br />[[+saddr]] - ที่อยู่อีเมล์ของเว็บไซต์คุณ <br />[[+surl]] - URL ของเว็บไซต์ <br />[[+uid]] - ชื่อผู้ใช้หรือไอดี <br />[[+pwd]] - รหัสผ่าน <br />[[+ufn]] - ชื่อจริงของผู้ใช้ <br /><br /><strong>การปล่อย [[+uid]] และ [[+pwd]] ให้ว่างในอีเมล์หรือลบชื่อผู้ใช้และรหัสผ่านจะทำให้ไม่สามารถส่งอีเมล์ได้และผู้ใช้จะไม่รู้ชื่อผู้ใช้และรหัสผ่านของพวกเขา!</strong>';
@@ -710,6 +787,12 @@ $_lang['setting_welcome_screen_desc'] = 'ถ้าตั้งไว้เป็
 $_lang['setting_welcome_screen_url'] = 'URL ของหน้าจอต้อนรับ';
 $_lang['setting_welcome_screen_url_desc'] = 'URL สำหรับหน้าจอต้อนรับที่จะเรียกขึ้นมาตอนแรกที่โหลด MODX Revolution';
 
+$_lang['setting_welcome_action'] = 'Welcome Action';
+$_lang['setting_welcome_action_desc'] = 'The default controller to load when accessing the manager when no controller is specified in the URL.';
+
+$_lang['setting_welcome_namespace'] = 'Welcome Namespace';
+$_lang['setting_welcome_namespace_desc'] = 'The namespace the Welcome Action belongs to.';
+
 $_lang['setting_which_editor'] = 'อิดิเตอร์ที่ใช้';
 $_lang['setting_which_editor_desc'] = 'คุณสามารถเลือก Rich Text อิดิเตอร์อันที่คุณต้องการใช้ คุณสามารถดาวน์โหลดและติดตั้ง Rich Text อิดิเตอร์เพิ่มเติมจากตัวจัดการแพ็กเกจ';
 
@@ -718,3 +801,15 @@ $_lang['setting_which_element_editor_desc'] = 'คุณสามารถเล
 
 $_lang['setting_xhtml_urls'] = 'XHTML URLs';
 $_lang['setting_xhtml_urls_desc'] = 'ถ้าตั้งเป็นจริง URL ทั้งหมดที่ถูกผลิตโดย MODX จะเป็น  XHTML-compliant รวมทั้งรหัสอักขระของเครื่องหมาย ampersand ด้วย';
+
+$_lang['setting_default_context'] = 'Default Context';
+$_lang['setting_default_context_desc'] = 'Select the default Context you wish to use for new Resources.';
+
+$_lang['setting_auto_isfolder'] = 'Set container automatically';
+$_lang['setting_auto_isfolder_desc'] = 'If set to yes, container property will be changed automatically.';
+
+$_lang['setting_default_username'] = 'Default username';
+$_lang['setting_default_username_desc'] = 'Default username for an unauthenticated user.';
+
+$_lang['setting_manager_use_fullname'] = 'Show fullname in manager header ';
+$_lang['setting_manager_use_fullname_desc'] = 'If set to yes, the content of the "fullname" field will be shown in manager instead of "loginname"';

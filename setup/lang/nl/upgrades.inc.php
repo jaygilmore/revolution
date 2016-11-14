@@ -1,10 +1,9 @@
 <?php
 /**
- * Dutch Upgrades Lexicon Topic for Revolution setup.
+ * English Upgrades Lexicon Topic for Revolution setup.
  *
  * @package setup
  * @subpackage lexicon
- * @author Bert Oost, <bertoost85@gmail.com>
  */
 $_lang['add_column'] = 'Nieuwe kolom `[[+column]]` toegevoegd in `[[+table]]`.';
 $_lang['add_index'] = 'Nieuwe index `[[+index]]` toegevoegd voor tabel `[[+table]]`.';
@@ -20,7 +19,7 @@ $_lang['change_column'] = 'Het veld `[[+old]]` veranderd naar `[[+new]]` in tabe
 $_lang['change_default_value'] = 'Standaard waarde van kolom `[[+column]]` veranderd naar "[[+value]]" in tabel `[[+table]]`.';
 $_lang['connector_acls_removed'] = 'Connector context ACLs verwijderd.';
 $_lang['connector_acls_not_removed'] = 'Kan de connector context ACLs niet verwijderen.';
-$_lang['connector_ctx_removed'] = 'De connector context is succesvol verwijderd.';
+$_lang['connector_ctx_removed'] = '';
 $_lang['connector_ctx_not_removed'] = 'Kan de connector context niet verwijderen.';
 $_lang['data_remove_error'] = 'Fout bij verwijderen van de data voor class `[[+class]]`.';
 $_lang['data_remove_success'] = 'Met succes de data van tabel `[[+class]]` verwijderd.';
@@ -34,7 +33,6 @@ $_lang['lexiconfocus_add_pk'] = 'Primaire sleutel op modLexiconFocus `id` kolom 
 $_lang['lexiconfocus_alter_pk'] = 'Het veld modLexiconFocus `name` van primaire sleutel naar unieke waarde aangepast';
 $_lang['lexiconfocus_drop_pk'] = 'De modLexiconFocus primaire sleutel verwijderd.';
 $_lang['modify_column'] = 'Kolom `[[+column]]` van `[[+old]]` naar `[[+new]]` in table `[[+table]]` aangepast';
-$_lang['update_closure_table'] = 'Gegevens in kolom [[+column]] van tabel [[+table]] ([[+class]]) geupdate.';
 $_lang['rename_column'] = 'Kolom `[[+old]]` hernoemd naar `[[+new]]` in tabel `[[+table]]`.';
 $_lang['rename_table'] = 'Tabel `[[+old]]` hernoemd naar `[[+new]]`.';
 $_lang['remove_fulltext_index'] = 'Volledige-tekst index `[[+index]]` verwijderd.';
@@ -42,3 +40,6 @@ $_lang['systemsetting_xtype_fix'] = 'Succesvol de xtypes voor modSystemSettings 
 $_lang['transportpackage_manifest_text'] = 'Kolom `manifest` naar TEXT van MEDIUMTEXT veranderd in `[[+class]]`.';
 $_lang['update_closure_table'] = 'Update afsluiting tabel data voor class `[[+class]]`.';
 $_lang['update_table_column_data'] = 'Data in kolom [[+column]] van tabel [[+table]] ( [[+class]] ) aangepast.';
+$_lang['iso_country_code_converted'] = 'Land namen van gebruikersprofiel zijn succesvol omgezet naar ISO codes.';
+$_lang['legacy_cleanup_complete'] = 'Oude bestanden zijn opgeschoond.';
+$_lang['legacy_cleanup_count'] = '[[+files]] bestand(en) en [[+folders]] map(pen) zijn verwijderd.';

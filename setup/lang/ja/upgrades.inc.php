@@ -1,11 +1,9 @@
 <?php
 /**
- * Japanese Upgrades Lexicon Topic for Revolution setup.
+ * English Upgrades Lexicon Topic for Revolution setup.
  *
  * @package setup
  * @subpackage lexicon
- * @author KUROI Enogu http://twitter.com/enogu
- * @author honda http://kogus.org
  */
 $_lang['add_column'] = '新しい列[[+column]]を[[+table]]テーブルに追加しました。';
 $_lang['add_index'] = '新しいインデックス[[+index]]を[[+table]]テーブルに追加しました。';
@@ -42,3 +40,6 @@ $_lang['systemsetting_xtype_fix'] = 'modSystemSettingsのxtype（Ext.js用）の
 $_lang['transportpackage_manifest_text'] = '[[+class]]テーブルの manifest フィールドのデータ型をMEDIUMTEXTからTEXTに変更しました。';
 $_lang['update_closure_table'] = 'クラス[[+class]]向けのクロージャーテーブル（closure table）データをアップデートしています。';
 $_lang['update_table_column_data'] = 'テーブル[[+table]]の列[[+column]]をアップデートしました(クラス[[+class]]）。';
+$_lang['iso_country_code_converted'] = 'Successfully converted user profile country names to ISO codes.';
+$_lang['legacy_cleanup_complete'] = 'Legacy file clean up complete.';
+$_lang['legacy_cleanup_count'] = 'Removed [[+files]] file(s) and [[+folders]] folder(s).';

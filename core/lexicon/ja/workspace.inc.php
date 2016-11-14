@@ -1,14 +1,10 @@
 <?php
 /**
- * Workspace Japanese lexicon topic
+ * Workspace English lexicon topic
  *
- * @language ja
+ * @language en
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-12-04
- * @author Nick http://smallworld.west-tokyo.com
- * @author shimojo http://www.priqia.com/
- * @author yamamoto http://kyms.jp
  */
 $_lang['alphabetically'] = 'アルファベット順';
 $_lang['already_downloaded'] = 'このパッケージは既にダウンロードしています。';
@@ -33,14 +29,14 @@ $_lang['dir_err_core_comp'] = 'core/components/ ディレクトリは [[+path]] 
 $_lang['download'] = 'ダウンロード';
 $_lang['download_success'] = 'エクストラは正常にダウンロードされました。';
 $_lang['downloaded'] = 'ダウンロード済み';
-$_lang['downloading'] = 'ダウンロードしています。';
+$_lang['downloading'] = 'ダウンロード中';
 $_lang['download_extras'] = 'プロバイダから取得';
 $_lang['downloads'] = 'ダウンロード';
 $_lang['downloads_view'] = '{downloads} ダウンロード';
-$_lang['information'] = 'インフォメーション';
+$_lang['information'] = '情報';
 $_lang['install'] = 'インストール';
 $_lang['installation_instructions'] = 'インストールガイド';
-$_lang['installed'] = 'インストール日';
+$_lang['installed'] = 'インストール済み';
 $_lang['installed_on'] = 'インストール日時<br/>[[+time]]';
 $_lang['instructions'] = '解説';
 $_lang['last_updated'] = '最終更新日';
@@ -52,7 +48,7 @@ $_lang['license_agreement'] = 'ライセンス契約';
 $_lang['license_agreement_desc'] = 'このパッケージのライセンス条項を確認してください。';
 $_lang['license_disagree'] = '同意しない';
 $_lang['list_of_packages_in_provider'] = 'このプロバイダに含まれるパッケージの一覧';
-$_lang['loading'] = 'Loading...';
+$_lang['loading'] = 'ロード中';
 $_lang['minimum_supports'] = 'Requires MODX';
 $_lang['more_info'] = '更なる情報';
 $_lang['most_downloads'] = '最もダウンロードされている';
@@ -73,6 +69,7 @@ $_lang['package_confirm_install'] = '本当にこのパッケージをインス�
 $_lang['package_confirm_remove'] = '本当にこのパッケージを削除しますか？';
 $_lang['package_confirm_uninstall'] = '本当にこのパッケージを削除しますか？';
 $_lang['package_created'] = 'シグネイチャ：[[+signature]] の新規パッケージを作成しました。';
+$_lang['package_dependency_unsatisfied'] = 'Package [[+signature]] requires [[+requires]]';
 $_lang['package_details'] = 'パッケージの詳細';
 $_lang['package_details_for'] = 'パッケージ [[+package]] の詳細';
 $_lang['package_download_err'] = '[[+location]] でパッケージをダウンロードできませんでした。';
@@ -128,6 +125,7 @@ $_lang['package_search_local_confirm'] = '"core/packages" ディレクトリを�
 $_lang['package_select_download'] = 'ダウンロードするパッケージを選択';
 $_lang['package_select_download_desc'] = 'ダウンロードするパッケージを選択してください。Ctrlキーを押しながらクリックすると、複数のパッケージを選択できます。';
 $_lang['package_select_download_ns'] = 'ダウンロードを実行するには、少なくともひとつのパッケージを選択してください。';
+$_lang['package_select_upload'] = 'Select a Package to Upload';
 $_lang['package_signature'] = 'シグネチャ';
 $_lang['package_state'] = '状態';
 $_lang['package_uninstall'] = 'パッケージを削除（オプション選択）';
@@ -135,12 +133,13 @@ $_lang['package_uninstall_info_find'] = 'シグネチャによるパッケージ
 $_lang['package_uninstall_info_prep'] = 'パッケージが見つかりました。アンインストールの準備をしています。';
 $_lang['package_uninstall_info_success'] = 'シグネチャによるアンインストールが成功しました。: [[+signature]]';
 $_lang['package_update'] = 'パッケージをアップデート';
-$_lang['package_update_action_button'] = 'アップデート';
+$_lang['package_update_action_button'] = '更新';
 $_lang['package_update_err_provider_empty'] = '指定したプロバイダではパッケージが見つかりませんでした。';
 $_lang['package_update_err_provider_nf'] = 'このパッケージはプロバイダからインストールされていないため、アップデートできません。';
 $_lang['package_update_info_diff'] = 'パッケージが見つかりました。バージョン間の違いをチェックしています。';
 $_lang['package_update_info_provider_scan'] = 'プロバイダからパッケージのアップデートを確認: [[+provider]]';
 $_lang['package_update_to_version'] = '<b style="color:green;">このパッケージの更新バージョンが見つかりました。</b>';
+$_lang['package_upload'] = 'Upload Package';
 $_lang['package_version_remove'] = 'パッケージのバージョンを削除';
 $_lang['package_version_remove_confirm'] = 'この古いバージョンのデータベースレコード及びファイルを削除してもよろしいですか？　それにより、このバージョンへのロールバックを防止します。';
 $_lang['package_view'] = 'パッケージを表示';
@@ -148,7 +147,7 @@ $_lang['packages'] = 'パッケージ一覧';
 $_lang['packages_in_category'] = '以下に、選択したカテゴリの利用可能なパッケージの一覧が表示されます。';
 $_lang['packages_browse_msg'] = '「詳細」をクリックすると、パッケージのより詳しい情報を取得します。「ダウンロード」をクリックすると、インストール可能なパッケージのファイルがダウンロードされます。';
 $_lang['packages_desc'] = '「パッケージ」とは、MODXを拡張する様々な要素をまとめたものです。テンプレートやプラグイン、スニペットなどのエレメントや、その動作設定とサンプルデータなどを一括して取り扱います。ダウンロードからインストール、更新、削除まで、MODXの管理画面から直接実行できます。<br />登録したプロバイダからパッケージを取得する場合は<b>「プロバイダから取得」</b>を選択してください。<br />/core/packages/ ディレクトリ上に置いたパッケージを追加したい場合は<b>「転送済みパッケージの取得」</b>を、またプロバイダを新規登録したい場合は、上部の<b>「プロバイダ一覧」</b>タブに切り替えてください。';
-$_lang['please_wait'] = 'しばらくお待ちください...';
+$_lang['please_wait'] = 'しばらくお待ちください';
 $_lang['preexisting_mode_preserve'] = '設定を維持';
 $_lang['preexisting_mode_preserve_desc'] = 'より新しいバージョンをアンインストールしますが、コンポーネントの設定または値は以前の状態を維持します。';
 $_lang['preexisting_mode_remove'] = 'アンインストール';
@@ -175,14 +174,14 @@ $_lang['provider_err_ns_url'] = 'プロバイダーの有効なURLを指定し�
 $_lang['provider_err_remove'] = 'プロバイダーの削除時にエラーが発生しました。';
 $_lang['provider_err_save'] = 'プロバイダーの保存時にエラーが発生しました。';
 $_lang['provider_home_msg'] = '左側のリポジトリツリーからリポジトリを選んでください。';
-$_lang['provider_home_title'] = 'Download Extras';
+$_lang['provider_home_title'] = 'プロバイダから取得';
 $_lang['provider_remove'] = 'このプロバイダーを削除';
 $_lang['provider_select'] = '登録済みのプロバイダーから選択';
 $_lang['provider_select_desc'] = 'パッケージを取得したいプロバイダを選択してください。';
 $_lang['provider_total_downloads'] = 'このプロバイダーの総ダウンロード数';
 $_lang['provider_total_packages'] = 'このプロバイダーの総パッケージ数';
 $_lang['provider_update'] = '登録情報を編集';
-$_lang['provider_url'] = 'Service URL';
+$_lang['provider_url'] = 'サービスURL';
 $_lang['providers'] = 'プロバイダー一覧';
 $_lang['providers_desc'] = 'パッケージプロバイダーを登録・管理します。<br />デフォルトではMODX本家開発サイトのリポジトリ（modx.com）が、プロバイダーとして登録されています。';
 $_lang['provisioner'] = 'プロビジョナー';
@@ -206,11 +205,12 @@ $_lang['top_rated'] = 'Top Rated';
 $_lang['transport_package_create'] = 'パッケージを新規作成';
 $_lang['transport_package_install'] = 'パッケージをインストール';
 $_lang['transport_package_scan_for_updates'] = '更新を確認';
+$_lang['transport_package_upload'] = 'Upload a package';
 $_lang['updateable'] = '更新可能';
-$_lang['uninstall'] = '削除';
+$_lang['uninstall'] = 'アンインストール';
 $_lang['uploaded_on'] = '取得日';
 $_lang['uploaded_versions'] = '取得済み';
-$_lang['username'] = 'ユーザー名';
+$_lang['username'] = 'ユーザーネーム';
 $_lang['workspace'] = 'ワークスペース';
 $_lang['workspace_err_nf'] = 'ワークスペースが見つかりません。';
 $_lang['workspace_grabbing'] = 'パッケージのインストールを開始しました。';
@@ -220,3 +220,5 @@ $_lang['workspace_scan_for_updates'] = 'パッケージの更新を検索';
 $_lang['view_details'] = '詳細情報';
 $_lang['viewing_templates_available'] = '選択したカテゴリで利用可能なテンプレートを表示。';
 $_lang['version'] = 'バージョン';
+$_lang['dependencies'] = 'Dependencies';
+$_lang['install_dependencies_first'] = 'Install all dependencies to continue';

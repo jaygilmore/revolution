@@ -130,7 +130,7 @@ Ext.extend(MODx.orm.Tree,Ext.tree.TreePanel,{
     ,addContainer: function(btn,e,node) {
         var r = {};
         if (node) { r.parent = node.id; }
-
+        
         if (!this.windows.addContainer) {
             this.windows.addContainer = MODx.load({
                 xtype: 'modx-orm-window-container-add'
@@ -138,6 +138,10 @@ Ext.extend(MODx.orm.Tree,Ext.tree.TreePanel,{
                 ,tree: this
                 ,listeners: {
                     'success': {fn:function(r) {
+                        if (typeof(r.name) !== 'undefined') {
+                            r.name = r.name.replace(/"/g, '');
+                        }
+                        
                         var n = new Ext.tree.TreeNode({
                             text: r.name
                             ,id: r.name
@@ -145,6 +149,7 @@ Ext.extend(MODx.orm.Tree,Ext.tree.TreePanel,{
                             ,expanded: true
                             ,expandable: true
                             ,leaf: false
+                            ,iconCls: 'icon-folder'
                         });
 
                         var nd = this.getSelectedNode();
@@ -161,13 +166,17 @@ Ext.extend(MODx.orm.Tree,Ext.tree.TreePanel,{
     ,renameContainer: function(btn,e,node) {
         var r = {};
         if (node) { r.parent = node.id; }
-
+        
         if (!this.windows.renameContainer) {
             this.windows.renameContainer = MODx.load({
                 xtype: 'modx-orm-window-container-rename'
                 ,record: r
                 ,listeners: {
                     'success': {fn:function(r) {
+                        if (typeof(r.name) !== 'undefined') {
+                            r.name = r.name.replace(/"/g, '');
+                        }
+                        
                         var nd = this.getSelectedNode();
                         nd.setId(r.name);
                         nd.setText(r.name);
@@ -182,7 +191,7 @@ Ext.extend(MODx.orm.Tree,Ext.tree.TreePanel,{
     ,addAttribute: function(btn,e,node) {
         var r = {};
         if (node) { r.parent = node.id; }
-        
+
         if (!this.windows.addAttribute) {
             this.windows.addAttribute = MODx.load({
                 xtype: 'modx-orm-window-attribute-add'
@@ -190,12 +199,17 @@ Ext.extend(MODx.orm.Tree,Ext.tree.TreePanel,{
                 ,tree: this
                 ,listeners: {
                     'success': {fn:function(r) {
+                        if (typeof(r.name) !== 'undefined') {
+                            r.name = r.name.replace(/"/g, '');
+                        }
+                        
                         var n = new Ext.tree.TreeNode({
                             text: r.name+' - <i>'+r.value+'</i>'
                             ,id: r.id
                             ,name: r.name
                             ,leaf: true
                             ,value: r.value
+                            ,iconCls: 'icon-terminal'
                         });
 
                         var nd = this.getSelectedNode();
@@ -228,7 +242,7 @@ Ext.extend(MODx.orm.Tree,Ext.tree.TreePanel,{
         var nodes = _encode(node);
         return Ext.encode(nodes);
     }
-    
+
     ,onClick: function(n) {
         var vs = n.attributes;
         if (vs.value != null && vs.value != undefined) {
@@ -266,23 +280,24 @@ MODx.orm.Form = function(config) {
         ,border: false
         ,bodyStyle: 'padding: 15px 0;'
         ,defaults: { msgTarget: 'side', border: false }
-        ,buttonAlign: 'center'
+        ,buttonAlign: 'right'
         ,items: [{
             xtype: 'textfield'
             ,name: config.prefix+'_name'
             ,fieldLabel: _('name')
-            ,anchor: '95%'
+            ,anchor: '100%'
         },{
             xtype: 'textfield'
             ,name: config.prefix+'_value'
             ,fieldLabel: _('value')
-            ,anchor: '95%'
+            ,anchor: '100%'
         },{
             xtype: 'hidden'
             ,name: config.prefix+'_id'
         }]
         ,buttons: [{
             text: _('set')
+            ,cls: 'primary-button'
             ,handler: this.saveProperty
             ,scope: this
         }]
@@ -298,7 +313,7 @@ Ext.extend(MODx.orm.Form,Ext.Panel,{
         var f = fp.getForm();
         var n = t.getSelectionModel().getSelectedNode();
 
-        var txt = f.findField(this.config.prefix+'_name').getValue();
+        var txt = f.findField(this.config.prefix+'_name').getValue().replace(/"/g, '');
         var val = f.findField(this.config.prefix+'_value').getValue();
         n.attributes.id = f.findField(this.config.prefix+'_id').getValue();
         n.attributes.text = txt;
@@ -317,8 +332,8 @@ MODx.window.AddOrmAttribute = function(config) {
     Ext.applyIf(config,{
         title: _('orm_attribute_add')
         ,id: this.ident
-        ,height: 150
-        ,width: 350
+        // ,height: 150
+        // ,width: 350
         ,fields: [{
             xtype: 'hidden'
             ,name: 'parent'
@@ -370,8 +385,8 @@ MODx.window.AddOrmContainer = function(config) {
     Ext.applyIf(config,{
         title: _('orm_container_add')
         ,id: this.ident
-        ,height: 150
-        ,width: 350
+        // ,height: 150
+        // ,width: 350
         ,fields: [{
             xtype: 'hidden'
             ,name: 'parent'
@@ -397,7 +412,7 @@ Ext.extend(MODx.window.AddOrmContainer,MODx.Window,{
             });
             return false;
         }
-        
+
         if (this.fp.getForm().isValid()) {
             if (this.fireEvent('success',v)) {
                 this.fp.getForm().reset();
@@ -416,8 +431,8 @@ MODx.window.RenameOrmContainer = function(config) {
     Ext.applyIf(config,{
         title: _('orm_container_rename')
         ,id: this.ident
-        ,height: 150
-        ,width: 350
+        // ,height: 150
+        // ,width: 350
         ,fields: [{
             xtype: 'hidden'
             ,name: 'parent'

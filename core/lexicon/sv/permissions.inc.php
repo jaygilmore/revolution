@@ -1,8 +1,8 @@
 <?php
 /**
- * Permissions Swedish lexicon topic
+ * Permissions English lexicon topic
  *
- * @language sv
+ * @language en
  * @package modx
  * @subpackage lexicon
  */
@@ -14,7 +14,7 @@ $_lang['perm.change_password_desc'] = 'Användaren kan ändra sitt lösenord.';
 $_lang['perm.change_profile_desc'] = 'Användaren kan ändra sin profil.';
 $_lang['perm.charsets_desc'] = 'Se en lista med teckenuppsättningar.';
 $_lang['perm.class_map_desc'] = 'Se en lista med klasser i klasskartan.';
-$_lang['perm.components_desc'] = 'Se komponentmenyn.';
+$_lang['perm.components_desc'] = 'Se Extras-menyn.';
 $_lang['perm.content_types_desc'] = 'Se innehållstypssidan.';
 $_lang['perm.copy_desc'] = 'Möjligheten att kopiera ett objekt.';
 $_lang['perm.countries_desc'] = 'Se en lista med länder.';
@@ -66,6 +66,7 @@ $_lang['perm.file_remove_desc'] = 'Ta bort fysiska filer.';
 $_lang['perm.file_tree_desc'] = 'Se filträdet i vänstermenyn.';
 $_lang['perm.file_update_desc'] = 'Uppdatera innehållet i fysiska filer.';
 $_lang['perm.file_upload_desc'] = 'Ladda upp fysiska filer till en katalog.';
+$_lang['perm.file_unpack_desc'] = 'Extrahera zip-filer.';
 $_lang['perm.file_view_desc'] = 'Se en fils innehåll.';
 $_lang['perm.flush_sessions_desc'] = 'Tömma sessioner över hela webbplatsen.';
 $_lang['perm.frames_desc'] = 'Använda gränssnittet i MODX hanterare över huvud taget.';
@@ -147,6 +148,7 @@ $_lang['perm.save_tv_desc'] = 'Spara alla mallvariabler.';
 $_lang['perm.save_user_desc'] = 'Spara alla användare.';
 $_lang['perm.search_desc'] = 'Använda söksidan.';
 $_lang['perm.settings_desc'] = 'Se och redigera alla systeminställningar.';
+$_lang['perm.events_desc'] = 'Se alla systemhändelser.';
 $_lang['perm.source_delete_desc'] = 'Ta bort en mediakälla.';
 $_lang['perm.source_edit_desc'] = 'Redigera en mediakälla.';
 $_lang['perm.source_save_desc'] = 'Skapa eller spara en mediakälla.';
@@ -163,7 +165,7 @@ $_lang['perm.unpublish_desc'] = 'Avpublicera en resurs.';
 $_lang['perm.unpublish_document_desc'] = 'Avpublicera alla resurser.';
 $_lang['perm.usergroup_delete_desc'] = 'Ta bort en användargrupp.';
 $_lang['perm.usergroup_edit_desc'] = 'Redigera en användargrupp.';
-$_lang['perm.usergroup_user_edit_desc'] = 'Redigera resurser i en användargrupp.';
+$_lang['perm.usergroup_user_edit_desc'] = 'Redigera användare i en användargrupp.';
 $_lang['perm.usergroup_user_list_desc'] = 'Se eller lista användare i en användargrupp.';
 $_lang['perm.usergroup_new_desc'] = 'Skapa en ny användargrupp.';
 $_lang['perm.usergroup_save_desc'] = 'Spara en användargrupp.';

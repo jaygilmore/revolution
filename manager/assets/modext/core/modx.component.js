@@ -115,7 +115,7 @@ MODx.toolbar.ActionButtons = function(config) {
         ,id: 'modx-action-buttons'
         ,params: {}
         ,items: []
-        ,renderTo: 'modx-container'
+        ,renderTo: Ext.get('modx-action-buttons-container') ? 'modx-action-buttons-container' : 'modx-container'
     });
     if (config.formpanel) {
         this.setupDirtyButtons(config.formpanel);
@@ -275,7 +275,16 @@ Ext.extend(MODx.toolbar.ActionButtons,Ext.Toolbar,{
                         ,message: r.result.message || _('save_successful')
                         ,dontHide: r.result.message != '' ? true : false
                     });
-                    Ext.callback(this.redirect,this,[o,itm,r.result],1000);
+
+                    if (itm.redirect != false) {
+                        var redirect = this.redirect;
+
+                        if (typeof itm.redirect == 'function') {
+                            redirect = itm.redirect;
+                        }
+
+                        Ext.callback(redirect,this,[o,itm,r.result],1000);
+                    }
 
                     this.resetDirtyButtons(r.result);
                 },this);
@@ -288,9 +297,11 @@ Ext.extend(MODx.toolbar.ActionButtons,Ext.Toolbar,{
             } else {
                 Ext.Msg.alert(_('error'),_('correct_errors'));
             }
-        } else { /* if just doing a URL redirect */
-            Ext.applyIf(itm.params || {},o.baseParams || {});
-            MODx.loadPage('?'+Ext.urlEncode(itm.params));
+        } else {
+            // if just doing a URL redirect
+            var params = itm.params || {};
+            Ext.applyIf(params, o.baseParams || {});
+            MODx.loadPage('?' + Ext.urlEncode(params));
         }
         return false;
     }
@@ -314,7 +325,15 @@ Ext.extend(MODx.toolbar.ActionButtons,Ext.Toolbar,{
             if (MODx.request.parent) { itm.params.parent = MODx.request.parent; }
             if (MODx.request.context_key) { itm.params.context_key = MODx.request.context_key; }
             url = Ext.urlEncode(itm.params);
-            MODx.loadPage(o.actions.edit, url);
+            var action;
+            if (o.actions && o.actions.edit) {
+                // If an edit action is given, use it (BC)
+                action = o.actions.edit;
+            } else {
+                // Else assume we want the 'update' controller
+                action = itm.process.replace('create', 'update');
+            }
+            MODx.loadPage(action, url);
 
         } else if (process === 'delete') {
             itm.params.a = o.actions.cancel;

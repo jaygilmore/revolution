@@ -1,13 +1,10 @@
 <?php
 /**
- * Sources Japanese lexicon topic
+ * Sources English lexicon topic
  *
- * @language ja
+ * @language en
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-12-04
- * @author enogu http://www.kuroienogu.net/
- * @author yamamoto http://kyms.jp
  */
 $_lang['access'] = 'アクセス許可';
 $_lang['base_path'] = 'ベースパス';
@@ -18,7 +15,7 @@ $_lang['minimum_role'] = 'ミニマムロール';
 $_lang['path_options'] = 'パスオプション';
 $_lang['policy'] = 'ポリシー';
 $_lang['source'] = 'メディアソース';
-$_lang['source_access_add'] = 'ユーザーグループ追加';
+$_lang['source_access_add'] = 'ユーザーグループを追加';
 $_lang['source_access_remove'] = 'アクセス権限の削除';
 $_lang['source_access_remove_confirm'] = 'このアクセス権限エントリーを本当に削除しますか？';
 $_lang['source_access_update'] = 'アクセス権限の編集';
@@ -51,25 +48,40 @@ $_lang['sources.intro_msg'] = 'メディアソースを管理します。';
 $_lang['user_group'] = 'ユーザーグループ';
 
 /* file source type */
+$_lang['allowedFileTypes'] = 'allowedFileTypes';
 $_lang['prop_file.allowedFileTypes_desc'] = 'ここに拡張子（ピリオドは不要）を指定することで、表示されるファイルの種類を制限できます。複数の拡張子を指定するときはカンマ区切りで列挙してください。';
+$_lang['basePath'] = 'basePath';
 $_lang['prop_file.basePath_desc'] = 'ソースの場所を示すファイルパス。';
+$_lang['basePathRelative'] = 'basePathRelative';
 $_lang['prop_file.basePathRelative_desc'] = 'ベースパスがMODXのインストールされたディレクトリの外にある場合、"いいえ"にしてください。';
+$_lang['baseUrl'] = 'baseUrl';
 $_lang['prop_file.baseUrl_desc'] = 'このソースにアクセスするためのURL';
+$_lang['baseUrlPrependCheckSlash'] = 'baseUrlPrependCheckSlash';
 $_lang['prop_file.baseUrlPrependCheckSlash_desc'] = '有効にすると、テンプレート変数のレンダリング時、スラッシュ（/）がURLの先頭に場合にbaseURLを付加します。ベースURLをテンプレート変数外で設定しておく場合に便利です。';
+$_lang['baseUrlRelative'] = 'baseUrlRelative';
 $_lang['prop_file.baseUrlRelative_desc'] = 'ベースURLがMODXのインストールされているURLの外にある場合、"いいえ"にしてください。';
+$_lang['imageExtensions'] = 'imageExtensions';
 $_lang['prop_file.imageExtensions_desc'] = '画像ファイルの拡張子のリストをカンマ区切りで設定します。MODXはこのリストで設定された拡張子のファイルに対応するサムネイル画像を作成します。';
+$_lang['skipFiles'] = 'skipFiles';
 $_lang['prop_file.skipFiles_desc'] = '表示しないファイル名のリストをカンマ区切りで設定します。MODXはいずれかのパターンに当てはまるファイル、およびディレクトリを表示しません。';
+$_lang['thumbnailQuality'] = 'thumbnailQuality';
 $_lang['prop_file.thumbnailQuality_desc'] = 'サムネイル画像の品質を0-100の間で設定します。';
+$_lang['thumbnailType'] = 'thumbnailType';
 $_lang['prop_file.thumbnailType_desc'] = 'サムネイル画像の種類を設定します。';
 
 /* s3 source type */
 $_lang['bucket'] = 'バケット';
 $_lang['prop_s3.bucket_desc'] = 'Amazon S3のバケットからデータをロードします。';
 $_lang['prop_s3.key_desc'] = 'バケットの認証に用いるAmazon Key';
-$_lang['prop_s3.imageExtensions_desc'] = '画像として扱うファイル拡張子のカンマ区切りリストを指定。指定した拡張子を持つファイルはサムネイル作成が試みられます。';
+$_lang['prop_s3.imageExtensions_desc'] = '画像ファイルの拡張子のリストをカンマ区切りで設定します。MODXはこのリストで設定された拡張子のファイルに対応するサムネイル画像を作成します。';
 $_lang['prop_s3.secret_key_desc'] = 'バケットの認証に使用するAmazon secret key。';
-$_lang['prop_s3.skipFiles_desc'] = 'カンマ区切りのリストを指定。指定のいずれかに一致するファイルやフォルダはスキップされ非表示になります。';
-$_lang['prop_s3.thumbnailQuality_desc'] = '作成されるサムネイルの品質を0～100で指定。';
-$_lang['prop_s3.thumbnailType_desc'] = '作成されるサムネイルのタイプ。';
+$_lang['prop_s3.skipFiles_desc'] = '表示しないファイル名のリストをカンマ区切りで設定します。MODXはいずれかのパターンに当てはまるファイル、およびディレクトリを表示しません。';
+$_lang['prop_s3.thumbnailQuality_desc'] = 'サムネイル画像の品質を0-100の間で設定します。';
+$_lang['prop_s3.thumbnailType_desc'] = 'サムネイル画像の種類を設定します。';
 $_lang['prop_s3.url_desc'] = 'Amazon S3インスタンスのURL。';
 $_lang['s3_no_move_folder'] = 'S3ドライバは、現時点ではフォルダの移動をサポートしていません。';
+
+/* file type */
+$_lang['PNG'] = 'PNG';
+$_lang['JPG'] = 'JPG';
+$_lang['GIF'] = 'GIF';

@@ -3,11 +3,11 @@ MODx.panel.ErrorLog = function(config) {
     Ext.applyIf(config,{
         url: MODx.config.connector_url
         ,id: 'modx-panel-error-log'
-		,cls: 'container'
+        ,cls: 'container'
         ,baseParams: {
             action: 'system/errorlog/clear'
         }
-        ,layout: 'form'
+        // ,layout: 'form' // unnecessary and creates a wrong box shadow
         ,items: [{
             html: '<h2>'+_('error_log')+'</h2>'
             ,id: 'modx-error-log-header'
@@ -32,35 +32,34 @@ MODx.panel.ErrorLog = function(config) {
                 ,items: [{
                     xtype: 'textarea'
                     ,name: 'log'
+                    ,hideLabel: true
+                    ,id: 'modx-error-log-content'
                     ,grow: true
-                    ,growMax: 400
                     ,anchor: '100%'
                     ,hidden: config.record.tooLarge ? true : false
+                    ,listeners: {
+                        afterrender: {
+                            fn: function(elem) {
+                                this.setTextareaHeight(elem);
+                            }
+                            ,scope: this
+                        }
+                    }
                 },{
                     html: '<p>'+_('error_log_too_large',{
                         name: config.record.name
                     })+'</p>'
                     ,border: false
                     ,hidden: config.record.tooLarge ? false : true
-                },MODx.PanelSpacer,{
+                },{
                     xtype: 'button'
                     ,text: _('error_log_download',{size: config.record.size})
+                    ,cls: 'primary-button'
+                    ,style: 'margin-top: 15px;'
                     ,hidden: config.record.tooLarge ? false : true
                     ,handler: this.download
                     ,scope: this
                 }]
-            }]
-            ,buttonAlign: 'center'
-            ,buttons: [{
-                text: _('clear')
-                ,handler: this.clear
-                ,scope: this
-                ,hidden: MODx.hasEraseErrorLog ? false : true
-            },{
-                text: _('ext_refresh')
-                ,handler: this.refreshLog
-                ,scope: this
-                ,hidden: config.record.tooLarge
             }]
         }]
     });
@@ -77,46 +76,25 @@ Ext.extend(MODx.panel.ErrorLog,MODx.FormPanel,{
         this.initialized = true;
         return true;
     }
-    ,clear: function() {
-        this.el.mask(_('working'));
-        MODx.Ajax.request({
-            url: this.config.url
-            ,params: {
-                action: 'system/errorlog/clear'
-            }
-            ,listeners: {
-                'success': {fn:function(r) {
-                    this.el.unmask();
-                    if (!r.object.tooLarge && this.config.record.tooLarge) {
-                        location.href = location.href;
-                    } else {
-                        this.getForm().setValues(r.object);
-                    }
-                },scope:this}
-            }
-        });
-    }
-    ,refreshLog: function() {
-        this.el.mask(_('working'));
-        MODx.Ajax.request({
-            url: this.config.url
-            ,params: {
-                action: 'system/errorlog/get'
-            }
-            ,listeners: {
-                'success': {fn:function(r) {
-                    this.el.unmask();
-                    if (r.object.tooLarge) {
-                        location.href = location.href;
-                    } else {
-                        this.getForm().setValues(r.object);
-                    }
-                },scope:this}
-            }
-        });
-    }
     ,download: function() {
         location.href = this.config.url+'?action=system/errorlog/download&HTTP_MODAUTH='+MODx.siteId;
+    }
+    /**
+     * Set the textarea height to make use of the maximum "space" the client viewport allows
+     *
+     * @param {Ext.TextArea} elem
+     */
+    ,setTextareaHeight: function(elem) {
+        // Client viewport visible height
+        var clientHeight = document.documentElement.clientHeight || window.innerHeight || document.body.clientHeight
+            // Our textarea "top" position
+            ,elemTop = elem.el.getTop()
+            // The followings are to prevent scrolling if possible (slice is to remove "px" from the values, since we want integers)
+            ,wrapperPadding = this.el.select('.main-wrapper').first().getStyle('padding-bottom').slice(0, -2)
+            ,containerMargin = this.el.getStyle('margin-bottom').slice(0, -2);
+
+        // Now set our max available height for our textarea
+        elem.el.setHeight(clientHeight - elemTop - wrapperPadding - containerMargin);
     }
 });
 Ext.reg('modx-panel-error-log',MODx.panel.ErrorLog);

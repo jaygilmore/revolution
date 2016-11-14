@@ -1,15 +1,11 @@
 <?php
 /**
-* Setting Japanese lexicon topic
-*
-* @language ja
-* @package modx
-* @subpackage lexicon
-* @author honda http://kogus.org 2012-12-04
-* @author Nick http://smallworld.west-tokyo.com
-* @author shimojo http://www.priqia.com/
-* @author yamamoto http://kyms.jp
-*/
+ * Setting English lexicon topic
+ *
+ * @language en
+ * @package modx
+ * @subpackage lexicon
+ */
 $_lang['area'] = 'エリア';
 $_lang['area_authentication'] = '認証とセキュリティ';
 $_lang['area_caching'] = 'キャッシュ';
@@ -57,7 +53,7 @@ $_lang['settings_furls'] = 'フレンドリーURL';
 $_lang['settings_misc'] = 'ファイルマネージャ';
 $_lang['settings_site'] = 'サイト';
 $_lang['settings_ui'] = 'インターフェースとその他の機能';
-$_lang['settings_users'] = '詳細設定';
+$_lang['settings_users'] = 'ユーザー';
 $_lang['system_settings'] = 'システム設定';
 $_lang['usergroup'] = 'ユーザーグループ';
 
@@ -98,6 +94,9 @@ $_lang['setting_allow_manager_login_forgot_password_desc'] = '「いいえ」に
 
 $_lang['setting_allow_tags_in_post'] = 'POSTアクションでタグの受け渡しを許可';
 $_lang['setting_allow_tags_in_post_desc'] = '無効とすると、すべてのPOSTリクエストで、MODXタグ、数値実体参照、またはHTMLのscriptタグが取り除かれます。デフォルトでこの設定が有効な管理画面用コンテキスト`mgr`以外では、無効とすることを推奨します。';
+
+$_lang['setting_anonymous_sessions'] = 'Anonymous Sessions';
+$_lang['setting_anonymous_sessions'] = 'Anonymous Sessions';
 
 $_lang['setting_archive_with'] = '強制的にPCLZipを使用';
 $_lang['setting_archive_with_desc'] = 'この設定が有効の場合、zipアーカイブに対して、ZipArchiveの代わりにPCLZipを使用します。<br />この設定は、ZipArchiveのextractToエラー時、またはパッケージの展開に問題がある場合に有効にしてください。';
@@ -200,6 +199,9 @@ $_lang['setting_compress_js_max_files_desc'] = 'compress_js設定が有効の場
 $_lang['setting_concat_js'] = '連結したJavaScriptライブラリを使用';
 $_lang['setting_concat_js_desc'] = '有効の場合、管理画面インターフェースでは、一般的なJavaScriptライブラリを連結して使用します。これにより、管理画面のロードと実行時間が短縮されます。<br />無効にするのは、コア要素の変更時のみにしてください。';
 
+$_lang['setting_confirm_navigation'] = 'Confirm Navigation with unsaved changes';
+$_lang['setting_confirm_navigation_desc'] = 'When this is enabled, the user will be prompted to confirm their intention if there are unsaved changes.';
+
 $_lang['setting_container_suffix'] = 'コンテナの添え字';
 $_lang['setting_container_suffix_desc'] = 'フレンドリーURLを使用する場合に、コンテナ属性のリソースに追加する添え字';
 
@@ -255,10 +257,16 @@ $_lang['setting_error_page'] = 'エラーページ';
 $_lang['setting_error_page_desc'] = 'ドキュメントが存在しない場合のエラーページ（404 ページ）として表示する、ドキュメントのIDを入力してください。<br /><strong>注意: 既に存在するドキュメントで、かつ公開されている必要があります。</strong>';
 $_lang['setting_error_page_err'] = 'エラーページに使用するドキュメントIDを指定してください。';
 
+$_lang['setting_ext_debug'] = 'ExtJS debug';
+$_lang['setting_ext_debug_desc'] = 'Whether or not to load ext-all-debug.js to help debug your ExtJS code.';
+
 $_lang['setting_extension_packages'] = 'Extension Packages';
 $_lang['setting_extension_packages_desc'] = 'MODXインスタンス生成時にロードするパッケージを、カンマ区切りのリストで指定。書式は "packagename:pathtomodel" となります。';
 
-$_lang['setting_failed_login_attempts'] = 'ログイン失敗許容回数の上限';
+$_lang['setting_enable_gravatar'] = 'Enable Gravatar';
+$_lang['setting_enable_gravatar_desc'] = 'If enabled, Gravatar will be used as a profile image (if user do not have profile photo uploaded).';
+
+$_lang['setting_failed_login_attempts'] = 'ログイン失敗許可数';
 $_lang['setting_failed_login_attempts_desc'] = 'ユーザーが \'blocked\' 状態になるまでに、何回のログイン失敗を許容するか指定します。';
 
 $_lang['setting_fe_editor_lang'] = 'エディタの言語';
@@ -302,6 +310,9 @@ $_lang['setting_friendly_alias_lowercase_only_desc'] = 'リソースのエイリ
 
 $_lang['setting_friendly_alias_max_length'] = 'エイリアスの最大サイズ';
 $_lang['setting_friendly_alias_max_length_desc'] = '0より大きな値を指定した場合、エイリアスの文字数をその値で制限します。0の場合は無制限となります。';
+
+$_lang['setting_friendly_alias_realtime'] = 'FURL Alias Real-Time';
+$_lang['setting_friendly_alias_realtime_desc'] = 'Determines whether a resource alias should be created on the fly when typing the pagetitle or if this should happen when the resource is saved (automatic_alias needs to be enabled for this to have an effect).';
 
 $_lang['setting_friendly_alias_restrict_chars'] = 'エイリアスの文字の制限方法';
 $_lang['setting_friendly_alias_restrict_chars_desc'] = 'エイリアスに使用する文字の制限方法を指定します。"pattern"の場合、正規表現によるパターンで制限を行います。<br />"legal"の場合、任意の有効なURL文字のみに制限されます。"alpha"の場合はアルファベットのみ、そして"alphanumeric"の場合はアルファベットと数字のみに制限されます。';
@@ -400,6 +411,9 @@ $_lang['setting_mail_smtp_timeout_desc'] = 'SMTPサーバーのタイムアウ�
 $_lang['setting_mail_smtp_user'] = 'SMTPのユーザー';
 $_lang['setting_mail_smtp_user_desc'] = 'SMTP認証時に使用するユーザーです。';
 
+$_lang['setting_main_nav_parent'] = 'Main menu parent';
+$_lang['setting_main_nav_parent_desc'] = 'The container used to pull all records for the main menu.';
+
 $_lang['setting_manager_direction'] = 'テキストの方向';
 $_lang['setting_manager_direction_desc'] = '管理画面でのテキストの流れる方向を指定します。「ltr」は、左から右。「rtl」は、右から左です。<br />主にアラビア語圏などで利用する設定です。';
 
@@ -445,11 +459,26 @@ $_lang['setting_manager_use_tabs_desc'] = '有効の場合、管理画面でコ�
 $_lang['setting_manager_week_start'] = '週の開始曜日';
 $_lang['setting_manager_week_start_desc'] = '週の開始曜日を数字で指定します。0（または空白）は日曜日、1は月曜日となります。';
 
+$_lang['setting_mgr_tree_icon_context'] = 'Context tree icon';
+$_lang['setting_mgr_tree_icon_context_desc'] = 'Define a CSS class here to be used to display the context icon in the tree. You can use this setting on each context to customize the icon per context.';
+
+$_lang['setting_mgr_source_icon'] = 'Media Source icon';
+$_lang['setting_mgr_source_icon_desc'] = 'Indicate a CSS class to be used to display the Media Sources icons in the files tree. Defaults to "icon-folder-open-o"';
+
 $_lang['setting_modRequest.class'] = 'リクエストハンドラクラス';
 $_lang['setting_modRequest.class_desc'] = '';
 
+$_lang['setting_modx_browser_tree_hide_files'] = 'Media Browser Tree Hide Files';
+$_lang['setting_modx_browser_tree_hide_files_desc'] = 'If true the files inside folders are not displayed in the Media Browser source tree. Defaults to false.';
+
+$_lang['setting_modx_browser_tree_hide_tooltips'] = 'Media Browser Tree Hide Tooltips';
+$_lang['setting_modx_browser_tree_hide_tooltips_desc'] = 'If true, no image preview tooltips are shown when hovering over a file in the Media Browser tree. Defaults to true.';
+
 $_lang['setting_modx_browser_default_sort'] = 'ファイルブラウザーのデフォルトソートフィールド';
 $_lang['setting_modx_browser_default_sort_desc'] = '管理画面でポップアップのファイルブラウザーを使用している場合の、デフォルトのソートフィールドを指定。<br />指定可能な値は name, size, lastmod （最終更新日時） です。';
+
+$_lang['setting_modx_browser_default_viewmode'] = 'Media Browser Default View Mode';
+$_lang['setting_modx_browser_default_viewmode_desc'] = 'The default view mode when using the Media Browser in the manager. Available values are: grid, list.';
 
 $_lang['setting_modx_charset'] = 'エンコード';
 $_lang['setting_modx_charset_desc'] = '使用したいエンコードを選択してください。<br />日本語も含め、ほとんどの言語ではデフォルト設定のUTF-8が利用できます。';
@@ -460,11 +489,17 @@ $_lang['setting_new_file_permissions_desc'] = '管理画面を通じて新しい
 $_lang['setting_new_folder_permissions'] = '新フォルダのパーミッション';
 $_lang['setting_new_folder_permissions_desc'] = '管理画面を通じて新しいフォルダをを作成したとき、ここで設定したパーミッションに変更します。この機能はIISなど一部の環境では動作しません。';
 
+$_lang['setting_parser_recurse_uncacheable'] = 'Delay Uncacheable Parsing';
+$_lang['setting_parser_recurse_uncacheable_desc'] = 'If disabled, uncacheable elements may have their output cached inside cacheable element content. Disable this ONLY if you are having problems with complex nested parsing which stopped working as expected.';
+
 $_lang['setting_password_generated_length'] = '自動生成するパスワードの長さ';
 $_lang['setting_password_generated_length_desc'] = 'ユーザー用に自動生成されるパスワードの文字列長。';
 
 $_lang['setting_password_min_length'] = 'パスワードの最小の長さ';
 $_lang['setting_password_min_length_desc'] = 'ユーザー用パスワードの最小の長さ。';
+
+$_lang['setting_preserve_menuindex'] = 'Preserve Menu Index When Duplicating Resources';
+$_lang['setting_preserve_menuindex_desc'] = 'When duplicating Resources, the menu index order will also be preserved.';
 
 $_lang['setting_principal_targets'] = 'ロードするACLターゲット';
 $_lang['setting_principal_targets_desc'] = 'MODxユーザがロードするACLターゲットをカスタマイズします。';
@@ -483,6 +518,9 @@ $_lang['setting_proxy_port_desc'] = 'プロキシサーバーのポート番号�
 
 $_lang['setting_proxy_username'] = 'プロキシのユーザー名';
 $_lang['setting_proxy_username_desc'] = 'プロキシサーバーの認証用ユーザー名を指定します。';
+
+$_lang['setting_photo_profile_source'] = 'User photo Media Source';
+$_lang['setting_photo_profile_source_desc'] = 'The Media Source used to store users profiles photos. Defaults to default Media Source.';
 
 $_lang['setting_phpthumb_allow_src_above_docroot'] = 'phpThumb srcにドキュメントルートより上位階層を許可';
 $_lang['setting_phpthumb_allow_src_above_docroot_desc'] = 'srcのパスにドキュメントルートより上の階層を許可するか設定します。マルチコンテキストによって複数の仮想ホストを展開する場合などに役立ちます。';
@@ -581,6 +619,9 @@ $_lang['setting_resolve_hostnames_desc'] = 'サイト表示時に、閲覧者の
 $_lang['setting_resource_tree_node_name'] = 'リソースツリーのノード用フィールド';
 $_lang['setting_resource_tree_node_name_desc'] = 'リソースツリーでノードを表示する際に使用するフィールドを指定します。<br />デフォルトは pagetitle ですが、menutitle や alias、longtitle など任意のリソースフィールドも指定できます。';
 
+$_lang['setting_resource_tree_node_name_fallback'] = 'Resource Tree Node Fallback Field';
+$_lang['setting_resource_tree_node_name_fallback_desc'] = 'Specify the Resource field to use as fallback when rendering the nodes in the Resource Tree. This will be used if the resource has an empty value for the configured Resource Tree Node Field.';
+
 $_lang['setting_resource_tree_node_tooltip'] = 'リソースツリーのツールチップ用フィールド';
 $_lang['setting_resource_tree_node_tooltip_desc'] = 'リソースツリーでノードのツールチップを表示する際に使用するフィールドを指定します。<br />menutitle や alias、longtitle など任意のリソースフィールドが指定できます。指定しない場合、longtitle が使用されます。';
 
@@ -633,6 +674,9 @@ $_lang['setting_settings_distro_desc'] = '現在MODXがインストールされ�
 $_lang['setting_set_header'] = 'HTTPヘッダーを設定';
 $_lang['setting_set_header_desc'] = '有効にすると、リソースでHTTPヘッダーをセットするように試みます。';
 
+$_lang['setting_send_poweredby_header'] = 'Send X-Powered-By Header';
+$_lang['setting_send_poweredby_header_desc'] = 'When enabled, MODX will send the "X-Powered-By" header to identify this site as built on MODX. This helps tracking global MODX usage through third party trackers inspecting your site. Because this makes it easier to identify what your site is built with, it might pose a slightly increased security risk if a vulnerability is found in MODX.';
+
 $_lang['setting_show_tv_categories_header'] = 'テンプレート変数編集時に「カテゴリー」タブを表示';
 $_lang['setting_show_tv_categories_header_desc'] = '「はい」を選択すると、リソースのテンプレート変数編集時、テンプレート変数を分類する「カテゴリー」タブが表示されます。';
 
@@ -642,7 +686,7 @@ $_lang['setting_signupemail_message_default'] = 'こんにちは[[+uid]]さん�
 
 $_lang['setting_site_name'] = 'サイト名';
 $_lang['setting_site_name_desc'] = 'サイト名を入力してください。';
-$_lang['setting_site_name_err'] = 'サイト名が入力されていません。';
+$_lang['setting_site_name_err']  = 'サイト名が入力されていません。';
 
 $_lang['setting_site_start'] = 'トップページとして使用するドキュメントのIDを入力してください。';
 $_lang['setting_site_start_desc'] = 'トップページとして使用するドキュメントのIDを入力してください。<br /><strong>注意: 既に存在するドキュメントのIDを入力してください。ドキュメントは公開されている必要があります</strong>';
@@ -664,6 +708,10 @@ $_lang['setting_strip_image_paths_desc'] = 'この設定を「はい」にした
 
 $_lang['setting_symlink_merge_fields'] = 'シムリンクによるフィールドのマージ';
 $_lang['setting_symlink_merge_fields_desc'] = '「はい」を指定すると、シムリンク側のフィールドに入力された値と、転送先のフィールド値が自動的にマージされます。';
+
+$_lang['setting_syncsite_default'] = 'Empty Cache default';
+$_lang['setting_syncsite_default_desc'] = 'Select \'Yes\' to empty the cache after you save a resource by default.';
+$_lang['setting_syncsite_default_err'] = 'Please state whether or not you want to empty the cache after saving a resource by default.';
 
 $_lang['setting_topmenu_show_descriptions'] = 'トップメニューの説明を表示';
 $_lang['setting_topmenu_show_descriptions_desc'] = '「いいえ」とすると、管理画面上部のトップメニューで、説明が非表示になります。';
@@ -713,11 +761,17 @@ $_lang['setting_use_editor'] = 'リッチテキストモード';
 $_lang['setting_use_editor_desc'] = 'リッチテキストエディタを使用しますか？　HTMLを直接書いた方が良いのでしたら「いいえ」を選択し、リッチテキストエディタを使わない設定も可能です。<br />この設定は全てのリソースおよび全てのユーザーに適用されるので注意してください';
 $_lang['setting_use_editor_err'] = 'リッチテキストエディタの使用を選択してください。';
 
+$_lang['setting_use_frozen_parent_uris'] = 'Use Frozen Parent URIs';
+$_lang['setting_use_frozen_parent_uris_desc'] = 'When enabled, the URI for children resources will be relative to the frozen URI of one of its parents, ignoring the aliases of resources high in the tree.';
+
 $_lang['setting_use_multibyte'] = 'MB関数の使用（マルチバイト）';
 $_lang['setting_use_multibyte_desc'] = '※日本語環境では必須です。<br />MB関数を有効にします。PHPのmbstringエクステンションがインストールされている事を確認してください。';
 
 $_lang['setting_use_weblink_target'] = 'WebLinkターゲットの使用';
 $_lang['setting_use_weblink_target_desc'] = 'Set to true if you want to have MODX link tags and makeUrl（） generate links as the target URL for WebLinks. Otherwise, the internal MODX URL will be generated by link tags and the makeUrl（） method.';
+
+$_lang['setting_user_nav_parent'] = 'User menu parent';
+$_lang['setting_user_nav_parent_desc'] = 'The container used to pull all records for the user menu.';
 
 $_lang['setting_webpwdreminder_message'] = 'パスワード変更リクエストメール';
 $_lang['setting_webpwdreminder_message_desc'] = 'ウェブユーザが、メールで新しいパスワードを要求する場合に、常に送信されるメッセージを入力します。コンテント管理はそれらの新しいパスワードと有効化情報を含むメールを送信します。<br /><strong>ノート:</strong>コンテント管理は、メッセージを送るときに以下のプレースホルダを置き換えます。<br /><br />[[+sname]] - ウェブサイト名、<br />[[+saddr]] - ウェブサイトのメールアドレス、<br />[[+surl]] - サイトのURL、<br />[[+uid]] - ユーザーのログイン名またはID、<br />[[+pwd]] - ユーザーのパスワード、<br />[[+ufn]] - ユーザーのフルネーム。<br /><br /><strong>[[+uid]] と [[+pwd]] は必ず記載してください。記載しない場合はユーザー名とパスワードはメールで送られないため、ユーザーはユーザー名とパスワードを知ることができません。</strong>';
@@ -733,6 +787,12 @@ $_lang['setting_welcome_screen_desc'] = '「はい」を選択すると、読み
 $_lang['setting_welcome_screen_url'] = 'ようこそ画面のURL';
 $_lang['setting_welcome_screen_url_desc'] = '管理画面のようこそ画面として表示するURLを指定します。';
 
+$_lang['setting_welcome_action'] = 'Welcome Action';
+$_lang['setting_welcome_action_desc'] = 'The default controller to load when accessing the manager when no controller is specified in the URL.';
+
+$_lang['setting_welcome_namespace'] = 'Welcome Namespace';
+$_lang['setting_welcome_namespace_desc'] = 'The namespace the Welcome Action belongs to.';
+
 $_lang['setting_which_editor'] = '使用するエディタ';
 $_lang['setting_which_editor_desc'] = '使用したいリッチテキストエディタを選択します。パッケージマネージャから他のリッチテキストエディタをダウンロード・インストールできます。';
 
@@ -744,3 +804,12 @@ $_lang['setting_xhtml_urls_desc'] = '「はい」を選択すると、MODXによ
 
 $_lang['setting_default_context'] = 'デフォルトのコンテキスト';
 $_lang['setting_default_context_desc'] = '新規リソースに使用するデフォルトのコンテキストを選択します。';
+
+$_lang['setting_auto_isfolder'] = 'Set container automatically';
+$_lang['setting_auto_isfolder_desc'] = 'If set to yes, container property will be changed automatically.';
+
+$_lang['setting_default_username'] = 'Default username';
+$_lang['setting_default_username_desc'] = 'Default username for an unauthenticated user.';
+
+$_lang['setting_manager_use_fullname'] = 'Show fullname in manager header ';
+$_lang['setting_manager_use_fullname_desc'] = 'If set to yes, the content of the "fullname" field will be shown in manager instead of "loginname"';

@@ -11,30 +11,36 @@ MODx.panel.PackageMetaPanel = function(config) {
 
 	Ext.applyIf(config,{
 		cls: 'vertical-tabs-panel wrapped'
-		,headerCfg: { tag: 'div', cls: 'x-tab-panel-header vertical-tabs-header' }
-		,bwrapCfg: { tag: 'div', cls: 'x-tab-panel-bwrap vertical-tabs-bwrap' }
-        ,defaults: {
-			bodyCssClass: 'vertical-tabs-body'
-            ,autoScroll: true
-        }
-		,layoutOnTabChange: true
-		,listeners:{
-			tabchange: function(tb, pnl){
-				w = this.bwrap.getWidth();
-				this.body.setWidth(w);
-				this.doLayout();
-			}
-			,scope: this
-		}
+		// same as in parent class
+		// ,headerCfg: { tag: 'div', cls: 'x-tab-panel-header vertical-tabs-header' }
+		// ,bwrapCfg: { tag: 'div', cls: 'x-tab-panel-bwrap vertical-tabs-bwrap' }
+		// ,defaults: {
+		// 	bodyCssClass: 'vertical-tabs-body'
+		// 	,autoScroll: true
+		// 	,autoHeight: true
+		// 	,autoWidth: true
+		// }
+		// ,layoutOnTabChange: true
+		// ,listeners:{
+			// tabchange: function(tb, pnl){
+			// 	w = this.bwrap.getWidth();
+			// 	this.body.setWidth(w);
+			// 	this.doLayout();
+			// }
+			// ,scope: this
+		// }
 		,items: []
 	});
 	MODx.panel.PackageMetaPanel.superclass.constructor.call(this,config);
 };
-Ext.extend(MODx.panel.PackageMetaPanel,MODx.Tabs,{
-	updatePanel: function(meta){
+Ext.extend(MODx.panel.PackageMetaPanel,MODx.VerticalTabs,{
+	updatePanel: function(meta, record){
 		if(meta.changelog != undefined){
 			this.addTab(_('changelog'), 'changelog', meta);
 		}
+        if(meta.requires != undefined){
+            this.addDependenciesTab(_('dependencies'), 'dependencies', meta, record);
+        }
 		if(meta.readme != undefined){
 			this.addTab(_('readme'), 'readme', meta);
 		}
@@ -64,6 +70,22 @@ Ext.extend(MODx.panel.PackageMetaPanel,MODx.Tabs,{
             tab.updateDetail(data);
         }
     }
+    ,addDependenciesTab: function(title, id, data, pkgInfo){
+        var tab = this.getItem(id);
+        if (!tab) {
+            this.add({
+                title: title
+                ,xtype:'modx-panel-package-dependencies'
+                ,metaPanel: this
+                ,pkgInfo: pkgInfo
+                ,id: id +'-tab'
+                ,height: '1000px'
+                ,width: 500
+            });
+        } else {
+            Ext.getCmp('modx-grid-package-dependencies').refresh();
+        }
+    }
 });
 Ext.reg('modx-package-meta-panel',MODx.panel.PackageMetaPanel);
 
@@ -78,7 +100,6 @@ Ext.reg('modx-package-meta-panel',MODx.panel.PackageMetaPanel);
  */
 MODx.panel.PackageBeforeInstall = function(config) {
     config = config || {};
-	this.currentCrumbText = _('install');
 	this.setupOptions = null;
 
 	Ext.applyIf(config,{});
@@ -89,23 +110,45 @@ Ext.extend(MODx.panel.PackageBeforeInstall, MODx.panel.PackageMetaPanel,{
 		Ext.getCmp(this.ownerCt.id).getLayout().setActiveItem(this.id);
 		this.removeAll();
 	}
-	
-	,updateBreadcrumbs: function(msg){
-		var bd = { text: msg };
-		bd.trail = [{
-			text : this.currentCrumbText
-		}];
-		Ext.getCmp('packages-breadcrumbs').updateDetail(bd);
+
+	,updateBreadcrumbs: function(msg, rec){
+        var bc = Ext.getCmp('packages-breadcrumbs');
+        var bd = bc.getData();
+
+        bd.text = msg;
+
+        bd.trail.shift();
+
+        if (bd.trail.length > 0) {
+            bd.trail[bd.trail.length - 1].install = true;
+        }
+
+        var newBcItem = {
+            text : _('install') + ' ' + rec.data.name
+            ,rec: rec
+        };
+
+		bd.trail.push(newBcItem);
+
+		bc.updateDetail(bd);
 	}
 
-	,updatePanel: function(meta){
-		this.updateBreadcrumbs(_('license_agreement_desc'));
-		Ext.getCmp('package-list-reset').show();
-		Ext.getCmp('package-install-btn').hide();
-		Ext.getCmp('package-show-setupoptions-btn').hide();
+	,updatePanel: function(meta, record){
+        var installBtn = Ext.getCmp('package-install-btn');
+        var setupoptionsBtn = Ext.getCmp('package-show-setupoptions-btn');
+		this.updateBreadcrumbs(_('license_agreement_desc'), record);
+        Ext.getCmp('package-list-reset').show();
+        installBtn.hide().signature = '';
+        setupoptionsBtn.hide();
 		if(meta.changelog != undefined){
 			this.addTab(_('changelog'), 'changelog', meta);
 		}
+        if(meta.requires != undefined){
+            this.addDependenciesTab('Dependencies', 'dependencies', meta, record);
+        } else {
+            setupoptionsBtn.enable().setText(_('setup_options')).syncSize();
+            installBtn.enable().setText(_('continue')).syncSize();
+        }
 		if(meta.readme != undefined){
 			this.addTab(_('readme'), 'readme', meta);
 		}
@@ -114,10 +157,10 @@ Ext.extend(MODx.panel.PackageBeforeInstall, MODx.panel.PackageMetaPanel,{
 		}
 
 		if(meta['setup-options'] != null && meta['setup-options'] != ''){
-			Ext.getCmp('package-show-setupoptions-btn').show();
+            setupoptionsBtn.show().signature = record.data.signature;
 			this.setupOptions = meta['setup-options'];
 		} else {
-			Ext.getCmp('package-install-btn').show();
+            installBtn.show().signature = record.data.signature;
 		}
 		this.setActiveTab(0);
 		Ext.getCmp('modx-content').doLayout();
@@ -230,3 +273,141 @@ Ext.extend(MODx.panel.PackageDetails,MODx.Panel,{
 	}
 });
 Ext.reg('modx-package-details',MODx.panel.PackageDetails);
+
+MODx.panel.PackageDependencies = function(config) {
+    config = config || {};
+    Ext.apply(config,{
+        border: false
+        ,baseCls: 'modx-formpanel'
+//        ,cls: 'container'
+        ,cls: 'auto-width'
+        ,bodyCssClass: 'vertical-tabs-body auto-width auto-height'
+        ,items: [{
+            html: '<h2>'+ _('dependencies') +'</h2>'
+            ,border: false
+            ,cls: 'modx-page-header'
+        },{
+            xtype: 'modx-grid-package-dependencies'
+            ,preventRender: true
+            ,metaPanel: config.metaPanel
+            ,pkgInfo: config.pkgInfo
+            ,dependenciesPanel: this
+            ,cls: 'main-wrapper'
+        }]
+    });
+    MODx.panel.PackageDependencies.superclass.constructor.call(this,config);
+};
+Ext.extend(MODx.panel.PackageDependencies,MODx.Panel);
+Ext.reg('modx-panel-package-dependencies',MODx.panel.PackageDependencies);
+
+MODx.grid.PackageDependencies = function(config) {
+    config = config || {};
+
+    var cols = [];
+    cols.push({ header: _('name') ,dataIndex: 'name', id:'main',renderer: { fn: this.mainColumnRenderer, scope: this } });
+    cols.push({ header: _('constraints') ,dataIndex: 'constraints', id: 'meta-col', fixed:true, width:160 });
+    cols.push({ header: _('installed') ,dataIndex: 'installed', id: 'info-col', fixed:true, width: 160 ,renderer: this.installColumnRenderer });
+
+    Ext.applyIf(config,{
+        id: 'modx-grid-package-dependencies'
+        ,baseParams: {
+            action: 'workspace/packages/getdependencies'
+            ,signature: config.pkgInfo.data.signature
+        }
+        ,fields: ['name', 'constraints', 'installed', 'parentSignature', 'signature', 'downloaded', 'actions']
+        ,paging: false
+        ,loadMask: true
+        ,tbar: []
+        ,columns: cols
+    });
+    MODx.grid.PackageDependencies.superclass.constructor.call(this,config);
+
+    this.store.on('load', function () {
+        if (!this.checkDependencies()) {
+            Ext.getCmp('package-show-setupoptions-btn').disable().setText(_('install_dependencies_first')).syncSize();
+            Ext.getCmp('package-install-btn').disable().setText(_('install_dependencies_first')).syncSize();
+        }
+    }, this);
+};
+Ext.extend(MODx.grid.PackageDependencies,MODx.grid.Package, {
+    mainColumnRenderer:function (value, metaData, record, rowIndex, colIndex, store){
+        var rec = record.data;
+        var state = (rec.installed !== null) ? ' installed' : ' not-installed';
+        var values = { name: value, state: state, actions: null };
+
+        var h = [];
+        if(rec.downloaded == false && rec.installed == false) {
+            h.push({ className:'download primary', text: _('download') });
+        } else {
+            if(rec.installed == false) {
+                h.push({ className:'install primary', text: _('install') });
+            }
+        }
+
+        values.actions = h;
+        return this.mainColumnTpl.apply(values);
+    }
+
+    ,installColumnRenderer: function(d,c) {
+        switch(d) {
+            case '':
+            case false:
+                c.css = 'not-installed';
+                return _('not_installed');
+            default:
+                c.css = '';
+                return _('installed');
+        }
+    }
+
+    ,downloadPackage: function(rec) {
+        this.loadMask.show();
+        Ext.Ajax.request({
+            url : MODx.config.connector_url
+            ,params : {
+                action : 'workspace/packages/dependency/download'
+                ,signature: rec.data.parentSignature
+                ,name: rec.data.name
+                ,constraints: rec.data.constraints
+            }
+            ,method: 'GET'
+            ,scope: this
+            ,success: function ( result, request ) {
+                this.store.reload();
+            }
+            ,failure: function ( result, request) {
+                this.loadMask.hide();
+                Ext.MessageBox.alert(_('failed'), result.responseText);
+            }
+        });
+    }
+
+    ,onClick: function(e){
+        var t = e.getTarget();
+        var elm = t.className.split(' ')[0];
+        if(elm == 'controlBtn'){
+            var act = t.className.split(' ')[1];
+            var record = this.getSelectionModel().getSelected();
+            this.menu.record = record.data;
+            switch (act) {
+                case 'install':
+                case 'reinstall':
+                    this.install(record);
+                    break;
+                case 'download':
+                    this.downloadPackage(record);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    ,checkDependencies: function() {
+        var installed = this.store.collect('installed', true);
+
+        return installed.indexOf(false) == -1;
+    }
+});
+Ext.reg('modx-grid-package-dependencies',MODx.grid.PackageDependencies);
+

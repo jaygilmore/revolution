@@ -1,12 +1,10 @@
 <?php
 /**
- * Permissions Dutch lexicon topic
+ * Permissions English lexicon topic
  *
- * @language nl
+ * @language en
  * @package modx
  * @subpackage lexicon
- * 
- * @author Bert Oost at OostDesign.nl <bert@oostdesign.nl>
  */
 $_lang['perm.about_desc'] = 'Over ons.';
 $_lang['perm.access_permissions_desc'] = 'Alle toegang gerelateerde pagina\'s.';
@@ -68,6 +66,7 @@ $_lang['perm.file_remove_desc'] = 'Het verwijderen van fysieke files.';
 $_lang['perm.file_tree_desc'] = 'Het bekijken van de file tree in het linker menu.';
 $_lang['perm.file_update_desc'] = 'Het bijwerken van inhoud van fysieke files.';
 $_lang['perm.file_upload_desc'] = 'Het uploaden van bestanden.';
+$_lang['perm.file_unpack_desc'] = 'Om zip bestanden uit te pakken.';
 $_lang['perm.file_view_desc'] = 'De inhoud van files kunnen bekijken.';
 $_lang['perm.flush_sessions_desc'] = 'Kan sessie gegevens van de gehele site flushen.';
 $_lang['perm.frames_desc'] = 'Om de MODX manager UI &uuml;berhaupt te gebruiken.';
@@ -149,6 +148,7 @@ $_lang['perm.save_tv_desc'] = 'Het opslaan van template variabelen.';
 $_lang['perm.save_user_desc'] = 'Het opslaan van gebruikers.';
 $_lang['perm.search_desc'] = 'De zoekfunctie gebruiken.';
 $_lang['perm.settings_desc'] = 'Het bekijken en bewerken van systeem instellingen.';
+$_lang['perm.events_desc'] = 'Om System Events te kunnen zien.';
 $_lang['perm.source_delete_desc'] = 'Om een Media bron te verwijderen.';
 $_lang['perm.source_edit_desc'] = 'Om een Media bron aan te passen.';
 $_lang['perm.source_save_desc'] = 'Om een eigen Media bron aan te maken.';
