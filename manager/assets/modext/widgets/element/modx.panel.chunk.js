@@ -19,7 +19,7 @@ MODx.panel.Chunk = function(config) {
         ,items: [{
             html: _('chunk_new')
             ,id: 'modx-chunk-header'
-            ,xtype: 'modx-description'
+            ,xtype: 'modx-header'
         },MODx.getPageStructure([{
             title: _('chunk_title')
             ,defaults: { border: false ,msgTarget: 'side' }
@@ -95,6 +95,7 @@ MODx.panel.Chunk = function(config) {
                         ,description: MODx.expandHelp ? '' : _('static_file_msg')
                         ,name: 'static_file'
                         // ,hideFiles: true
+                        ,source: config.record.source != null ? config.record.source : MODx.config.default_media_source
                         ,openTo: config.record.openTo || ''
                         ,id: 'modx-chunk-static-file'
                         ,triggerClass: 'x-form-code-trigger'
@@ -293,7 +294,7 @@ Ext.extend(MODx.panel.Chunk,MODx.FormPanel,{
 
         var c = Ext.getCmp('modx-chunk-category').getValue();
         var n = c !== '' && c !== null && c != 0 ? 'n_chunk_category_'+c : 'n_type_chunk';
-        var t = Ext.getCmp('modx-element-tree');
+        var t = Ext.getCmp('modx-tree-element');
         if (t) {
         	var node = t.getNodeById('n_chunk_element_' + Ext.getCmp('modx-chunk-id').getValue() + '_' + r.result.object.previous_category);
         	if (node) node.destroy();

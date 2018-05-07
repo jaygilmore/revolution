@@ -22,8 +22,12 @@ MODx.grid.FCSet = function(config) {
             header: _('action')
             ,dataIndex: 'action'
             ,width: 200
-            ,editable: true
+            ,editable: false
             ,sortable: true
+            ,editor: {
+                xtype: 'modx-combo-fc-action',
+                renderer: true
+            }
         },{
             header: _('description')
             ,dataIndex: 'description'
@@ -98,7 +102,11 @@ MODx.grid.FCSet = function(config) {
             ,cls: 'x-form-filter-clear'
             ,text: _('filter_clear')
             ,listeners: {
-                'click': {fn: this.clearFilter, scope: this}
+                'click': {fn: this.clearFilter, scope: this},
+                'mouseout': { fn: function(evt){
+                    this.removeClass('x-btn-focus');
+                }
+                }
             }
         }]
     });

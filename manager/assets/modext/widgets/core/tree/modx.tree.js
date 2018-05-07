@@ -153,7 +153,7 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
                 node.ui.addClass('x-tree-selected');
             }
         });
-        
+
         var r = Ext.decode(resp.responseText);
         if (r.message) {
             var el = this.getTreeEl();
@@ -417,7 +417,7 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
                 var f = false;
                 var sr;
                 for (i=0;i<s.length;i++) {
-                    if (s[i] == undefined || s[i] == 'undefined') { s.splice(i,1); continue; }
+                    if (s[i] == undefined || typeof s[i] != 'string' ) { s.splice(i,1); continue; }
                     sr = s[i].search(p);
                     if (sr !== -1 && s[sr]) { /* dont add if already in */
                         if (s[sr].length > s[i].length) {
@@ -433,7 +433,7 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
             s = s.remove(p);
             /* remove all children of node */
             for (i=0;i<s.length;i++) {
-                if (s[i] == undefined || s[i] == 'undefined') { s.splice(i,1); continue; }
+                if (s[i] == undefined || typeof s[i] != 'string') { s.splice(i,1); continue; }
                 if (s[i].search(p) !== -1) {
                     delete s[i];
                 }
@@ -441,7 +441,7 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
         }
         /* clear out undefineds */
         for (i=0;i<s.length;i++) {
-            if (s[i] == undefined || s[i] == 'undefined') { s.splice(i,1); continue; }
+            if (s[i] == undefined || typeof s[i] != 'string') { s.splice(i,1); continue; }
         }
         Ext.state.Manager.set(this.treestate_id,s);
     }
@@ -462,6 +462,10 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
             else if (e.target.tagName == 'SPAN') MODx.loadPage(n.attributes.page); // only open the edit page when clicking on the text and nothing else (e.g. icon/empty space)
             else if (n.isExpandable()) n.toggle(); // when clicking anything except the node-text, just open (if available) the node
             else MODx.loadPage(n.attributes.page); // for non container nodes, they can be edited by clicking anywhere on the node
+        } else if (n.attributes.type && n.attributes.type === 'dir') {
+            if (!n.expanded) {
+                n.toggle();
+            }
         } else if (n.isExpandable()) {
             n.toggle();
         }

@@ -96,6 +96,7 @@ MODx.panel.Snippet = function(config) {
                         ,description: MODx.expandHelp ? '' : _('static_file_msg')
                         ,name: 'static_file'
                         // ,hideFiles: true
+                        ,source: config.record.source != null ? config.record.source : MODx.config.default_media_source
                         ,openTo: config.record.openTo || ''
                         ,id: 'modx-snippet-static-file'
                         ,triggerClass: 'x-form-code-trigger'
@@ -290,7 +291,7 @@ Ext.extend(MODx.panel.Snippet,MODx.FormPanel,{
         if (MODx.request.id) Ext.getCmp('modx-grid-element-properties').save();
         this.getForm().setValues(r.result.object);
 
-        var t = Ext.getCmp('modx-element-tree');
+        var t = Ext.getCmp('modx-tree-element');
         if (t) {
             var c = Ext.getCmp('modx-snippet-category').getValue();
             var u = c != '' && c != null && c != 0 ? 'n_snippet_category_'+c : 'n_type_snippet';

@@ -7,7 +7,7 @@ MODx.panel.FCProfiles = function(config) {
         ,items: [{
              html: _('form_customization')
             ,id: 'modx-fcp-header'
-            ,xtype: 'modx-description'
+            ,xtype: 'modx-header'
         },MODx.getPageStructure([{
             title: _('profiles')
             ,autoHeight: true
@@ -122,7 +122,11 @@ MODx.grid.FCProfile = function(config) {
             ,cls: 'x-form-filter-clear'
             ,text: _('filter_clear')
             ,listeners: {
-                'click': {fn: this.clearFilter, scope: this}
+                'click': {fn: this.clearFilter, scope: this},
+                'mouseout': { fn: function(evt){
+                    this.removeClass('x-btn-focus');
+                }
+                }
             }
         }]
     });
