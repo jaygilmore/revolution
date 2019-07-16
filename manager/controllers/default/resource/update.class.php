@@ -1,7 +1,11 @@
 <?php
-/**
- * @package modx
- * @subpackage manager.controllers
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  */
 require_once dirname(__FILE__).'/resource.class.php';
 /**
@@ -57,6 +61,7 @@ class ResourceUpdateManagerController extends ResourceManagerController {
                 ,mode: "update"
             });
         });
+        MODx.perm.tree_show_resource_ids = '.($this->modx->hasPermission('tree_show_resource_ids') ? 1 : 0).';
         // ]]>
         </script>');
         /* load RTE */

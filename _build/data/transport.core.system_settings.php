@@ -222,15 +222,6 @@ $settings['cache_default']->fromArray(array (
   'area' => 'caching',
   'editedon' => null,
 ), '', true, true);
-$settings['cache_disabled']= $xpdo->newObject('modSystemSetting');
-$settings['cache_disabled']->fromArray(array (
-  'key' => 'cache_disabled',
-  'value' => '0',
-  'xtype' => 'combo-boolean',
-  'namespace' => 'core',
-  'area' => 'caching',
-  'editedon' => null,
-), '', true, true);
 $settings['cache_expires']= $xpdo->newObject('modSystemSetting');
 $settings['cache_expires']->fromArray(array (
   'key' => 'cache_expires',
@@ -303,18 +294,18 @@ $settings['cache_resource_expires']->fromArray(array (
   'area' => 'caching',
   'editedon' => null,
 ), '', true, true);
+$settings['cache_resource_clear_partial']= $xpdo->newObject('modSystemSetting');
+$settings['cache_resource_clear_partial']->fromArray(array (
+    'key' => 'cache_resource_clear_partial',
+    'value' => 0,
+    'xtype' => 'combo-boolean',
+    'namespace' => 'core',
+    'area' => 'caching',
+    'editedon' => null,
+), '', true, true);
 $settings['cache_scripts']= $xpdo->newObject('modSystemSetting');
 $settings['cache_scripts']->fromArray(array (
   'key' => 'cache_scripts',
-  'value' => '1',
-  'xtype' => 'combo-boolean',
-  'namespace' => 'core',
-  'area' => 'caching',
-  'editedon' => null,
-), '', true, true);
-$settings['cache_system_settings']= $xpdo->newObject('modSystemSetting');
-$settings['cache_system_settings']->fromArray(array (
-  'key' => 'cache_system_settings',
   'value' => '1',
   'xtype' => 'combo-boolean',
   'namespace' => 'core',
@@ -447,6 +438,15 @@ $settings['default_media_source']->fromArray(array (
   'area' => 'manager',
   'editedon' => null,
 ), '', true, true);
+$settings['default_media_source_type']= $xpdo->newObject('modSystemSetting');
+$settings['default_media_source_type']->fromArray(array (
+    'key' => 'default_media_source_type',
+    'value' => 'sources.modFileMediaSource',
+    'xtype' => 'modx-combo-source-type',
+    'namespace' => 'core',
+    'area' => 'manager',
+    'editedon' => null,
+), '', true, true);
 $settings['default_per_page']= $xpdo->newObject('modSystemSetting');
 $settings['default_per_page']->fromArray(array (
   'key' => 'default_per_page',
@@ -558,7 +558,7 @@ $settings['fe_editor_lang']->fromArray(array (
 $settings['feed_modx_news']= $xpdo->newObject('modSystemSetting');
 $settings['feed_modx_news']->fromArray(array (
   'key' => 'feed_modx_news',
-  'value' => 'http://feeds.feedburner.com/modx-announce',
+  'value' => 'https://feeds.feedburner.com/modx-announce',
   'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'system',
@@ -576,7 +576,7 @@ $settings['feed_modx_news_enabled']->fromArray(array (
 $settings['feed_modx_security']= $xpdo->newObject('modSystemSetting');
 $settings['feed_modx_security']->fromArray(array (
   'key' => 'feed_modx_security',
-  'value' => 'http://forums.modx.com/board.xml?board=294',
+  'value' => 'https://forums.modx.com/board.xml?board=294',
   'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'system',
@@ -850,6 +850,15 @@ $settings['log_target']->fromArray(array (
   'key' => 'log_target',
   'value' => 'FILE',
   'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'system',
+  'editedon' => null,
+), '', true, true);
+$settings['log_deprecated']= $xpdo->newObject('modSystemSetting');
+$settings['log_deprecated']->fromArray(array (
+  'key' => 'log_deprecated',
+  'value' => 1,
+  'xtype' => 'combo-boolean',
   'namespace' => 'core',
   'area' => 'system',
   'editedon' => null,
@@ -1208,7 +1217,7 @@ $settings['proxy_username']->fromArray(array (
 $settings['password_generated_length']= $xpdo->newObject('modSystemSetting');
 $settings['password_generated_length']->fromArray(array (
   'key' => 'password_generated_length',
-  'value' => '8',
+  'value' => '10',
   'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'authentication',
@@ -1739,6 +1748,78 @@ $settings['site_unavailable_page']->fromArray(array (
   'area' => 'site',
   'editedon' => null,
 ), '', true, true);
+$settings['static_elements_automate_templates']= $xpdo->newObject('modSystemSetting');
+$settings['static_elements_automate_templates']->fromArray(array (
+  'key' => 'static_elements_automate_templates',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'static_elements',
+  'editedon' => null,
+), '', true, true);
+$settings['static_elements_automate_tvs']= $xpdo->newObject('modSystemSetting');
+$settings['static_elements_automate_tvs']->fromArray(array (
+  'key' => 'static_elements_automate_tvs',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'static_elements',
+  'editedon' => null,
+), '', true, true);
+$settings['static_elements_automate_chunks']= $xpdo->newObject('modSystemSetting');
+$settings['static_elements_automate_chunks']->fromArray(array (
+  'key' => 'static_elements_automate_chunks',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'static_elements',
+  'editedon' => null,
+), '', true, true);
+$settings['static_elements_automate_snippets']= $xpdo->newObject('modSystemSetting');
+$settings['static_elements_automate_snippets']->fromArray(array (
+  'key' => 'static_elements_automate_snippets',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'static_elements',
+  'editedon' => null,
+), '', true, true);
+$settings['static_elements_automate_plugins']= $xpdo->newObject('modSystemSetting');
+$settings['static_elements_automate_plugins']->fromArray(array (
+  'key' => 'static_elements_automate_plugins',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'static_elements',
+  'editedon' => null,
+), '', true, true);
+$settings['static_elements_default_mediasource']= $xpdo->newObject('modSystemSetting');
+$settings['static_elements_default_mediasource']->fromArray(array (
+  'key' => 'static_elements_default_mediasource',
+  'value' => '0',
+  'xtype' => 'modx-combo-source',
+  'namespace' => 'core',
+  'area' => 'static_elements',
+  'editedon' => null,
+), '', true, true);
+$settings['static_elements_default_category']= $xpdo->newObject('modSystemSetting');
+$settings['static_elements_default_category']->fromArray(array (
+  'key' => 'static_elements_default_category',
+  'value' => '0',
+  'xtype' => 'modx-combo-category',
+  'namespace' => 'core',
+  'area' => 'static_elements',
+  'editedon' => null,
+), '', true, true);
+$settings['static_elements_basepath']= $xpdo->newObject('modSystemSetting');
+$settings['static_elements_basepath']->fromArray(array (
+  'key' => 'static_elements_basepath',
+  'value' => '',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'static_elements',
+  'editedon' => null,
+), '', true, true);
 $settings['strip_image_paths']= $xpdo->newObject('modSystemSetting');
 $settings['strip_image_paths']->fromArray(array (
   'key' => 'strip_image_paths',
@@ -1963,7 +2044,7 @@ $settings['welcome_screen']->fromArray(array (
 $settings['welcome_screen_url']= $xpdo->newObject('modSystemSetting');
 $settings['welcome_screen_url']->fromArray(array (
   'key' => 'welcome_screen_url',
-  'value' => '//misc.modx.com/revolution/welcome.26.html ',
+  'value' => '//misc.modx.com/revolution/welcome.27.html ',
   'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'manager',
@@ -2111,6 +2192,24 @@ $settings['log_snippet_not_found']->fromArray(array (
     'xtype' => 'combo-boolean',
     'namespace' => 'core',
     'area' => 'site',
+    'editedon' => null,
+), '', true, true);
+$settings['error_log_filename']= $xpdo->newObject('modSystemSetting');
+$settings['error_log_filename']->fromArray(array (
+    'key' => 'error_log_filename',
+    'value' => 'error.log',
+    'xtype' => 'textfield',
+    'namespace' => 'core',
+    'area' => 'system',
+    'editedon' => null,
+), '', true, true);
+$settings['error_log_filepath']= $xpdo->newObject('modSystemSetting');
+$settings['error_log_filepath']->fromArray(array (
+    'key' => 'error_log_filepath',
+    'value' => '',
+    'xtype' => 'textfield',
+    'namespace' => 'core',
+    'area' => 'system',
     'editedon' => null,
 ), '', true, true);
 return $settings;

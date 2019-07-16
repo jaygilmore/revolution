@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * Create an action
  *
@@ -46,7 +55,7 @@ class modActionCreateProcessor extends modObjectCreateProcessor {
 
         /* verify parent */
         $parent = $this->getProperty('parent',null);
-        if ($parent == null) {
+        if ($parent === null) {
             $this->addFieldError('parent',$this->modx->lexicon('action_parent_err_ns'));
         } else if (!empty($parent)) {
             $parent = $this->modx->getObject('modAction',$parent);
@@ -59,13 +68,13 @@ class modActionCreateProcessor extends modObjectCreateProcessor {
         $namespace = $this->getProperty('namespace','');
         if (empty($namespace)) $this->addFieldError('namespace',$this->modx->lexicon('namespace_err_nf'));
         $namespace = $this->modx->getObject('modNamespace',$namespace);
-        if (empty($namespace)) {
+        if ($namespace === null) {
             $this->addFieldError('namespace',$this->modx->lexicon('namespace_err_nf'));
         }
 
         /* set lang_topcis to namespace:default if it is empty */
         $lang_topics = $this->getProperty('lang_topics');
-        if(empty($lang_topics)){
+        if(empty($lang_topics) && $namespace !== null){
             $this->object->set('lang_topics', $namespace->name . ':default');
         }
 

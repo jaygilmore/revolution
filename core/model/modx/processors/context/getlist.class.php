@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * Grabs a list of contexts.
  *
@@ -23,6 +32,10 @@ class modContextGetListProcessor extends modObjectGetListProcessor {
     /** @var boolean $canCreate Determines whether or not the user can create a context (/duplicate one) */
     public $canCreate = false;
 
+    /**
+     * {@inheritDoc}
+     * @return boolean
+     */
     public function initialize() {
         $initialized = parent::initialize();
         $this->setDefaultProperties(array(
@@ -35,6 +48,11 @@ class modContextGetListProcessor extends modObjectGetListProcessor {
         return $initialized;
     }
 
+    /**
+     * {@inheritDoc}
+     * @param xPDOQuery $c
+     * @return xPDOQuery
+     */
     public function prepareQueryBeforeCount(xPDOQuery $c) {
         $search = $this->getProperty('search');
         if (!empty($search)) {
@@ -47,6 +65,21 @@ class modContextGetListProcessor extends modObjectGetListProcessor {
         if (!empty($exclude)) {
             $c->where(array(
                 'key:NOT IN' => is_string($exclude) ? explode(',',$exclude) : $exclude,
+            ));
+        }
+        return $c;
+    }
+
+    /**
+     * Filter the query by the valueField of MODx.combo.Context to get the initially value displayed right
+     * @param xPDOQuery $c
+     * @return xPDOQuery
+     */
+    public function prepareQueryAfterCount(xPDOQuery $c) {
+        $key = $this->getProperty('key','');
+        if (!empty($key)) {
+            $c->where(array(
+                $this->classKey . '.key:IN' => is_string($key) ? explode(',', $key) : $key,
             ));
         }
         return $c;

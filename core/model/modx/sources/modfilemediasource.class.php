@@ -1,7 +1,11 @@
 <?php
-/**
- * @package modx
- * @subpackage sources
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  */
 require_once MODX_CORE_PATH . 'model/modx/sources/modmediasource.class.php';
 /**
@@ -43,7 +47,8 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
         $bases['path'] = $properties['basePath']['value'];
         $bases['pathIsRelative'] = false;
         if (!empty($properties['basePathRelative']['value'])) {
-            $bases['pathAbsolute'] = realpath("{$this->ctx->getOption('base_path',MODX_BASE_PATH)}{$bases['path']}"). '/';
+            $realpath = realpath($this->ctx->getOption('base_path', MODX_BASE_PATH) . $bases['path']);
+            $bases['pathAbsolute'] = ($realpath !== false) ? $realpath. '/' : '';
             $bases['pathIsRelative'] = true;
         } else {
             $bases['pathAbsolute'] = $bases['path'];
@@ -201,7 +206,7 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
                     'type' => 'file',
                     'leaf' => true,
                     // 'qtip' => in_array($ext,$imagesExts) ? '<img src="'.$fromManagerUrl.'" alt="'.$fileName.'" />' : '',
-                    'page' => $this->fileHandler->isBinary($filePathName) ? $page : null,
+                    'page' => $this->fileHandler->isBinary($filePathName) ? null : $page,
                     'perms' => $octalPerms,
                     'path' => $bases['pathAbsoluteWithPath'].$fileName,
                     'pathRelative' => $bases['pathRelative'].$fileName,
@@ -341,6 +346,11 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
                     'text' => $this->xpdo->lexicon('file_download'),
                     'handler' => 'this.downloadFile',
                 );
+
+                $menu[] = array(
+                    'text' => $this->xpdo->lexicon('file_copy_path'),
+                    'handler' => 'this.copyRelativePath',
+                );
             }
             if ($this->hasPermission('file_unpack') && $canView && pathinfo($file->getFilename(), PATHINFO_EXTENSION) === 'zip') {
                 $menu[] = array(
@@ -377,6 +387,11 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
             $menu[] = array(
                 'text' => $this->xpdo->lexicon('directory_refresh'),
                 'handler' => 'this.refreshActiveNode',
+            );
+
+            $menu[] = array(
+                'text' => $this->xpdo->lexicon('file_folder_copy_path'),
+                'handler' => 'this.copyRelativePath',
             );
             if ($this->hasPermission('file_upload') && $canCreate) {
                 $menu[] = '-';
@@ -558,7 +573,7 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
             $allowedFileTypes = (!is_array($allowedFileTypes)) ? array_map("trim",explode(',', $allowedFileTypes)) : $allowedFileTypes;
         } else {
             $allowedFiles = $this->xpdo->getOption('upload_files') ? array_map("trim",explode(',', $this->xpdo->getOption('upload_files'))) : array();
-            $allowedImages = $this->xpdo->getOption('upload_images') ? array_map("trim",explode(',', $this->xpdo->getOption('upload_files'))) : array();
+            $allowedImages = $this->xpdo->getOption('upload_images') ? array_map("trim",explode(',', $this->xpdo->getOption('upload_images'))) : array();
             $allowedMedia = $this->xpdo->getOption('upload_media') ? array_map("trim",explode(',', $this->xpdo->getOption('upload_media'))) : array();
             $allowedFlash = $this->xpdo->getOption('upload_flash') ? array_map("trim",explode(',', $this->xpdo->getOption('upload_flash'))): array();
             $allowedFileTypes = array_unique(array_merge($allowedFiles, $allowedImages, $allowedMedia, $allowedFlash));
@@ -1167,7 +1182,7 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
                     'disabled' => false,
                     'perms' => $octalPerms,
                     'leaf' => true,
-                    'page' => $this->fileHandler->isBinary($filePathName) ? $page : null,
+                    'page' => $this->fileHandler->isBinary($filePathName) ? null : $page,
                     'size' => $filesize,
                     'menu' => array(),
                 );

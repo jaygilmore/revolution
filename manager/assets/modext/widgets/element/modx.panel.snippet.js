@@ -6,6 +6,9 @@
  */
 MODx.panel.Snippet = function(config) {
     config = config || {};
+    config.record = config.record || {};
+    config = MODx.setStaticElementsConfig(config, 'snippet');
+
     Ext.applyIf(config,{
         url: MODx.config.connector_url
         ,baseParams: {
@@ -67,7 +70,15 @@ MODx.panel.Snippet = function(config) {
                         ,value: config.record.name
                         ,listeners: {
                             'keyup': {scope:this,fn:function(f,e) {
-                                Ext.getCmp('modx-snippet-header').getEl().update(_('snippet')+': '+f.getValue());
+                                var title = Ext.util.Format.stripTags(f.getValue());
+                                title = _('snippet')+': '+Ext.util.Format.htmlEncode(title);
+                                if (MODx.request.a !== 'element/snippet/create' && MODx.perm.tree_show_element_ids === 1) {
+                                    title = title+ ' <small>('+this.config.record.id+')</small>';
+                                }
+
+                                Ext.getCmp('modx-snippet-header').getEl().update(title);
+
+                                MODx.setStaticElementPath('snippet');
                             }}
                         }
                     },{
@@ -138,6 +149,16 @@ MODx.panel.Snippet = function(config) {
                         ,id: 'modx-snippet-category'
                         ,anchor: '100%'
                         ,value: config.record.category || 0
+                        ,listeners: {
+                            'afterrender': {scope:this,fn:function(f,e) {
+                                setTimeout(function(){
+                                    MODx.setStaticElementPath('snippet');
+                                }, 200);
+                            }}
+                            ,'change': {scope:this,fn:function(f,e) {
+                                MODx.setStaticElementPath('snippet');
+                            }}
+                        }
                     },{
                         xtype: MODx.expandHelp ? 'label' : 'hidden'
                         ,forId: 'modx-snippet-category'
@@ -238,6 +259,12 @@ MODx.panel.Snippet = function(config) {
             'setup': {fn:this.setup,scope:this}
             ,'success': {fn:this.success,scope:this}
             ,'beforeSubmit': {fn:this.beforeSubmit,scope:this}
+            ,'failureSubmit': {
+                fn: function () {
+                    this.showErroredTab(['modx-snippet-form'], 'modx-snippet-tabs')
+                },
+                scope: this
+            }
         }
     });
     MODx.panel.Snippet.superclass.constructor.call(this,config);
@@ -250,7 +277,11 @@ Ext.extend(MODx.panel.Snippet,MODx.FormPanel,{
         if (this.initialized) { this.clearDirty(); return true; }
         this.getForm().setValues(this.config.record);
         if (!Ext.isEmpty(this.config.record.name)) {
-            Ext.getCmp('modx-snippet-header').getEl().update(_('snippet')+': '+this.config.record.name);
+            var title = _('snippet')+': '+this.config.record.name;
+            if (MODx.perm.tree_show_element_ids === 1) {
+                title = title+ ' <small>('+this.config.record.id+')</small>';
+            }
+            Ext.getCmp('modx-snippet-header').getEl().update(title);
         }
         if (!Ext.isEmpty(this.config.record.properties)) {
             var d = this.config.record.properties;

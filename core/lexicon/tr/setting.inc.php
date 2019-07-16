@@ -21,6 +21,7 @@ $_lang['area_manager'] = 'Arka-plan Yöneticisi';
 $_lang['area_phpthumb'] = 'phpThumb';
 $_lang['area_proxy'] = 'Vekil Sunucu';
 $_lang['area_session'] = 'Oturum ve Çerez';
+$_lang['area_static_elements'] = 'Static Elements';
 $_lang['area_lexicon_string'] = 'Alan Veri Sözlüğü Girişi';
 $_lang['area_lexicon_string_msg'] = 'Buradaki alan için veri sözlüğü girişi anahtarını girin. Eğer veri sözlüğü girişi yoksa, sadece alan anahtarını görüntüleyecek.<br />Esas Alanlar: kimlik doğrulama, önbellekleme, dosya, toplamalar, ağ geçidi, dil, yönetici, oturum, site, sistem';
 $_lang['area_site'] = 'Site';
@@ -48,7 +49,7 @@ $_lang['setting_remove'] = 'Ayarı Sil';
 $_lang['setting_remove_confirm'] = 'Bu ayarı silmek istediğinizden emin misiniz? Bu MODX kurulumunu bozabilir.';
 $_lang['setting_update'] = 'Ayarları Güncelle';
 $_lang['settings_after_install'] = 'Bu yeni bir kurulum olduğu için bu ayarları kontrol etmeniz, ve istediğiniz ayarları değiştirmeniz gerekmektedir. Ayarları kontrol ettikten sonra, ayarlar veri tabanını güncelleştirmek için \'Kaydet\'e basınız.<br /><br />';
-$_lang['settings_desc'] = 'Burada genel tercihleri ve MODX yönetici arayüzü için yapılandırma ayarlarının yanısıra MODX sitenizin nasıl çalışacağını belirleyebilirsiniz. Kılavuz yolu ile dinamik anlamda düzenlemek için düzenlemek istediğiniz ayarın değer sütununa çift tıklayın, veya daha fazla seçenek için bir ayarı sağ tıklayın. Ayrıca ayarın tanımı için "+" işaretine de tıklayabilirsiniz.';
+$_lang['settings_desc'] = 'Here you can set general preferences and configuration settings for the MODX manager interface, as well as how your MODX site runs. <b>Each setting will be available via the [[++key]] placeholder.</b><br />Double-click on the value column for the setting you\'d like to edit to dynamically edit via the grid, or right-click on a setting for more options. You can also click the "+" sign for a description of the setting.';
 $_lang['settings_furls'] = 'Kullanıcı Dostu URLler';
 $_lang['settings_misc'] = 'Diğer';
 $_lang['settings_site'] = 'Site';
@@ -95,8 +96,8 @@ $_lang['setting_allow_manager_login_forgot_password_desc'] = 'Bunu "Hayır" olar
 $_lang['setting_allow_tags_in_post'] = 'GÖNDERİ içinde Etiketlere İzin Ver';
 $_lang['setting_allow_tags_in_post_desc'] = 'Eğer yanlış ise, tüm GÖNDERİ değişkenlerinden HTML komut dosyası etiketleri, sayısal öğeler ve MODX etiketleri kaldırılacaktır. MODX varsayılan olarak doğru ayarlandığı yerlerde, yön bağlamı dışındaki bağlamlar için bu grubu yanlış olarak bırakmanızı tavsiye eder.';
 
-$_lang['setting_allow_tv_eval'] = 'TV\'yi bağlamak için evali devre dışı bırak';
-$_lang['setting_allow_tv_eval_desc'] = 'TV bağlantısında ki eval özelliğini devre dışı bırakmak veya etkinleştirmek için bu seçeneği tıklayın.';
+$_lang['setting_allow_tv_eval'] = 'Enable eval in TV bindings';
+$_lang['setting_allow_tv_eval_desc'] = 'Select this option to enable or disable eval in TV bindings. If this option is set to no, the code/value will just be handled as regular text.';
 
 $_lang['setting_anonymous_sessions'] = 'Anonim Oturumlar';
 $_lang['setting_anonymous_sessions_desc'] = 'Devre dışı bırakılırsa, yalnızca kimliği doğrulanmış kullanıcılar bir PHP oturumuna erişebilir. Bu, üye olmayan kullanıcıların MODX sitesinde bir oturuma ihtiyaç duymazlarsa yüklerini azaltacaktır. Session_enabled yanlışsa, oturumların hiçbiri kullanılamayacağı için bu ayarın hiçbir etkisi yoktur.';
@@ -118,6 +119,9 @@ $_lang['setting_allow_multiple_emails_desc'] = 'Etkinleştirilirse Kullanıcıla
 
 $_lang['setting_automatic_alias'] = 'Rumuzu otomatik olarak üret';
 $_lang['setting_automatic_alias_desc'] = 'Kaydedilirken sistemin Kaynağın sayfa başlığını baz alarak otomatik bir rumuz oluşturmasını sağlamak için \'Evet\' i seçin.';
+
+$_lang['setting_automatic_template_assignment'] = 'Automatic Template Assignment';
+$_lang['setting_automatic_template_assignment_desc'] = 'Choose how templates are assigned to new Resources on creation. Options include: system (default template from system settings), parent (inherits the parent template), or sibling (inherits the most used sibling template)';
 
 $_lang['setting_base_help_url'] = 'Temel Yardım URL\'si';
 $_lang['setting_base_help_url_desc'] = 'Yönetici içindeki sayfaların sağ üstünde Yardım bağlantıları ile oluşturmak için kullanılacak temel URL.';
@@ -153,12 +157,11 @@ $_lang['setting_cache_default'] = 'Önbelleklenebilirlik varsayılan';
 $_lang['setting_cache_default_desc'] = 'Varsayılan olarak tüm yeni Kaynakları önbelleklenebilir kılmak için \'Evet\' seçeneğini seçin.';
 $_lang['setting_cache_default_err'] = 'Lütfen belgelerin varsayılan olarak önbellekte saklanmasını isteyip istemediğinizi belirtin.';
 
-$_lang['setting_cache_disabled'] = 'Genel Önbellek Seçeneklerini Devre dışı bırak';
-$_lang['setting_cache_disabled_desc'] = 'Tüm MODX önbellekleme özelliklerini devre dışı bırakmak için \'Evet\'i seçin. MODX önbelleklemeyi devre dışı bırakmayı önermez.';
-$_lang['setting_cache_disabled_err'] = 'Lütfen önbelleğin etkinleştirilmesini isteyip istemediğinizi belirtin.';
-
 $_lang['setting_cache_expires'] = 'varsayılan önbellek için geçerlilik süresi';
 $_lang['setting_cache_expires_desc'] = 'Bu değer (saniye olarak) önbellek dosyalarının varsayılan önbelleğe alma süresinin sonuna kadar geçen süre miktarını ayarlar.';
+
+$_lang['setting_cache_resource_clear_partial'] = 'Clear Partial Resource Cache for provided contexts';
+$_lang['setting_cache_resource_clear_partial_desc'] = 'When enabled, MODX refresh will only clear resource cache for the provided contexts.';
 
 $_lang['setting_cache_format'] = 'Kullanmak için Önbellek Biçimi';
 $_lang['setting_cache_format_desc'] = '0 = PHP, 1 = JSON, 2 = serialize. Biçimlerden biri';
@@ -235,6 +238,9 @@ $_lang['setting_default_duplicate_publish_option_desc'] = 'bir kaynağı çogalt
 
 $_lang['setting_default_media_source'] = 'Varsayılan Medya kaynağı';
 $_lang['setting_default_media_source_desc'] = 'Yüklemek için varsayılan Medya Kaynağı.';
+
+$_lang['setting_default_media_source_type'] = 'Default Media Source Type';
+$_lang['setting_default_media_source_type_desc'] = 'The default selected Media Source Type when creating a new Media Source.';
 
 $_lang['setting_default_template'] = 'Varsayılan şablon';
 $_lang['setting_default_template_desc'] = 'Yeni Kaynaklar için kullanmak istediğiniz varsayılan Şablonu seçin. Kaynak düzenleyicide yine de farklı bir şablon seçebilirsiniz, bu ayar Şablonlarınızdan birini önceden seçer.';
@@ -364,7 +370,7 @@ $_lang['setting_inline_help'] = 'Alanlar için Satır İçi Yardım Metnini Gör
 $_lang['setting_inline_help_desc'] = 'Eğer \'Evet\'se, alanlar yardım metnini doğrudan alanın altında görüntüler. \'Hayır\' ise, tüm alanlarda araç ipucu tabanlı yardım alacaksınız.';
 
 $_lang['setting_link_tag_scheme'] = 'URL Oluşturma Şeması';
-$_lang['setting_link_tag_scheme_desc'] = 'Etiket için [[~ id]] URL oluşturma şeması. Mevcut seçenekler<a href="http://api.modx.com/revolution/2.2/db_core_model_modx_modx.class.html#\\modX::makeUrl()" target="_blank">işte</a>.';
+$_lang['setting_link_tag_scheme_desc'] = 'Etiket için [[~ id]] URL oluşturma şeması. Mevcut seçenekler<a href="http://api.modx.com/revolution/2.2/db_core_model_modx_modx.class.html#\modX::makeUrl()" target="_blank">işte</a>.';
 
 $_lang['setting_locale'] = 'Yerel';
 $_lang['setting_locale_desc'] = 'Sistem için yerel ayar ayarla. Varsayılan olarak kullanmak için boş bırakın. Daha fazla bilgi için <a href="http://php.net/setlocale" target="_blank">PHP belgelerine</a> bakın.';
@@ -377,6 +383,9 @@ $_lang['setting_log_level_desc'] = 'Varsayılan günlük kaydı düzeyi; Seviye 
 
 $_lang['setting_log_target'] = 'Günlüğe kaydetme hedefi';
 $_lang['setting_log_target_desc'] = 'Günlük mesajlarının yazıldığı yerdeki varsayılan hedef günlük. Kullanılabilir seçenekler: \'FILE\', \'HTML\', ya da \'ECHO\'. Eğer belirtilmemişse varsayılan değer \'FILE\'\'dır.';
+
+$_lang['setting_log_deprecated'] = 'Log Deprecated Functions';
+$_lang['setting_log_deprecated_desc'] = 'Enable to receive notices in your error log when deprecated functions are used.';
 
 $_lang['setting_mail_charset'] = 'Posta Karakter Seti';
 $_lang['setting_mail_charset_desc'] = 'E-postalar için varsayılan karakter seti, ör., \'iso-8859-1\' veya \'utf-8\'';
@@ -472,7 +481,7 @@ $_lang['setting_modRequest.class'] = 'İstek İşleyici Sınıfı';
 $_lang['setting_modRequest.class_desc'] = '';
 
 $_lang['setting_modx_browser_tree_hide_files'] = 'Medya Tarayıcı Ağaç Dosyalarını Gizle';
-$_lang['setting_modx_browser_tree_hide_files_desc'] = 'Doğruysa, klasörler içindeki dosyalar Ortam Tarayıcı kaynak ağacında görüntülenmez. Varsayılan değer yanlış.';
+$_lang['setting_modx_browser_tree_hide_files_desc'] = 'If true the files inside folders are not displayed in the Media Browser source tree.';
 
 $_lang['setting_modx_browser_tree_hide_tooltips'] = 'Media Tarayıcı Ağacı araç ipuçlarını gizle';
 $_lang['setting_modx_browser_tree_hide_tooltips_desc'] = 'True ise, medya tarayıcı ağacındaki bir dosyanın üzerine geldiğinde görüntü önizlemesi araç ipuçları gösterilmez. Varsayılan doğru.';
@@ -687,7 +696,7 @@ $_lang['setting_show_tv_categories_header_desc'] = '"Evet" ise, MODX bir Kaynakt
 
 $_lang['setting_signupemail_message'] = 'Kayıt e-postası';
 $_lang['setting_signupemail_message_desc'] = 'Burada, kullanıcılarınıza bir hesap oluştururken gönderdikleri mesajı ayarlayabilir ve MODX\'in kullanıcı adlarını ve şifrelerini içeren bir e-posta göndermesine izin verebilirsiniz.<br /><strong>Not:</strong>Iletinin gönderildiğinde aşağıdaki yer tutucuları içerik yöneticisi tarafından değiştirilir:<br /><br />[[+sname]]-Web sitenizin adı, <br />[[+saddr]] - Web sitesi e-posta adresi, <br />[[+surl]] - Sitenizin URL\'si, <br />[[+uid]] - Kullanıcının oturum açma adı veya kimliği, <br />[[+pwd]] - Kullanıcı parolası, <br />[[+ufn]] - Kullanıcının tam adı. <br /><br /><strong>Bırakın[[+uid]] ve [[+pwd]] e-posta veya kullanıcı adı ve parola postayla gönderilmeyecek ve kullanıcılarınız kullanıcı adınızı veya şifrenizi bilmiyecek!</strong>';
-$_lang['setting_signupemail_message_default'] = 'Merhaba [[+uid]] \n\n burada [[+sname]] içerik yöneticisi:\n\nusername: [[+uid]]\npassword: [[+pwd]]\n\n \\ nsecure Manager ([[+surl]]), parolanızı değiştirebilirsiniz.\n\nRegards,\nsite yöneticisi';
+$_lang['setting_signupemail_message_default'] = 'Merhaba [[+uid]] \n\n burada [[+sname]] içerik yöneticisi:\n\nusername: [[+uid]]\npassword: [[+pwd]]\n\n \ nsecure Manager ([[+surl]]), parolanızı değiştirebilirsiniz.\n\nRegards,\nsite yöneticisi';
 
 $_lang['setting_site_name'] = 'Site ismi';
 $_lang['setting_site_name_desc'] = 'Sitenizin adını buraya girin.';
@@ -707,6 +716,30 @@ $_lang['setting_site_unavailable_message_desc'] = 'Site çevrimdışı olduğund
 $_lang['setting_site_unavailable_page'] = 'Site kullanılamayan sayfa';
 $_lang['setting_site_unavailable_page_desc'] = 'Offline sayfa olarak kullanmak istediğiniz Kaynak IDsini buraya girin. <strong>NOT: Girmiş olduğunuz ID\'nin var olan bir Kaynağa ait olduğundan ve bunun yayımlandığından emin olun!</strong>';
 $_lang['setting_site_unavailable_page_err'] = 'Lütfen sitenin kullanılamayan sayfası için belge kimliği belirtin.';
+
+$_lang['setting_static_elements_automate_templates'] = 'Automate static elements for templates?';
+$_lang['setting_static_elements_automate_templates_desc'] = 'This will automate the handling of static files, such as creating and removing static files for templates.';
+
+$_lang['setting_static_elements_automate_tvs'] = 'Automate static elements for template variables?';
+$_lang['setting_static_elements_automate_tvs_desc'] = 'This will automate the handling of static files, such as creating and removing static files for template variables.';
+
+$_lang['setting_static_elements_automate_chunks'] = 'Automate static elements for chunks?';
+$_lang['setting_static_elements_automate_chunks_desc'] = 'This will automate the handling of static files, such as creating and removing static files for chunks.';
+
+$_lang['setting_static_elements_automate_snippets'] = 'Automate static elements for snippets?';
+$_lang['setting_static_elements_automate_snippets_desc'] = 'This will automate the handling of static files, such as creating and removing static files for snippets.';
+
+$_lang['setting_static_elements_automate_plugins'] = 'Automate static elements for plugins?';
+$_lang['setting_static_elements_automate_plugins_desc'] = 'This will automate the handling of static files, such as creating and removing static files for plugins.';
+
+$_lang['setting_static_elements_default_mediasource'] = 'Static elements default mediasource';
+$_lang['setting_static_elements_default_mediasource_desc'] = 'Specify a default mediasource where you want to store the static elements in.';
+
+$_lang['setting_static_elements_default_category'] = 'Static elements default category';
+$_lang['setting_static_elements_default_category_desc'] = 'Specify a default category for creating new static elements.';
+
+$_lang['setting_static_elements_basepath'] = 'Static elements basepath';
+$_lang['setting_static_elements_basepath_desc'] = 'Basepath of where to store the static elements files.';
 
 $_lang['setting_strip_image_paths'] = 'Tarayıcı yollarını yeniden yazın?';
 $_lang['setting_strip_image_paths_desc'] = 'Bu \'Hayır\' olarak ayarlanırsa, MODX dosya tarayıcı kaynak src\'lerini (resimler, dosyalar, flaş vb.) Mutlak URL\'ler olarak yazacaktır. MODX yüklemenizi, örneğin bir hazırlama sitesinden bir üretim sitesine taşımak isterseniz göreceli URL\'ler yardımcı olur. Bunun anlamı hakkında hiçbir fikriniz yoksa, sadece \'Evet\' olarak bırakmak en iyisidir.';
@@ -819,5 +852,11 @@ $_lang['setting_default_username_desc'] = 'Kimliği doğrulanmamış bir kullan�
 $_lang['setting_manager_use_fullname'] = 'Yönetici başlığında tam adı göster ';
 $_lang['setting_manager_use_fullname_desc'] = 'Evet olarak ayarlanırsa, "fullname" alanının içeriği "logname" yerine Yöneticisi\'nde gösterilir"';
 
-$_lang['log_snippet_not_found'] = 'Kayıt parçacıkları bulunamadı';
-$_lang['log_snippet_not_found_desc'] = 'Evet olarak ayarlanırsa, çağrılan ancak bulunmayan parçacıklar hata günlüğüne kaydedilir.';
+$_lang['setting_log_snippet_not_found'] = 'Kayıt parçacıkları bulunamadı';
+$_lang['setting_log_snippet_not_found_desc'] = 'Evet olarak ayarlanırsa, çağrılan ancak bulunmayan parçacıklar hata günlüğüne kaydedilir.';
+
+$_lang['setting_error_log_filename'] = 'Error log filename';
+$_lang['setting_error_log_filename_desc'] = 'Customize the filename of the MODX error log file (includes file extension).';
+
+$_lang['setting_error_log_filepath'] = 'Error log path';
+$_lang['setting_error_log_filepath_desc'] = 'Optionally set a absolute path the a custom error log location. You might use placehodlers like {cache_path}.';

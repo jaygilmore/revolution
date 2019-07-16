@@ -1,7 +1,11 @@
 <?php
-/**
- * @package modx
- * @subpackage sources
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  */
 require_once MODX_CORE_PATH . 'model/modx/sources/modmediasource.class.php';
 /**
@@ -193,6 +197,7 @@ class modS3MediaSource extends modMediaSource implements modMediaSourceInterface
                 $directories[$currentPath]['menu'] = array('items' => $this->getListContextMenu($currentPath,$isDir,$directories[$currentPath]));
             } else {
                 $url = rtrim($properties['url'],'/').'/'.$currentPath;
+                $url = str_replace(' ','%20',$url);
                 $page = '?a='.$editAction.'&file='.$currentPath.'&wctx='.$this->ctx->get('key').'&source='.$this->get('id');
                 // $isBinary = $this->isBinary(rtrim($properties['url'],'/').'/'.$currentPath);
 
@@ -424,6 +429,7 @@ class modS3MediaSource extends modMediaSource implements modMediaSourceInterface
 
         foreach ($list as $idx => $currentPath) {
             $url = $bucketUrl.trim($currentPath,'/');
+            $url = str_replace(' ','%20',$url);
             $fileName = basename($currentPath);
             $isDir = substr(strrev($currentPath),0,1) == '/' ? true : false;
             if (in_array($currentPath,$skipFiles)) continue;
@@ -653,7 +659,7 @@ class modS3MediaSource extends modMediaSource implements modMediaSourceInterface
             $allowedFileTypes = explode(',', $this->getOption('allowedFileTypes'));
         } else {
             $allowedFiles = $this->xpdo->getOption('upload_files') ? explode(',', $this->xpdo->getOption('upload_files')) : array();
-            $allowedImages = $this->xpdo->getOption('upload_images') ? explode(',', $this->xpdo->getOption('upload_files')) : array();
+            $allowedImages = $this->xpdo->getOption('upload_images') ? explode(',', $this->xpdo->getOption('upload_images')) : array();
             $allowedMedia = $this->xpdo->getOption('upload_media') ? explode(',', $this->xpdo->getOption('upload_media')) : array();
             $allowedFlash = $this->xpdo->getOption('upload_flash') ? explode(',', $this->xpdo->getOption('upload_flash')) : array();
             $allowedFileTypes = array_unique(array_merge($allowedFiles, $allowedImages, $allowedMedia, $allowedFlash));

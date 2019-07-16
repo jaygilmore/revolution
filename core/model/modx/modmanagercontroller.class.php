@@ -1,7 +1,13 @@
 <?php
-/**
- * @package modx
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  */
+
 /**
  * Abstract class for manager controllers. Not to be initialized directly; must be extended by the implementing
  * controller.
@@ -48,7 +54,7 @@ abstract class modManagerController {
     protected $failureMessage = '';
 
     /**
-     * The constructor for the modManaagerController class.
+     * The constructor for the modManagerController class.
      *
      * @param modX $modx A reference to the modX object.
      * @param array $config A configuration array of options related to this controller's action object.

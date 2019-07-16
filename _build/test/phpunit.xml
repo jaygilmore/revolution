@@ -53,11 +53,20 @@
             <!--<directory>Tests/Processors/System</directory>
             <directory>Tests/Processors/Resource</directory>-->
         </testsuite>
+        <testsuite name="Transport">
+            <directory>Tests/Transport</directory>
+        </testsuite>
         <testsuite name="Cases">
+            <directory>Tests/Cases/Modx/</directory>
             <directory>Tests/Cases/Request/</directory>
         </testsuite>
         <testsuite name="Teardown">
             <file>Tests/modXTeardownTest.php</file>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./../../core/model/modx/</directory>
+        </whitelist>
+    </filter>
 </phpunit>

@@ -1,7 +1,13 @@
 <?php
-/**
- * @package modx
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  */
+
 /**
  * A collection of rules for the related Form Customization Profile. Can be applied to different "actions", or pages,
  * within the manager. Also can set a constraint on the set so that it only applies under certain circumstances, or
@@ -22,7 +28,7 @@
 class modFormCustomizationSet extends xPDOSimpleObject {
     /**
      * Get the formatted data for the FC Set
-     * 
+     *
      * @return array
      */
     public function getData() {
@@ -145,7 +151,8 @@ class modFormCustomizationSet extends xPDOSimpleObject {
                         break;
                     case 'tvMove':
                         $tvArray['tab'] = $rule->get('value');
-                        $tvArray['rank'] = ((int)$rule->get('rank'))-10;
+                        /* subtract 20 from rank that have been added in update processor */
+                        $tvArray['rank'] = ((int)$rule->get('rank'))-20;
                         if ($tvArray['rank'] < 0) $tvArray['rank'] = 0;
                         break;
                 }

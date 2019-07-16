@@ -5,8 +5,9 @@
  * @package setup
  * @subpackage lexicon
  */
-$_lang['add_column'] = 'Přidán nový sloupec `[[+column]]` do tabulky `[[+table]]`.';
-$_lang['add_index'] = 'Přidán nový index na sloupec `[[+index]]` v tabulce `[[+table]]`.';
+$_lang['add_column'] = 'Přidán nový sloupec `[[+column]]` do [[+table]].';
+$_lang['add_index'] = 'Přidáno nový index na `[[+index]]` v tabulce [[+table]].';
+$_lang['alter_column'] = 'Změněn sloupec `[[+column]]` v tabulce [[+table]].';
 $_lang['add_moduser_classkey'] = 'Přidán sloupec class_key pro podporu odvozenin modUser.';
 $_lang['added_cachepwd'] = 'Přidán sloupec cachepwd chybějící v předchozích vydání Revolution.';
 $_lang['added_content_ft_idx'] = 'Přidán nový full-textový index `content_ft_idx` na sloupce `pagetitle`, `longtitle`, `description`, `introtext`, `content`.';
@@ -15,7 +16,7 @@ $_lang['alter_activeuser_action'] = 'Upraven modActiveUser sloupec `action` pro 
 $_lang['alter_usermessage_messageread'] = 'Změněn modUserMessage sloupec `messageread` na `read`.';
 $_lang['alter_usermessage_postdate'] = 'Změněn modUserMessage sloupec `postdate` z INT na DATETIME a název `date_sent`.';
 $_lang['alter_usermessage_subject'] = 'Změněn modUserMessage sloupec `subject` z VARCHAR(60) na VARCHAR(255).';
-$_lang['change_column'] = 'Změněn sloupec `[[+old]]` na `[[+new]]` v tabulce `[[+table]]`.';
+$_lang['change_column'] = 'Pole `[[+old]]` změněno na `[[+new]]` v tabulce [[+table]].';
 $_lang['change_default_value'] = 'Změněna výchozí hodnota pro sloupec `[[+column]]` na "[[+value]]" v tabulce `[[+table]]`.';
 $_lang['connector_acls_removed'] = 'Odestraněn konektor kontextu přístupů.';
 $_lang['connector_acls_not_removed'] = 'Nepodařilo se odstranit konektor kontextu přístupů.';

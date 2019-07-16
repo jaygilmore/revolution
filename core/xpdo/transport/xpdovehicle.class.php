@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License along with
  * xPDO; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA
- */
+*/
+
 /**
  * Abstract class that represents an artifact within a transportable package.
  *
@@ -141,7 +142,7 @@ abstract class xPDOVehicle {
                     case 'file' :
                         if (isset ($options[xPDOTransport::RESOLVE_FILES]) && !$options[xPDOTransport::RESOLVE_FILES]) {
                             $resolved = true;
-                            continue;
+                            break;
                         }
                         if ($transport->xpdo->getDebug() === true) {
                             $transport->xpdo->log(xPDO::LOG_LEVEL_DEBUG, "Resolving transport files: " . print_r($this, true));
@@ -218,7 +219,7 @@ abstract class xPDOVehicle {
 
                     case 'php' :
                         if (isset ($options[xPDOTransport::RESOLVE_PHP]) && !$options[xPDOTransport::RESOLVE_PHP]) {
-                            continue;
+                            break;
                         }
                         $fileMeta = $transport->xpdo->fromJSON($body, true);
                         $fileName = $fileMeta['name'];

@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * Loads the lexicon into a JS-compatible function _()
  *
@@ -21,7 +30,7 @@ $entries = $modx->lexicon->fetch();
 echo '
 MODx.lang = {';
 $s = '';
-while (list($k,$v) = each ($entries)) {
+foreach ($entries as $k => $v) {
     $s .= "'$k': ".'"'.esc($v).'",';
 }
 $s = trim($s,',');

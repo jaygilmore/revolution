@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * Loads the login screen
  *
@@ -189,7 +198,7 @@ class SecurityLoginManagerController extends modManagerController {
             $response = $this->modx->runProcessor('security/login',$this->scriptProperties);
             if (($response instanceof modProcessorResponse) && !$response->isError()) {
                 $url = !empty($this->scriptProperties['returnUrl']) ? $this->scriptProperties['returnUrl'] : $this->modx->getOption('manager_url',null,MODX_MANAGER_URL);
-                $url = $this->modx->getOption('url_scheme', null, MODX_URL_SCHEME).$this->modx->getOption('http_host', null, MODX_HTTP_HOST).rtrim($url,'/');
+                $url = $this->modx->getOption('url_scheme', null, MODX_URL_SCHEME).$this->modx->getOption('http_host', null, MODX_HTTP_HOST).$url;
                 $this->modx->sendRedirect($url);
             } else {
                 $errors = $response->getAllErrors();
@@ -259,11 +268,11 @@ class SecurityLoginManagerController extends modManagerController {
                 $this->modx->log(modX::LOG_LEVEL_ERROR,$err);
                 $this->setPlaceholder('error_message',$err);
             } else {
-                $this->setPlaceholder('error_message',$this->modx->lexicon('login_password_reset_act_sent'));
+                $this->setPlaceholder('success_message',$this->modx->lexicon('login_password_reset_act_sent'));
             }
             $this->modx->mail->reset();
         } else {
-            $this->setPlaceholder('error_message',$this->modx->lexicon('login_user_err_nf_email'));
+            $this->setPlaceholder('success_message',$this->modx->lexicon('login_user_err_nf_email'));
         }
     }
 

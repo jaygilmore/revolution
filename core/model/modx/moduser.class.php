@@ -1,7 +1,13 @@
 <?php
-/**
- * @package modx
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  */
+
 /**
  * The core MODX user class.
  *
@@ -239,8 +245,9 @@ class modUser extends modPrincipal {
         $match = false;
         if ($this->xpdo->getService('hashing', 'hashing.modHashing')) {
             $options = array_merge(array('salt' => $this->get('salt')), $options);
-            $hashedPassword = $this->xpdo->hashing->getHash('', $this->get('hash_class'))->hash($password, $options);
-            $match = ($this->get('password') === $hashedPassword);
+
+            $hasher = $this->xpdo->hashing->getHash('', $this->get('hash_class'));
+            $match = $hasher->verify($password, $this->get('password'), $options);
         }
         return $match;
     }
@@ -787,7 +794,14 @@ class modUser extends modPrincipal {
      * @param array $options
      * @return string The newly generated password
      */
-    public function generatePassword($length = 10,array $options = array()) {
+    public function generatePassword($length = null,array $options = array()) {
+        if ($length === null) {
+            $length = $this->xpdo->getOption('password_generated_length', null, 10, true);
+        }
+        $passwordMinimumLength = $this->xpdo->getOption('password_min_length', null, 8, true);
+        if ($length < $passwordMinimumLength) {
+            $length = $passwordMinimumLength;
+        }
         $options = array_merge(array(
             'allowable_characters' => 'abcdefghjkmnpqrstuvxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789',
             'srand_seed_multiplier' => 1000000,
@@ -890,10 +904,10 @@ class modUser extends modPrincipal {
         $source = modMediaSource::getDefaultSource($this->xpdo, $this->xpdo->getOption('photo_profile_source'));
         $source->initialize();
 
-        $path = $source->getBasePath($this->Profile->photo) . $this->Profile->photo;
+        $path = $source->prepareSrcForThumb($this->Profile->photo);
 
         return $this->xpdo->getOption('connectors_url', null, MODX_CONNECTORS_URL)
-            . "system/phpthumb.php?zc=1&h={$height}&w={$width}&src={$path}";
+            . "system/phpthumb.php?" . http_build_query(array("zc" => 1, "h" => $height, "w" => $width, "src" => $path));
     }
 
     /**

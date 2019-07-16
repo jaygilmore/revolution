@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * Get a list of system settings
  *
@@ -126,6 +135,8 @@ class modSystemSettingsGetListProcessor extends modObjectGetListProcessor {
         } else {
             $settingArray['name'] = $settingArray['name_trans'];
         }
+        $settingArray['key'] = htmlspecialchars($settingArray['key'], ENT_QUOTES, $this->modx->getOption('modx_charset', null, 'UTF-8'));
+        $settingArray['name_trans'] = htmlspecialchars($settingArray['name_trans'], ENT_QUOTES, $this->modx->getOption('modx_charset', null, 'UTF-8'));
 
         $settingArray['oldkey'] = $settingArray['key'];
 

@@ -1,26 +1,15 @@
 <?php
-/**
- * MODX Revolution
+/*
+ * This file is part of the MODX Revolution package.
  *
- * Copyright 2006-2014 by MODX, LLC.
- * All rights reserved.
+ * Copyright (c) MODX, LLC
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  *
  * @package modx-test
- */
+*/
+
 /**
  * Tests related to element/chunk/ processors
  *
@@ -107,11 +96,9 @@ class ChunkProcessorsTest extends MODxTestCase {
                 'category' => 1,
             )),
             /* fail: invalid category */
-            /* @TODO: Fix. For some reason this crashes on the $category->checkPolicy('add_children') in the
-             * create processor. (line 33)
             array(false,'UnitTestChunk3',array(
                 'category' => 123,
-            )),*/
+            )),
             /* fail: already exists */
             array(false,'UnitTestChunk'),
             /* fail: no data */
@@ -176,8 +163,6 @@ class ChunkProcessorsTest extends MODxTestCase {
     /**
      * Attempts to update a chunk
      *
-     * @todo Fix this test to work.
-     *
      * @param boolean $shouldPass
      * @param string $chunkPk
      * @param array $properties
@@ -186,9 +171,6 @@ class ChunkProcessorsTest extends MODxTestCase {
      * @depends testChunkCreate
      */
     public function testChunkUpdate($shouldPass,$chunkPk,array $properties = array()) {
-        $this->assertTrue(true);
-        return true;
-
         /** @var modChunk $chunk */
         $chunk = $this->modx->getObject('modChunk',array('name' => $chunkPk));
         if (empty($chunk) && $shouldPass) {

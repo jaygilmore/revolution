@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * Get the menu items, in node format
  *
@@ -60,6 +69,7 @@ class modMenuGetNodesProcessor extends modObjectGetListProcessor {
         }
         $text = $this->modx->lexicon($object->get('text'));
         $desc = $this->modx->lexicon($object->get('description'));
+        $text = htmlspecialchars($text, ENT_QUOTES, $this->modx->getOption('modx_charset', null, 'UTF-8'));
 
         $objectArray = array(
             'text' => $text.($controller != '' ? ' <i>('.$namespace.':'.$controller.')</i>' : ''),

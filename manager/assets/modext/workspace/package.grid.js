@@ -24,6 +24,11 @@ MODx.grid.Package = function(config) {
 				+'</tpl>'
 			+'</ul>'
 		+'</tpl>'
+		+'<tpl if="message !== null">'
+            +'<tpl for="message">'
+                +'<div class="{className}">{text}</div>'
+            +'</tpl>'
+        +'</tpl>'
 	+'</tpl>', {
 		compiled: true
 	});
@@ -176,7 +181,7 @@ Ext.extend(MODx.grid.Package,MODx.grid.Grid,{
 	,mainColumnRenderer:function (value, metaData, record, rowIndex, colIndex, store){
 		var rec = record.data;
 		var state = (rec.installed !== null) ? ' installed' : ' not-installed';
-		var values = { name: value, state: state, actions: null };
+		var values = { name: value, state: state, actions: null, message: null };
 
 		var h = [];
 		if(rec.installed !== null) {
@@ -361,6 +366,9 @@ Ext.extend(MODx.grid.Package,MODx.grid.Grid,{
 
 	/* Search for a package update - only for installed package */
     ,update: function(btn,e) {
+        if (this.windows['modx-window-package-update']) {
+            this.windows['modx-window-package-update'].destroy();
+        }
         MODx.Ajax.request({
             url: this.config.url
             ,params: {

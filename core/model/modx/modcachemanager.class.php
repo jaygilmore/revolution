@@ -1,8 +1,13 @@
 <?php
-/**
- * Contains the xPDOCacheManager implementation for MODX.
- * @package modx
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  */
+
 /**
  * The default xPDOCacheManager instance for MODX.
  *
@@ -570,6 +575,26 @@ class modCacheManager extends xPDOCacheManager {
                         $results['context_settings'] = false;
                     }
                     break;
+                case 'resource':
+                    $clearPartial = $this->getOption('cache_resource_clear_partial', null, false);
+                    $cacheHandler = $this->getOption('cache_handler', null, 'xPDOFileCache');
+
+                    if (!$clearPartial || $cacheHandler !== 'xPDOFileCache') {
+                        $results[$partition] = $this->clean($partOptions);
+                    } else {
+                        /* Only clear resource cache for the provided contexts. */
+                        foreach ($partOptions['contexts'] as $ctx) {
+                            $this->modx->cacheManager->delete(
+                                $ctx,
+                                array(
+                                    xPDO::OPT_CACHE_KEY => $this->modx->getOption('cache_resource_key', null, 'resource'),
+                                    xPDO::OPT_CACHE_HANDLER => $this->modx->getOption('cache_resource_handler', null, $this->modx->getOption(xPDO::OPT_CACHE_HANDLER)),
+                                    xPDO::OPT_CACHE_FORMAT => (int) $this->modx->getOption('cache_resource_format', null, $this->modx->getOption(xPDO::OPT_CACHE_FORMAT, null, xPDOCacheManager::CACHE_PHP))
+                                )
+                            );
+                        }
+                    }
+                    break;
                 case 'scripts':
                     /* clean the configurable source cache and remove the include files */
                     $results[$partition] = $this->clean($partOptions);
@@ -577,7 +602,7 @@ class modCacheManager extends xPDOCacheManager {
                     break;
                 case 'db':
                     if (!$this->getOption('cache_db', $partOptions, false)) {
-                        continue;
+                        break;
                     }
                     $results[$partition] = $this->clean($partOptions);
                     break;
@@ -703,6 +728,7 @@ class modCacheManager extends xPDOCacheManager {
      * @return array
      */
     public function clearCache(array $paths= array(), array $options= array()) {
+        $this->modx->deprecated('2.1.0', 'Use modCacheManager::refresh() instead.');
         $results= array();
         $delObjs= array();
         if ($clearObjects = $this->getOption('objects', $options)) {

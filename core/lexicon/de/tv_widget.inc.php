@@ -6,7 +6,7 @@
  * @package modx
  * @subpackage lexicon
  */
-$_lang['attributes'] = 'HTML-Tag-Attribute';
+$_lang['attributes'] = 'Eigenschaften';
 $_lang['capitalize'] = 'Alle Worte groß';
 $_lang['checkbox'] = 'Checkbox';
 $_lang['checkbox_columns'] = 'Spalten';
@@ -35,9 +35,9 @@ $_lang['combo_typeahead_delay_desc'] = 'Die Zeitspanne in Millisekunden, die gew
 $_lang['date'] = 'Datum';
 $_lang['date_format'] = 'Datumsformat';
 $_lang['date_use_current'] = 'Wenn ohne Wert, aktuelles Datum verwenden';
-$_lang['default'] = 'Standard';
+$_lang['default'] = 'Standardeigenschaften';
 $_lang['delim'] = 'Durch Trennzeichen separierte Werte';
-$_lang['delimiter'] = 'Trennzeichen';
+$_lang['delimiter'] = 'Durch Trennzeichen separierte Werte';
 $_lang['disabled_dates'] = 'Deaktivierte Daten';
 $_lang['disabled_dates_desc'] = 'Eine kommaseparierte Liste von "Daten", die deaktiviert werden sollen, wodurch sie nicht mehr auswählbar sind und bei direkter Eingabe eine Fehlermeldung erzeugen. Die Daten werden als Zeichenketten eingegeben. Diese Zeichenketten werden verwendet, um dynamisch einen regulären Ausdruck zu erzeugen; sie sind also sehr mächtig. Einige Beispiele:<br />
 - Genau diese Daten deaktivieren: 2014-03-08,2014-09-16<br />
@@ -45,7 +45,7 @@ $_lang['disabled_dates_desc'] = 'Eine kommaseparierte Liste von "Daten", die dea
 - Übereinstimmung mit dem Anfang der Datumsangabe (nützlich, wenn Sie kurze Jahreszahlen verwenden): ^14-08<br />
 - Jeden Tag im März 2014 deaktivieren: 03-..-2014<br />
 - Jeden Tag im März jedes Jahres deaktivieren: ^03<br />
-Bitte beachten Sie, dass das Format der Daten, die in der Liste enthalten sind, exakt mit dem in den Systemeinstellungen eingestellten Manager-Datumsformat (manager_date_format) übereinstimmen muss. Um reguläre Ausdrücke korrekt verwenden zu können, müssen Sie, wenn Sie ein Datumsformat verwenden, in dem Punkte vorkommen (was beim normalen deutschen Datumsformat ja der Fall ist), den Punkt in der Liste der deaktivierten Daten jeweils "escapen", also mit einem vorgestellten Backslash entwerten ("\\."), da der Punkt in regulären Ausdrücken für ein beliebiges Zeichen steht.';
+Bitte beachten Sie, dass das Format der Daten, die in der Liste enthalten sind, exakt mit dem in den Systemeinstellungen eingestellten Manager-Datumsformat (manager_date_format) übereinstimmen muss. Um reguläre Ausdrücke korrekt verwenden zu können, müssen Sie, wenn Sie ein Datumsformat verwenden, in dem Punkte vorkommen (was beim normalen deutschen Datumsformat ja der Fall ist), den Punkt in der Liste der deaktivierten Daten jeweils "escapen", also mit einem vorgestellten Backslash entwerten ("\."), da der Punkt in regulären Ausdrücken für ein beliebiges Zeichen steht.';
 $_lang['disabled_days'] = 'Deaktivierte Wochentage';
 $_lang['disabled_days_desc'] = 'Eine kommaseparierte Liste von Indizes von Wochentagen, die deaktiviert werden sollen, beginnend bei 0, was für "Sonntag" steht. Deaktivierte Tage sind nicht mehr auswählbar und erzeugen bei direkter Eingabe eine Fehlermeldung. Beispiele:<br />
 - Sonntag und Samstag deaktivieren: 0,6<br />
@@ -55,7 +55,7 @@ $_lang['earliest_date'] = 'Frühestes Datum';
 $_lang['earliest_date_desc'] = 'Das früheste erlaubte Datum, das ausgewählt werden kann.';
 $_lang['earliest_time'] = 'Früheste Zeit';
 $_lang['earliest_time_desc'] = 'Die früheste erlaubte Zeit, die ausgewählt werden kann.';
-$_lang['email'] = 'E-Mail-Adresse';
+$_lang['email'] = 'E-Mail';
 $_lang['file'] = 'Datei';
 $_lang['height'] = 'Höhe';
 $_lang['hidden'] = 'Versteckt';
@@ -122,7 +122,7 @@ $_lang['string_format'] = 'Zeichenkettenformat';
 $_lang['style'] = 'CSS-Style';
 $_lang['tag_id'] = 'Tag-ID';
 $_lang['tag_name'] = 'Tag-Name';
-$_lang['target'] = 'Target (HTML-Tag-Attribut des Links)';
+$_lang['target'] = 'Ziel';
 $_lang['text'] = 'Text';
 $_lang['textarea'] = 'Textarea';
 $_lang['textareamini'] = 'Textarea (Mini)';

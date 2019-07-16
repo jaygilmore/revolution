@@ -4,8 +4,8 @@
  *
  * Copyright (c) MODX, LLC. All Rights Reserved.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  */
 
 /**
@@ -66,12 +66,12 @@ class modX extends xPDO {
      */
     public $contexts= array();
     /**
-     * @var modRequest Represents a web request and provides helper methods for
+     * @var modRequest|modConnectorRequest|modManagerRequest Represents a web request and provides helper methods for
      * dealing with request parameters and other attributes of a request.
      */
     public $request= null;
     /**
-     * @var modResponse Represents a web response, providing helper methods for
+     * @var modResponse|modConnectorResponse|modManagerResponse Represents a web response, providing helper methods for
      * managing response header attributes and the body containing the content of
      * the response.
      */
@@ -275,6 +275,14 @@ class modX extends xPDO {
     public $documentOutput= null;
 
     /**
+     * Keeps an in-memory representation of what deprecated functions have been logged
+     * for this request, to avoid spamming the log too often. See the `deprecated` method.
+     *
+     * @var array
+     */
+    private $loggedDeprecatedFunctions = array();
+
+    /**
      * Harden the environment against common security flaws.
      *
      * @static
@@ -339,6 +347,28 @@ class modX extends xPDO {
             }
         }
         return $target;
+    }
+
+    /**
+     * @param array|string $data The target data to sanitize.
+     * @param array $replaceable
+     * @return array|string The sanitized data
+     */
+    public static function replaceReserved($data, array $replaceable = array ('[' => '&#91;', ']' => '&#93;', '`' => '&#96;'))
+    {
+        if (\is_array($data)) {
+            $result = array();
+            foreach ($data as $key => &$value) {
+                $key = self::replaceReserved($key, $replaceable);
+                $result[$key] = self::replaceReserved($value, $replaceable);
+            }
+        } elseif (\is_scalar($data)) {
+            $result = \str_replace(\array_keys($replaceable), \array_values($replaceable), $data);
+        } else {
+            $result = '';
+        }
+
+        return $result;
     }
 
     /**
@@ -747,9 +777,8 @@ class modX extends xPDO {
             if (isset ($resourceMap["{$id}"])) {
                 if ($children= $resourceMap["{$id}"]) {
                     foreach ($children as $child) {
-                        $processDepth = $depth - 1;
-                        if ($c= $this->getChildIds($child,$processDepth,$options)) {
-                            $children= array_merge($children, $c);
+                        if ($c = $this->getChildIds($child, $depth - 1, $options)) {
+                            $children = array_merge($children, $c);
                         }
                     }
                 }
@@ -770,20 +799,17 @@ class modX extends xPDO {
      */
     public function getTree($id= null, $depth= 10, array $options = array()) {
         $tree= array ();
-        $context = '';
         if (!empty($options['context'])) {
             $this->getContext($options['context']);
-            $context = $options['context'];
         }
         if ($id !== null) {
             if (is_array ($id)) {
                 foreach ($id as $k => $v) {
-                    $tree[$v]= $this->getTree($v, $depth, $options);
+                    $tree[$v] = $this->getTree($v, $depth - 1, $options);
                 }
-            }
-            elseif ($branch= $this->getChildIds($id, 1, $options)) {
+            } elseif ($branch= $this->getChildIds($id, 1, $options)) {
                 foreach ($branch as $key => $child) {
-                    if ($depth > 0 && $leaf= $this->getTree($child, $depth--, $options)) {
+                    if ($depth > 0 && $leaf = $this->getTree($child, $depth - 1, $options)) {
                         $tree[$child]= $leaf;
                     } else {
                         $tree[$child]= $child;
@@ -1061,10 +1087,11 @@ class modX extends xPDO {
         if (!XPDO_CLI_MODE) {
             $errorPageTitle = $this->getOption('error_pagetitle', $options, 'Error 503: Service temporarily unavailable');
             $errorMessage = $this->getOption('error_message', $options, '<p>Site temporarily unavailable.</p>');
+            $errorHeader = $this->getOption('error_header', $options, $_SERVER['SERVER_PROTOCOL'] . ' 503 Service Unavailable');
             if (file_exists(MODX_CORE_PATH . "error/{$type}.include.php")) {
                 @include(MODX_CORE_PATH . "error/{$type}.include.php");
             }
-            header($this->getOption('error_header', $options, $_SERVER['SERVER_PROTOCOL'] . ' 503 Service Unavailable'));
+            header($errorHeader);
             echo "<html><head><title>{$errorPageTitle}</title></head><body>{$errorMessage}</body></html>";
             @session_write_close();
         } else {
@@ -1097,6 +1124,19 @@ class modX extends xPDO {
         if (!$this->getResponse()) {
             $this->log(modX::LOG_LEVEL_FATAL, "Could not load response class.");
         }
+        if (!is_array($options)) {
+            $options = array('count_attempts' => (boolean) $options);
+        }
+        if ($type) {
+            $this->deprecated('2.0.5', 'Use type in options array instead.', 'sendRedirect method parameter $type');
+            $options['type'] = $type;
+            $type = '';
+        }
+        if ($responseCode) {
+            $this->deprecated('2.0.5', 'Use responseCode in options array instead.', 'sendRedirect method parameter $responseCode');
+            $options['responseCode'] = $responseCode;
+            $responseCode = '';
+        }
         $this->response->sendRedirect($url, $options, $type, $responseCode);
     }
 
@@ -1105,8 +1145,9 @@ class modX extends xPDO {
      *
      * @param integer $id The resource identifier.
      * @param string $options An array of options for the process.
+     * @param boolean $sendErrorPage Whether we should skip the sendErrorPage if the resource does not exist.
      */
-    public function sendForward($id, $options = null) {
+    public function sendForward($id, $options = null, $sendErrorPage = true) {
         if (!$this->getRequest()) {
             $this->log(modX::LOG_LEVEL_FATAL, "Could not load request class.");
         }
@@ -1158,7 +1199,7 @@ class modX extends xPDO {
                 }
                 $this->request->prepareResponse();
                 exit();
-            } else {
+            } elseif ($sendErrorPage) {
                 $this->sendErrorPage();
             }
             $options= array_merge(
@@ -1195,7 +1236,7 @@ class modX extends xPDO {
             $options
         );
         $this->invokeEvent('OnPageNotFound', $options);
-        $this->sendForward($this->getOption('error_page', $options, $this->getOption('site_start')), $options);
+        $this->sendForward($this->getOption('error_page', $options, $this->getOption('site_start')), $options, false);
     }
 
     /**
@@ -1598,7 +1639,11 @@ class modX extends xPDO {
             $this->event= new modSystemEvent();
             foreach ($this->eventMap[$eventName] as $pluginId => $pluginPropset) {
                 $plugin= null;
-                $this->Event= & $this->event;
+                if (!version_compare(PHP_VERSION, '5.4', '>=')) {
+                    $this->Event = & $this->event;
+                } else {
+                    $this->Event = clone $this->event;
+                }
                 $this->event->resetEventObject();
                 $this->event->name= $eventName;
                 if (isset ($this->pluginCache[$pluginId])) {
@@ -1793,6 +1838,7 @@ class modX extends xPDO {
      * @param string $line
      */
     public function messageQuit($msg='unspecified error', $query='', $is_error=true, $nr='', $file='', $source='', $text='', $line='') {
+        $this->deprecated('2.2.0', 'Use modX::log with modX::LOG_LEVEL_FATAL instead.');
         $this->log(modX::LOG_LEVEL_FATAL, 'msg: ' . $msg . "\n" . 'query: ' . $query . "\n" . 'nr: ' . $nr . "\n" . 'file: ' . $file . "\n" . 'source: ' . $source . "\n" . 'text: ' . $text . "\n" . 'line: ' . $line . "\n");
     }
 
@@ -2314,6 +2360,48 @@ class modX extends xPDO {
     }
 
     /**
+     * Marks the calling function as deprecated, sending a message into the error log.
+     *
+     * This automatically determines where the deprecated method was called from, and
+     * includes that in the log message.
+     *
+     * @param string $since The version the function was marked as deprecated
+     * @param string $recommendation A description or recommendation on what to replace a method with
+     * @param string $deprecatedDef Can be used to override the definition (i.e. function name) for the log; useful if not a specific method but an entire entity is deprecated.
+     */
+    public function deprecated($since, $recommendation = '', $deprecatedDef = '')
+    {
+        if (!$this->getOption('log_deprecated', null, true)) {
+            return;
+        }
+
+        // We use the trace to identify both the method that is deprecated, and the caller
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $deprecatedMethod = isset($trace[1]) ? $trace[1] : array();
+        $caller = isset($trace[2]) ? $trace[2] : array();
+
+        // Format the deprecated function definition with the class, if it has one
+        if ($deprecatedDef === '') {
+            $deprecatedDef = isset($deprecatedMethod['class'])
+                ? $deprecatedMethod['class'] . '::' . $deprecatedMethod['function']
+                : $deprecatedMethod['function'];
+        }
+        $callerDef = isset($caller['class']) ? $caller['class']  . '::' . $caller['function'] : '';
+
+        // The message that gets logged
+        $msg = $deprecatedDef . ' is deprecated since version ' . $since . '. ' . $recommendation;
+
+        // Only log deprecated functions once - even when called many times in a single request.
+        if (in_array($msg.$callerDef, $this->loggedDeprecatedFunctions, true)) {
+            return;
+        }
+        $this->loggedDeprecatedFunctions[] = $msg.$callerDef;
+
+        // Send to the standard log, providing also the file and line the deprecated method was called from
+        $this->log(self::LOG_LEVEL_ERROR, $msg, '', $callerDef, $deprecatedMethod['file'], $deprecatedMethod['line']);
+    }
+
+    /**
      * Loads a specified Context.
      *
      * Merges any context settings with the modX::$config, and performs any
@@ -2375,7 +2463,22 @@ class modX extends xPDO {
         }
         if ($initialized) {
             $this->setLogLevel($this->getOption('log_level', $options, xPDO::LOG_LEVEL_ERROR));
-            $this->setLogTarget($this->getOption('log_target', $options, 'FILE', true));
+                
+            $logTarget = $this->getOption('log_target', $options, 'FILE', true);
+            if ($logTarget === 'FILE') {
+                $options = array();
+                $filename = $this->getOption('error_log_filename', $options, '');
+                if (!empty($filename)) $options['filename'] = $filename;
+                $filepath = $this->getOption('error_log_filepath', $options, '');
+                if (!empty($filepath)) $options['filepath'] = rtrim($filepath, '/') . '/';
+                $this->setLogTarget(array(
+                    'target' => 'FILE',
+                    'options' => $options
+                ));
+            } else {
+                $this->setLogTarget($logTarget);
+            }
+            
             $debug = $this->getOption('debug');
             if (!is_null($debug) && $debug !== '') {
                 $this->setDebug($debug);
@@ -2398,7 +2501,10 @@ class modX extends xPDO {
 
         if ($this->getOption('setlocale', $options, true)) {
             $locale = setlocale(LC_ALL, null);
-            setlocale(LC_ALL, $this->getOption('locale', null, $locale));
+            $result = setlocale(LC_ALL, $this->getOption('locale', null, $locale));
+            if ($result === false) {
+                $this->log(modX::LOG_LEVEL_ERROR, 'Could not set the locale. Please check if the locale ' . $this->getOption('locale', null, $locale) . ' exists on your system');
+            }
         }
 
         $this->getService('lexicon', $this->getOption('lexicon_class', $options, 'modLexicon'), '', is_array($options) ? $options : array());
@@ -2413,9 +2519,10 @@ class modX extends xPDO {
     protected function _initErrorHandler($options = null) {
         if ($this->errorHandler == null || !is_object($this->errorHandler)) {
             if ($ehClass = $this->getOption('error_handler_class', $options, 'modErrorHandler', true)) {
-                if ($ehClass= $this->loadClass($ehClass, '', false, true)) {
-                    if ($this->errorHandler= new $ehClass($this)) {
-                        $result= set_error_handler(array ($this->errorHandler, 'handleError'), $this->getOption('error_handler_types', $options, error_reporting(), true));
+                $ehPath = $this->getOption('error_handler_path', $options, '', true);
+                if ($ehClass = $this->loadClass($ehClass, $ehPath, false, true)) {
+                    if ($this->errorHandler = new $ehClass($this)) {
+                        $result = set_error_handler(array ($this->errorHandler, 'handleError'), $this->getOption('error_handler_types', $options, error_reporting(), true));
                         if ($result === false) {
                             $this->log(modX::LOG_LEVEL_ERROR, 'Could not set error handler.  Make sure your class has a function called handleError(). Result: ' . print_r($result, true));
                         }

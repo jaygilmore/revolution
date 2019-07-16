@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * Gets a list of Form Customization sets.
  *
@@ -58,14 +67,18 @@ class modFormCustomizationSetGetListProcessor extends modObjectGetListProcessor 
     public function prepareRow(xPDOObject $object) {
         $objectArray = $object->toArray();
 
+        $constraint_field = $object->get('constraint_field');
         $constraint = $object->get('constraint');
-        if (!empty($constraint)) {
-            $objectArray['constraint_data'] = $object->get('constraint_class').'.'.$object->get('constraint_field').' = '.$constraint;
+        if (!empty($constraint_field)) {
+            if ($constraint === '') {
+                $constraint = "'{$constraint}'";
+            }
+            $objectArray['constraint_data'] = $object->get('constraint_class').'.'.$constraint_field.' = '.$constraint;
         }
         $objectArray['perm'] = array();
         if ($this->canEdit) $objectArray['perm'][] = 'pedit';
         if ($this->canRemove) $objectArray['perm'][] = 'premove';
-        
+
         return $objectArray;
     }
 }

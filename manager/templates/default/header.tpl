@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{$_config.manager_direction}" lang="{$_config.manager_lang_attribute}" xml:lang="{$_config.manager_lang_attribute}">
 <head>
-<title>{if $_pagetitle}{$_pagetitle} | {/if}{$_config.site_name|strip_tags|escape}</title>
+<title>{if $_pagetitle}{$_pagetitle|escape} | {/if}{$_config.site_name|strip_tags|escape}</title>
 <meta http-equiv="Content-Type" content="text/html; charset={$_config.modx_charset}" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -18,7 +18,7 @@
 <script src="{$_config.manager_url}assets/ext3/ext-all.js" type="text/javascript"></script>
 {/if}
 <script src="{$_config.manager_url}assets/modext/core/modx.js?v={$versionToken}" type="text/javascript"></script>
-<script src="{$_config.connectors_url}lang.js.php?ctx=mgr&topic=topmenu,file,resource,{$_lang_topics}&action={$smarty.get.a|default|htmlspecialchars}" type="text/javascript"></script>
+<script src="{$_config.connectors_url}lang.js.php?ctx=mgr&topic=topmenu,file,resource,trash,{$_lang_topics}&action={$smarty.get.a|default|htmlspecialchars}" type="text/javascript"></script>
 <script src="{$_config.connectors_url}modx.config.js.php?action={$smarty.get.a|default|htmlspecialchars}{if $_ctx}&wctx={$_ctx}{/if}" type="text/javascript"></script>
 
 {$maincssjs}

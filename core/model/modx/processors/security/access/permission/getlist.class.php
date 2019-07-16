@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * @package modx
  * @subpackage processors.security.permission
@@ -38,12 +47,18 @@ class modAccessPermissionGetListProcessor extends modObjectGetListProcessor {
             'Template.lexicon',
         ));
         $c->groupby('modAccessPermission.name');
+        $name = $this->getProperty('name','');
+        if (!empty($name)) {
+            $c->where(array(
+                $this->classKey . '.name:IN' => is_string($name) ? explode(',', $name) : $name
+            ));
+        }
         return $c;
     }
-    
+
     public function prepareRow(xPDOObject $object) {
         $objectArray = $object->get(array('name','description'));
-    
+
         $lexicon = $object->get('lexicon');
         if (!empty($lexicon)) {
             if (strpos($lexicon,':') !== false) {
@@ -53,7 +68,7 @@ class modAccessPermissionGetListProcessor extends modObjectGetListProcessor {
             }
         }
         $objectArray['description'] = $this->modx->lexicon($objectArray['description']);
-        return $objectArray;        
+        return $objectArray;
     }
 }
 return 'modAccessPermissionGetListProcessor';

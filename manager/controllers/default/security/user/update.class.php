@@ -1,8 +1,13 @@
 <?php
-/**
- * @package modx
- * @subpackage manager.controllers
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  */
+
 /**
  * Loads update user page
  *
@@ -36,6 +41,7 @@ class SecurityUserUpdateManagerController extends modManagerController {
         $this->addHtml('<script type="text/javascript">
 // <![CDATA[
 MODx.onUserFormRender = "'.$this->onUserFormRender.'";
+MODx.perm.set_sudo = '.($this->modx->hasPermission('set_sudo') ? 1 : 0).';
 // ]]>
 </script>');
 
@@ -127,7 +133,7 @@ Ext.onReady(function() {
             );
             if (is_array($value)) {
                 $field['iconCls'] = 'icon-folder';
-                $field['text'] = $key;
+                $field['text'] = htmlentities($key,ENT_QUOTES,$encoding);
                 $field['leaf'] = false;
                 $field['children'] = $this->_parseCustomData($value,$key);
             } else {
@@ -141,7 +147,7 @@ Ext.onReady(function() {
                     $v = substr($v,0,30).'...';
                 }
                 $field['iconCls'] = 'icon-terminal';
-                $field['text'] = $key.' - <i>'.htmlentities($v,ENT_QUOTES,$encoding).'</i>';
+                $field['text'] = htmlentities($key,ENT_QUOTES,$encoding).' - <i>'.htmlentities($v,ENT_QUOTES,$encoding).'</i>';
                 $field['leaf'] = true;
                 $field['value'] = $value;
             }

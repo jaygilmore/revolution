@@ -54,7 +54,10 @@ Ext.extend(MODx.panel.Resource,MODx.FormPanel,{
             if (!Ext.isEmpty(this.config.record.pagetitle)) {
                 var title = Ext.util.Format.stripTags(this.config.record.pagetitle);
                 title = Ext.util.Format.htmlEncode(title);
-                Ext.getCmp('modx-resource-header').getEl().update('<h2>'+title+'</h2>');
+                if (MODx.perm.tree_show_resource_ids === 1) {
+                    title = title+ ' <small>('+this.config.record.id+')</small>';
+                }
+                Ext.getCmp('modx-resource-header').getEl().update(title);
             }
             // initial check to enable realtime alias
             if (Ext.isEmpty(this.config.record.alias)) {
@@ -312,6 +315,15 @@ Ext.extend(MODx.panel.Resource,MODx.FormPanel,{
             });
         }
     }
+    ,generateAliasRealTime: function(title) {
+        // check some system settings before doing real time alias transliteration
+        if (parseInt(MODx.config.friendly_alias_realtime) && parseInt(MODx.config.automatic_alias)) {
+            // handles the realtime-alias transliteration
+            if (this.config.aliaswasempty && title !== '') {
+                this.translitAlias(title);
+            }
+        }
+    }
     ,templateWarning: function() {
         var t = Ext.getCmp('modx-resource-template');
         if (!t) { return false; }
@@ -543,32 +555,23 @@ Ext.extend(MODx.panel.Resource,MODx.FormPanel,{
             ,allowBlank: false
             ,enableKeyEvents: true
             ,listeners: {
-                'keyup': {fn: function(f,e) {
-                    var titlePrefix = MODx.request.a == 'resource/create' ? _('new_document') : _('document');
+                'keyup': {fn: function(f) {
                     var title = Ext.util.Format.stripTags(f.getValue());
-                    title = Ext.util.Format.htmlEncode(title);
-                    Ext.getCmp('modx-resource-header').getEl().update('<h2>'+title+'</h2>');
 
-                    // check some system settings before doing real time alias transliteration
-                    if (parseInt(MODx.config.friendly_alias_realtime, 10) && parseInt(MODx.config.automatic_alias, 10)) {
-                        // handles the realtime-alias transliteration
-                        if (this.config.aliaswasempty && title !== '') {
-                            this.translitAlias(title);
-                        }
+                    this.generateAliasRealTime(title);
+
+                    title = Ext.util.Format.htmlEncode(title);
+                    if (MODx.request.a !== 'resource/create' && MODx.perm.tree_show_resource_ids === 1) {
+                        title = title+ ' <small>('+this.config.record.id+')</small>';
                     }
+                    Ext.getCmp('modx-resource-header').getEl().update(title);
                 }, scope: this}
                 // also do realtime transliteration of alias on blur of pagetitle field
                 // as sometimes (when typing very fast) the last letter(s) are not catched
                 ,'blur': {fn: function(f,e) {
                     var title = Ext.util.Format.stripTags(f.getValue());
 
-                    // check some system settings before doing real time alias transliteration
-                    if (parseInt(MODx.config.friendly_alias_realtime, 10) && parseInt(MODx.config.automatic_alias, 10)) {
-                        // handles the realtime-alias transliteration
-                        if (this.config.aliaswasempty && title !== '') {
-                            this.translitAlias(title);
-                        }
-                    }
+                    this.generateAliasRealTime(title);
                 }, scope: this}
             }
         },{
@@ -834,26 +837,6 @@ Ext.extend(MODx.panel.Resource,MODx.FormPanel,{
                 ,defaults: { msgTarget: 'under' }
                 ,items: this.getSettingRightFieldsetRight(config)
             }]
-        },{
-            xtype: 'xcheckbox'
-            ,boxLabel: _('resource_uri_override')
-            ,description: _('resource_uri_override_help')
-            ,hideLabel: true
-            ,name: 'uri_override'
-            ,value: 1
-            ,checked: parseInt(config.record.uri_override) ? true : false
-            ,id: 'modx-resource-uri-override'
-
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('resource_uri')
-            ,description: '<b>[[*uri]]</b><br />'+_('resource_uri_help')
-            ,name: 'uri'
-            ,id: 'modx-resource-uri'
-            ,maxLength: 255
-            ,anchor: '70%'
-            ,value: config.record.uri || ''
-            ,hidden: !config.record.uri_override
         }];
     }
 
@@ -895,6 +878,26 @@ Ext.extend(MODx.panel.Resource,MODx.FormPanel,{
             ,id: 'modx-resource-richtext'
             ,inputValue: 1
             ,checked: parseInt(config.record.richtext)
+        },{
+            xtype: 'xcheckbox'
+            ,boxLabel: _('resource_uri_override')
+            ,description: _('resource_uri_override_help')
+            ,hideLabel: true
+            ,name: 'uri_override'
+            ,value: 1
+            ,checked: parseInt(config.record.uri_override) ? true : false
+            ,id: 'modx-resource-uri-override'
+
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('resource_uri')
+            ,description: '<b>[[*uri]]</b><br />'+_('resource_uri_help')
+            ,name: 'uri'
+            ,id: 'modx-resource-uri'
+            ,maxLength: 255
+            ,anchor: '160%'
+            ,value: config.record.uri || ''
+            ,hidden: !config.record.uri_override
         }];
     }
 

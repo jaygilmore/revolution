@@ -4,14 +4,16 @@
  *
  * Copyright (c) MODX, LLC. All Rights Reserved.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  */
+
 /**
  * modInstallVersion
  *
  * @package setup
- */
+*/
+
 /**
  * Handles version-specific upgrades for Revolution
  *
@@ -123,7 +125,7 @@ class modInstallVersion {
                 if (is_dir($path.$script)) continue;
                 $sc = str_replace('.php','',$script);
 
-                if (version_compare($this->version,$sc,'<=')) {
+                if (version_compare($this->version,$sc,'<')) {
                     $scripts[] = $path.$sc.'.php';
                 }
             }

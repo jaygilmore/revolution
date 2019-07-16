@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * Gets a list of recently edited resources by a user
  *
@@ -72,9 +81,10 @@ class modUserGetRecentlyEditedResourcesProcessor extends modObjectGetListProcess
         if (!$object->checkPolicy('view')) return array();
 
         $resourceArray = $object->get(array('id','pagetitle','description','published','deleted', 'context_key'));
+        $resourceArray['pagetitle'] = htmlspecialchars($resourceArray['pagetitle'], ENT_QUOTES, $this->modx->getOption('modx_charset', null, 'UTF-8'));
         $resourceArray['menu'] = array();
         $resourceArray['menu'][] = array(
-            'text' => $this->modx->lexicon('resource_view'),
+            'text' => $this->modx->lexicon('resource_overview'),
             'params' => array(
                 'a' => 'resource/data',
                 'id' => $object->get('id'),
@@ -91,9 +101,11 @@ class modUserGetRecentlyEditedResourcesProcessor extends modObjectGetListProcess
         }
         $resourceArray['menu'][] = '-';
         $resourceArray['menu'][] = array(
-            'text' => $this->modx->lexicon('resource_preview'),
+            'text' => $this->modx->lexicon('view'),
             'handler' => 'this.preview',
         );
+
+        $resourceArray['link'] = $this->modx->makeUrl($object->get('id'), $object->get('context_key'));
 
         return $resourceArray;
     }

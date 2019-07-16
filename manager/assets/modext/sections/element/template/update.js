@@ -54,6 +54,10 @@ Ext.extend(MODx.page.UpdateTemplate,MODx.Component, {
             id: this.record.id
             ,type: 'template'
             ,name: _('duplicate_of',{name: this.record.templatename})
+            ,source: this.record.source
+            ,static: this.record.static
+            ,static_file: this.record.static_file
+            ,category: this.record.category
         };
         var w = MODx.load({
             xtype: 'modx-window-element-duplicate'

@@ -4,9 +4,10 @@
  *
  * Copyright (c) MODX, LLC. All Rights Reserved.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
  */
+
 /**
  * Represents the MODX parser responsible for processing MODX tags.
  *
@@ -449,7 +450,7 @@ class modParser {
             $tokenOffset++;
             $token= substr($tagName, $tokenOffset, 1);
         } elseif (!$processUncacheable && strpos($tagPropString, '[[!') !== false) {
-            $this->modx->log(xPDO::LOG_LEVEL_ERROR, "You should not call uncached elements inside cached!\nOuter tag: {$tag[0]}\nInner tag {$innerTag}");
+            $this->modx->log(xPDO::LOG_LEVEL_WARN, "You should not call uncached elements inside cached!\nOuter tag: {$tag[0]}\nInner tag {$innerTag}");
             $this->_processingTag = false;
             return $outerTag;
         }

@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * Class modSearchProcessor
  * Searches for elements (all but plugins) & resources
@@ -159,20 +168,23 @@ class modSearchProcessor extends modProcessor
         }
 
         $c = $this->modx->newQuery('modResource');
+        $c->leftJoin('modTemplate', 'modTemplate', 'modResource.template = modTemplate.id');
+        $c->select($this->modx->getSelectColumns('modResource', 'modResource'));
+        $c->select("modTemplate.icon as icon");
         $c->where(array(
             array(
-                'pagetitle:LIKE' => '%' . $this->query .'%',
-                'OR:longtitle:LIKE' => '%' . $this->query .'%',
-                'OR:alias:LIKE' => '%' . $this->query .'%',
-                'OR:description:LIKE' => '%' . $this->query .'%',
-                'OR:introtext:LIKE' => '%' . $this->query .'%',
-                'OR:id:=' => $this->query,
+                'modResource.pagetitle:LIKE' => '%' . $this->query .'%',
+                'OR:modResource.longtitle:LIKE' => '%' . $this->query .'%',
+                'OR:modResource.alias:LIKE' => '%' . $this->query .'%',
+                'OR:modResource.description:LIKE' => '%' . $this->query .'%',
+                'OR:modResource.introtext:LIKE' => '%' . $this->query .'%',
+                'OR:modResource.id:=' => $this->query,
             ),
             array(
-                'context_key:IN' => $contextKeys,
+                'modResource.context_key:IN' => $contextKeys,
             )
         ));
-        $c->sortby('createdon', 'DESC');
+        $c->sortby('modResource.createdon', 'DESC');
 
         $c->limit($this->maxResults);
 
@@ -186,6 +198,7 @@ class modSearchProcessor extends modProcessor
                 'type' => $type,
                 'class' => $record->get('class_key'),
                 'type_label' => $typeLabel,
+                'icon' => str_replace('icon-', '', $record->get('icon'))
             );
         }
     }

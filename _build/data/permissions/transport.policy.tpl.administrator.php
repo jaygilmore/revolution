@@ -386,6 +386,11 @@ $permissions[] = $xpdo->newObject('modAccessPermission',array(
     'value' => true,
 ));
 $permissions[] = $xpdo->newObject('modAccessPermission',array(
+    'name' => 'menu_trash',
+    'description' => 'perm.menu_trash_desc',
+    'value' => true,
+));
+$permissions[] = $xpdo->newObject('modAccessPermission',array(
     'name' => 'menu_user',
     'description' => 'perm.menu_user_desc',
     'value' => true,
@@ -683,6 +688,11 @@ $permissions[] = $xpdo->newObject('modAccessPermission',array(
 $permissions[] = $xpdo->newObject('modAccessPermission',array(
     'name' => 'search',
     'description' => 'perm.search_desc',
+    'value' => true,
+));
+$permissions[] = $xpdo->newObject('modAccessPermission',array(
+    'name' => 'set_sudo',
+    'description' => 'perm.set_sudo_desc',
     'value' => true,
 ));
 $permissions[] = $xpdo->newObject('modAccessPermission',array(

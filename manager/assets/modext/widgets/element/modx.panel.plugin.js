@@ -7,6 +7,9 @@
  */
 MODx.panel.Plugin = function(config) {
     config = config || {};
+    config.record = config.record || {};
+    config = MODx.setStaticElementsConfig(config, 'plugin');
+
     Ext.applyIf(config,{
         url: MODx.config.connector_url
         ,baseParams: {
@@ -68,7 +71,15 @@ MODx.panel.Plugin = function(config) {
                         ,value: config.record.name
                         ,listeners: {
                             'keyup': {scope:this,fn:function(f,e) {
-                                Ext.getCmp('modx-plugin-header').getEl().update(_('plugin')+': '+f.getValue());
+                                var title = Ext.util.Format.stripTags(f.getValue());
+                                title = _('plugin')+': '+Ext.util.Format.htmlEncode(title);
+                                if (MODx.request.a !== 'element/plugin/create' && MODx.perm.tree_show_element_ids === 1) {
+                                    title = title+ ' <small>('+this.config.record.id+')</small>';
+                                }
+
+                                Ext.getCmp('modx-plugin-header').getEl().update(title);
+
+                                MODx.setStaticElementPath('plugin');
                             }}
                         }
                     },{
@@ -140,6 +151,16 @@ MODx.panel.Plugin = function(config) {
                         ,id: 'modx-plugin-category'
                         ,anchor: '100%'
                         ,value: config.record.category || 0
+                        ,listeners: {
+                            'afterrender': {scope:this,fn:function(f,e) {
+                                setTimeout(function(){
+                                    MODx.setStaticElementPath('plugin');
+                                }, 200);
+                            }}
+                            ,'change': {scope:this,fn:function(f,e) {
+                                MODx.setStaticElementPath('plugin');
+                            }}
+                        }
                     },{
                         xtype: MODx.expandHelp ? 'label' : 'hidden'
                         ,forId: 'modx-plugin-category'
@@ -147,12 +168,18 @@ MODx.panel.Plugin = function(config) {
                         ,cls: 'desc-under'
                     },{
                         xtype: 'xcheckbox'
+                        ,description: MODx.expandHelp ? '' : _('plugin_disabled_msg')
                         ,hideLabel: true
                         ,boxLabel: _('plugin_disabled')
                         ,name: 'disabled'
                         ,id: 'modx-plugin-disabled'
                         ,inputValue: 1
                         ,checked: config.record.disabled || 0
+                    },{
+                        xtype: MODx.expandHelp ? 'label' : 'hidden'
+                        ,forId: 'modx-plugin-disabled'
+                        ,html: _('plugin_disabled_msg')
+                        ,cls: 'desc-under'
                     },{
                         xtype: 'xcheckbox'
                         ,boxLabel: _('plugin_lock')
@@ -163,6 +190,11 @@ MODx.panel.Plugin = function(config) {
                         ,inputValue: 1
                         ,checked: config.record.locked || 0
                     },{
+                        xtype: MODx.expandHelp ? 'label' : 'hidden'
+                        ,forId: 'modx-plugin-locked'
+                        ,html: _('plugin_lock_msg')
+                        ,cls: 'desc-under'
+                    },{
                         xtype: 'xcheckbox'
                         ,boxLabel: _('clear_cache_on_save')
                         ,description: MODx.expandHelp ? '' : _('clear_cache_on_save_msg')
@@ -171,6 +203,11 @@ MODx.panel.Plugin = function(config) {
                         ,id: 'modx-plugin-clear-cache'
                         ,inputValue: 1
                         ,checked: Ext.isDefined(config.record.clearCache) || true
+                    },{
+                        xtype: MODx.expandHelp ? 'label' : 'hidden'
+                        ,forId: 'modx-plugin-clear-cache'
+                        ,html: _('clear_cache_on_save_msg')
+                        ,cls: 'desc-under'
                     },{
                         xtype: 'xcheckbox'
                         ,hideLabel: true
@@ -266,6 +303,12 @@ MODx.panel.Plugin = function(config) {
             'setup': {fn:this.setup,scope:this}
             ,'success': {fn:this.success,scope:this}
             ,'beforeSubmit': {fn:this.beforeSubmit,scope:this}
+            ,'failureSubmit': {
+                fn: function () {
+                    this.showErroredTab(['modx-plugin-form'], 'modx-plugin-tabs')
+                },
+                scope: this
+            }
         }
     });
     MODx.panel.Plugin.superclass.constructor.call(this,config);
@@ -278,7 +321,11 @@ Ext.extend(MODx.panel.Plugin,MODx.FormPanel,{
         if (this.initialized) { this.clearDirty(); return true; }
         this.getForm().setValues(this.config.record);
         if (!Ext.isEmpty(this.config.record.name)) {
-            Ext.getCmp('modx-plugin-header').getEl().update(_('plugin')+': '+this.config.record.name);
+            var title = _('plugin')+': '+this.config.record.name;
+            if (MODx.perm.tree_show_element_ids === 1) {
+                title = title+ ' <small>('+this.config.record.id+')</small>';
+            }
+            Ext.getCmp('modx-plugin-header').getEl().update(title);
         }
         if (!Ext.isEmpty(this.config.record.properties)) {
             var d = this.config.record.properties;

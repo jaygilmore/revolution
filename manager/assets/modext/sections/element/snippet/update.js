@@ -54,6 +54,10 @@ Ext.extend(MODx.page.UpdateSnippet,MODx.Component, {
             id: this.record.id
             ,type: 'snippet'
             ,name: _('duplicate_of',{name: this.record.name})
+            ,source: this.record.source
+            ,static: this.record.static
+            ,static_file: this.record.static_file
+            ,category: this.record.category
         };
         var w = MODx.load({
             xtype: 'modx-window-element-duplicate'

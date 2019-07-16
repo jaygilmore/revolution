@@ -8,6 +8,7 @@
 $_lang['element'] = 'Element';
 $_lang['element_err_nf'] = 'Element nicht gefunden.';
 $_lang['element_err_ns'] = 'Element nicht angegeben.';
+$_lang['element_err_staticfile_exists'] = 'Es existiert bereits eine statische Datei im angegebenen Pfad.';
 $_lang['element_static_source_immutable'] = 'Die statische Datei, die als Element-Quelle angegeben ist, ist nicht beschreibbar! Sie können den Inhalt dieses Elements nicht im Manager bearbeiten.';
 $_lang['element_static_source_protected_invalid'] = 'Sie können Ihr Element nicht auf das MODX-Konfigurationsverzeichnis zeigen lassen; dies ist ein geschütztes Verzeichnis, auf das nicht zugegriffen werden kann.';
 $_lang['is_static'] = 'Ist statisch';
@@ -22,7 +23,7 @@ $_lang['quick_update_chunk'] = 'Chunk schnell bearbeiten';
 $_lang['quick_update_plugin'] = 'Plugin schnell bearbeiten';
 $_lang['quick_update_snippet'] = 'Snippet schnell bearbeiten';
 $_lang['quick_update_template'] = 'Template schnell bearbeiten';
-$_lang['quick_update_tv'] = 'TV schnell bearbeiten';
+$_lang['quick_update_tv'] = 'TV  schnell bearbeiten';
 $_lang['properties_export'] = 'Eigenschaften exportieren';
 $_lang['properties_import'] = 'Eigenschaften importieren';
 $_lang['property_preprocess'] = 'Tags in Eigenschafts-Werten vorverarbeiten';

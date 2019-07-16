@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * Removes a file.
  *
@@ -24,7 +33,7 @@ class modBrowserFileRemoveProcessor extends modProcessor {
         if (empty($file)) {
             return $this->modx->error->failure($this->modx->lexicon('file_err_ns'));
         }
-        $file = preg_replace('/[\.]{2,}/', '', htmlspecialchars($file));
+        $file = preg_replace('/[\.]{2,}/', '', $file);
 
         $loaded = $this->getSource();
         if (!($this->source instanceof modMediaSource)) {

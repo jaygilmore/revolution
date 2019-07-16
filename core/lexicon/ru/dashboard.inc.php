@@ -9,12 +9,12 @@
 $_lang['active_users_none'] = 'Сейчас нет пользователей онлайн.';
 $_lang['add_user'] = 'Добавить пользователя';
 $_lang['create_resource'] = 'Создать ресурс';
-$_lang['dashboard'] = 'Панель управления';
+$_lang['dashboard'] = 'Панель виджетов';
 $_lang['documentation'] = 'Документация';
 $_lang['file_bug'] = 'Сообщить об ошибке';
 $_lang['forums'] = 'Форумы';
 $_lang['help'] = 'Помощь';
-$_lang['modx_news'] = 'Новости MODX ';
+$_lang['modx_news'] = 'Новости MODX';
 $_lang['onlineusers_action'] = 'Действие';
 $_lang['onlineusers_actionid'] = 'ID действия';
 $_lang['onlineusers_ipaddress'] = 'IP-адрес пользователя';

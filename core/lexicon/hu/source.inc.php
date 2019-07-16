@@ -6,7 +6,7 @@
  * @package modx
  * @subpackage lexicon
  */
-$_lang['access'] = 'Access Permissions';
+$_lang['access'] = 'Hozzáférési engedélyek';
 $_lang['base_path'] = 'Base Path';
 $_lang['base_path_relative'] = 'Base Path Relative?';
 $_lang['base_url'] = 'Base URL';
@@ -80,7 +80,7 @@ $_lang['prop_s3.thumbnailQuality_desc'] = 'The quality of the rendered thumbnail
 $_lang['prop_s3.thumbnailType_desc'] = 'The image type to render thumbnails as.';
 $_lang['prop_s3.url_desc'] = 'The URL of the Amazon S3 instance.';
 $_lang['s3_no_move_folder'] = 'The S3 driver does not support moving of folders at this time.';
-$_lang['prop_s3.region_desc'] = 'Region of the bucket. Example: us-west-1';
+$_lang['prop_s3.region_desc'] = 'A vödör körzete. Például: us-west-1';
 
 /* file type */
 $_lang['PNG'] = 'PNG';

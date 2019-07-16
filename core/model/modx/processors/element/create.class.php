@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of MODX Revolution.
+ *
+ * Copyright (c) MODX, LLC. All Rights Reserved.
+ *
+ * For complete copyright and license information, see the COPYRIGHT and LICENSE
+ * files found in the top-level directory of this distribution.
+ */
+
 /**
  * Abstract class for Create Element processors. To be extended for each derivative element type.
  *
@@ -38,10 +47,10 @@ abstract class modElementCreateProcessor extends modObjectCreateProcessor {
         if (!empty($category)) {
             /** @var modCategory $category */
             $category = $this->modx->getObject('modCategory',array('id' => $category));
-            if (empty($category)) {
+            if ($category === null) {
                 $this->addFieldError('category',$this->modx->lexicon('category_err_nf'));
             }
-            if (!$category->checkPolicy('add_children')) {
+            if ($category !== null && !$category->checkPolicy('add_children')) {
                 $this->addFieldError('category',$this->modx->lexicon('access_denied'));
             }
         }
